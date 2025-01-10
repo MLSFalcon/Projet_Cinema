@@ -1,6 +1,6 @@
 <?php
+$bdd = new PDO('mysql:host=localhost;port=3307;dbname=mnrt_cinema;charset=utf8','root',''   );
 if (isset($_POST['mdp'])){
-    $bdd = new PDO();
 
     $req = $bdd -> prepare('SELECT * FROM utilisateur WHERE email = :email AND mdp = :mdp');
     $req -> execute(array(
