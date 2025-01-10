@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : ven. 10 jan. 2025 à 09:48
+-- Généré le : ven. 10 jan. 2025 à 10:28
 -- Version du serveur : 10.6.5-MariaDB
 -- Version de PHP : 7.4.26
 
@@ -117,9 +117,16 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `prenom` varchar(50) COLLATE latin1_bin NOT NULL,
   `email` varchar(50) COLLATE latin1_bin NOT NULL,
   `mdp` varchar(50) COLLATE latin1_bin NOT NULL,
-  `role` varchar(50) COLLATE latin1_bin NOT NULL,
+  `role` varchar(50) COLLATE latin1_bin DEFAULT 'utilisateur',
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`id_user`, `nom`, `prenom`, `email`, `mdp`, `role`) VALUES
+(1, 'QUASHIE', 'ROMARIO', 'R.QUASHIE@lprs.fr', '1234', 'admin');
 
 --
 -- Contraintes pour les tables déchargées
