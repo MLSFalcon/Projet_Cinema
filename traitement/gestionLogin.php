@@ -1,5 +1,5 @@
 <?php
-$bdd = new PDO('mysql:host=localhost;port=3307;dbname=mnrt_cinema;charset=utf8','root',''   );
+$bdd = include '../includes/bdd.php';
 if (isset($_POST['mdp'])){
 
     $req = $bdd -> prepare('SELECT * FROM utilisateur WHERE email = :email AND mdp = :mdp');
@@ -16,6 +16,6 @@ if (isset($_POST['mdp'])){
     }
     else{
         session_destroy();
-        header("location:../login.php?erreur= Erreur, email ou mot de passe incorrect");
+        header("location:../login.php?erreur=Email ou mot de passe incorrect");
     }
 }
