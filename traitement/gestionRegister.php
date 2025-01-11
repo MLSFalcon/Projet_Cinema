@@ -1,16 +1,17 @@
 <?php
-$bdd = new PDO('mysql:host=localhost;port=3307;dbname=mnrt_cinema;charset=utf8','root',''   );
+$bdd = new PDO('mysql:host=localhost;dbname=mnrt_cinema;charset=utf8', 'root', '');
 if (isset($_POST['mdp'])) {
     if ($_POST['mdp'] == $_POST['confirmeMdp']) {
 
-        $req = $bdd->prepare('SELECT email FROM utilisteur WHERE email = :email');
+        $req = $bdd->prepare('SELECT * FROM utilisateur WHERE email = :email');
         $req->execute(array(
             'email' => $_POST['email']
         ));
-        $liste = $req->fetch();
+        $liste = $req->fetchAll();
         if ($liste){
             header("location:../register.php?erreur=Le compte existe déjà");
         } else{
+            var_dump($liste);
             $req = $bdd->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp) VALUES(:nom, :prenom, :email, :mdp)');
             $req->execute(array(
                 'nom' => $_POST['nom'],

@@ -66,6 +66,18 @@
                                            name="confirmeMdp">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <?php
+                                    if (isset($_GET['erreur'])) {
+                                        echo '<p style="color:red">'.$_GET['erreur'].'</p>';
+                                    }
+                                    if (isset($_GET['confirm'])) {
+                                        echo '<p style="color:green">'.$_GET['confirm'].'</p>';
+                                    }
+                                    ?>
+                                </div>
+                            </div>
                             <input type="submit" value="Inscription" class="btn btn-primary btn-user btn-block">
                             <hr>
                         </form>

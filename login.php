@@ -52,6 +52,15 @@
                                                id="exampleInputPassword" placeholder="Mot de Passe"
                                                name="mdp">
                                     </div>
+                                    <div class="form-group">
+                                        <div class="text-center">
+                                            <?php
+                                            if (isset($_GET['erreur'])) {
+                                                echo '<p style="color:red">'.$_GET['erreur'].'</p>';
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
                                     <input type="submit" class="btn btn-primary btn-user btn-block" value="Connexion">
                                     <hr>
                                 </form>
