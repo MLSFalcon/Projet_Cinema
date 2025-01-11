@@ -1,5 +1,5 @@
 <?php
-$bdd = new PDO('mysql:host=localhost;dbname=mnrt_cinema;charset=utf8', 'root', '');
+$bdd = include '../includes/bdd.php';
 if (isset($_POST['mdp'])) {
     if ($_POST['mdp'] == $_POST['confirmeMdp']) {
 
