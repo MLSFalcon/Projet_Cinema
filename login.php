@@ -45,12 +45,12 @@
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
-                                               placeholder="Entrez une adresse email" name="email">
+                                               placeholder="Entrez une adresse email" name="email" required>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
                                                id="exampleInputPassword" placeholder="Mot de Passe"
-                                               name="mdp">
+                                               name="mdp" required>
                                     </div>
                                     <div class="form-group">
                                         <div class="text-center">
@@ -69,6 +69,9 @@
                                 </div>
                                 <div class="text-center">
                                     <a class="small" href="register.php">Créer un compte!</a>
+                                </div>
+                                <div class="text-center">
+                                    <a class="small" href="index.php">Retour à l'accueil.</a>
                                 </div>
                             </div>
                         </div>
