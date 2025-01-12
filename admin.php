@@ -442,8 +442,60 @@ $requete->closeCursor();
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
                             </div>
                             <div class="col-1">
-                                <form action="" method="post">
-                                    <input class="btn btn-primary" type="submit" value="Ajouter un utilisateur">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutUser">Ajouter un utilisateur</button>
+                                <?php
+                                if (isset($_GET['erreur'])) {
+                                    echo '<p style="color:red">'.$_GET['erreur'].'</p>';
+                                }
+                                if (isset($_GET['confirm'])) {
+                                    echo '<p style="color:green">'.$_GET['confirm'].'</p>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="ajoutUser" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutUser" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="traitement/gestionUser.php" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Nom
+                                                <input style="width: 100%" type="text" class="form-control" name="nom" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Prenom
+                                                <input type="text" class="form-control" name="prenom" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address Email
+                                                <input type="email" class="form-control" name="email" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mot de passe
+                                                <input type="password" class="form-control" name="mdp" required>
+                                            </label>
+                                        </div>
+                                        <label>Rôle
+                                            <select class="form-control" name="role" >
+                                                <option>utilisateur</option>
+                                                <option>admin</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <input class="btn btn-primary" type="submit" name="ajoutUser">
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -518,7 +570,6 @@ $requete->closeCursor();
                                                         </select>
                                                     </label>
                                                 </div>
-
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                     <input class="btn btn-primary" type="hidden" value="<?= $listeUsers[$i]['id_user']?>" name="idmodif">
