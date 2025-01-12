@@ -309,10 +309,54 @@ $requete->closeCursor();
                             <div class="col-10">
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION FILMS</h6>
                             </div>
-                            <div class="col-1">
-                                <form action="" method="post">
-                                    <input class="btn btn-primary" type="submit" value="Ajouter un Film">
-                                </form>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutFilm">Ajouter un Film</button>
+                            </div>
+                            <div class="modal fade" id="ajoutFilm" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutFilm" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'un Film</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="traitement/gestionFilm.php" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Image
+                                                        <input style="width: 100%" type="text" class="form-control" name="image">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Titre
+                                                        <input type="text" class="form-control" name="titre">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Résumé
+                                                        <input texte class="form-control" name="resume">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Genre
+                                                        <input texte class="form-control" name="genre">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Durée
+                                                        <input texte class="form-control" name="duree">
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutFilm">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -349,18 +393,61 @@ $requete->closeCursor();
                                         <?= $listeFilms[$i]['duree']?>
                                     </td>
                                     <td>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="film" value=<?= $listeFilms[$i]['id_film'] ?>>
-                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
-                                        </form>
-                                        <br>
-                                        <form action="" method="post">
-                                            <input    type="hidden" name="film" value="<?= $listeFilms[$i]['id_film'] ?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
+                                        <br><br>
+                                        <form action="traitement/gestionFilm.php" method="post">
+                                            <input type="hidden" name="idsup" value="<?=$listeFilms[$i]['id_film']?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
                                         </form>
                                     </td>
-
                                 </tr>
+                            <div class="modal fade" id="modifFilm<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifFilm" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="traitement/gestionFilm.php" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Image
+                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilms[$i]['image']?>" name="image">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Titre
+                                                        <input type="text" class="form-control" value="<?=$listeFilms[$i]['titre']?>" name="titre">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Résumé
+                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['resume']?>" name="resume">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Genre
+                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['genre']?>" name="genre">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Durée
+                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['duree']?>" name="duree">
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeFilms[$i]['id_film']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierFilm">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                                 <?php
                             } ?>
                             </tbody>
@@ -446,8 +533,60 @@ $requete->closeCursor();
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
                             </div>
                             <div class="col-1">
-                                <form action="" method="post">
-                                    <input class="btn btn-primary" type="submit" value="Ajouter un utilisateur">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutUser">Ajouter un utilisateur</button>
+                                <?php
+                                if (isset($_GET['erreur'])) {
+                                    echo '<p style="color:red">'.$_GET['erreur'].'</p>';
+                                }
+                                if (isset($_GET['confirm'])) {
+                                    echo '<p style="color:green">'.$_GET['confirm'].'</p>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="ajoutUser" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutUser" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="traitement/gestionUser.php" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Nom
+                                                <input style="width: 100%" type="text" class="form-control" name="nom" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Prenom
+                                                <input type="text" class="form-control" name="prenom" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address Email
+                                                <input type="email" class="form-control" name="email" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mot de passe
+                                                <input type="password" class="form-control" name="mdp" required>
+                                            </label>
+                                        </div>
+                                        <label>Rôle
+                                            <select class="form-control" name="role" >
+                                                <option>utilisateur</option>
+                                                <option>admin</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <input class="btn btn-primary" type="submit" name="ajoutUser">
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -522,7 +661,6 @@ $requete->closeCursor();
                                                         </select>
                                                     </label>
                                                 </div>
-
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                     <input class="btn btn-primary" type="hidden" value="<?= $listeUsers[$i]['id_user']?>" name="idmodif">

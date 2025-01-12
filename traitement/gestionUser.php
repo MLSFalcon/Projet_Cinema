@@ -37,3 +37,28 @@ if(isset($_POST['supprimerAdmin'])){
     $reqSupp->closeCursor();
     header('location: ../admin.php?confirmSupUser=true#utilisateur');
 }
+
+if (isset($_POST['ajoutUser'])) {
+    $mdpchiffre = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
+    $req = $bdd->prepare('SELECT * FROM utilisateur WHERE email = :email');
+    $req->execute(array(
+        'email' => $_POST['email']
+    ));
+    $liste = $req->fetchAll();
+    if ($liste){
+        header("location:../admin.php?erreur=Le compte existe déjà");
+    } else{
+        var_dump($liste);
+        $req = $bdd->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp, role) VALUES(:nom, :prenom, :email, :mdp, :role)');
+        $req->execute(array(
+            'nom' => $_POST['nom'],
+            'prenom' => $_POST['prenom'],
+            'email' => $_POST['email'],
+            'mdp' => $mdpchiffre,
+            'role' => $_POST['role']
+        ));
+        $req->closeCursor();
+        echo $mdpchiffre;
+        header("location:../admin.php?confirm=Inscription bien prise en compte !");
+    }
+}
