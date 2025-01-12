@@ -26,4 +26,6 @@ if (isset($_POST['mdp'])) {
     } else{
         header("location:../register.php?erreur=Les deux mot passe ne sont pas identique");
     }
+}else{
+    header("location:../index.php");
 }

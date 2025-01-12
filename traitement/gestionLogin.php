@@ -19,4 +19,8 @@ if (isset($_POST['mdp'])){
     else{
         header("location:../login.php?erreur=Email ou mot de passe incorrect");
     }
+}else{
+    header('location: ../index.php');
 }
+
+

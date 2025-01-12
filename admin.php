@@ -1,8 +1,14 @@
 <?php
 $bdd = include "includes/bdd.php";
 
+//Blocage de l'accès à cette page aux utilisateurs non voulu
+session_start();
+if ($_SESSION['role'] != "admin") {
+    header("Location: index.php");
+}
+
 //Liste Utilisateurs
-$requete = $bdd->prepare("SELECT nom, prenom, email, role FROM `utilisateur`");
+$requete = $bdd->prepare("SELECT id_user,nom, prenom, email, role FROM `utilisateur`");
 $requete->execute();
 $listeUsers = $requete->fetchAll();
 $requete->closeCursor();
@@ -28,7 +34,7 @@ $requete->closeCursor();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
 
@@ -38,7 +44,7 @@ $requete->closeCursor();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SMNRT CINEMA - Page Admin</title>
+    <title>MNRT CINEMA - Page Admin</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -47,11 +53,10 @@ $requete->closeCursor();
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link href="CSS/sb-admin-2.min.css" rel="stylesheet">
+    <link href="CSS/sb-admin-2.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
-
 
 </head>
 
@@ -454,18 +459,58 @@ $requete->closeCursor();
                                         <?= $listeUsers[$i]['role']?>
                                     </td>
                                     <td>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="inscrit" value=<?= $listeUsers[$i]['email'] ?>>
-                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
-                                        </form>
-                                        <br>
-                                        <form action="" method="post">
-                                            <input    type="hidden" name="inscrit" value="<?= $listeUsers[$i]['email'] ?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
+                                        <br><br>
+                                        <form action="traitement/gestionUser.php" method="post">
+                                            <input type="hidden" name="idsup" value="<?=$listeUsers[$i]['id_user']?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
                                         </form>
                                     </td>
-
                                 </tr>
+                                <div class="modal fade" id="modifUser<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifUser" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="traitement/gestionUser" method="post">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label>Nom
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUsers[$i]['nom']?>" name="nom">
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Prenom
+                                                            <input type="text" class="form-control" value="<?=$listeUsers[$i]['prenom']?>" name="prenom">
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Address Email
+                                                            <input type="email" class="form-control" value="<?=$listeUsers[$i]['email']?>" name="email">
+                                                        </label>
+                                                    </div>
+                                                    <label>Rôle
+                                                        <select class="form-control" name="role" >
+                                                            <option>utilisateur</option>
+                                                            <option>admin</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUsers[$i]['id_user']?>" name="idmodif">
+                                                    <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <?php
                             } ?>
                             </tbody>
@@ -575,7 +620,7 @@ $requete->closeCursor();
             <div class="modal-body">Selectionnez se déconnecter pour quitter votre session</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                <a class="btn btn-primary" href="index.php">Se déconnecter</a>
+                <a class="btn btn-primary" href="traitement/gestionDeconnexion.php">Se déconnecter</a>
             </div>
         </div>
     </div>
@@ -584,6 +629,8 @@ $requete->closeCursor();
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
 
 <!-- Core plugin JavaScript-->
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
