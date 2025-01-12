@@ -18,7 +18,11 @@ $requeteNbReserv->execute(array('id_user' => $_SESSION['id_user']));
 $nbReserv = $requeteNbReserv->fetch();
 $requeteNbReserv->closeCursor();
 
-
+//Liste Reservation
+$requete = $bdd->prepare("SELECT utilisateur.email, reservation.nb_place, seance.date_seance, seance.heure, seance.ref_salle, film.titre FROM `utilisateur` INNER JOIN reservation ON utilisateur.id_user = reservation.ref_user INNER JOIN seance ON reservation.ref_seance = seance.id_seance INNER JOIN film ON seance.ref_film = film.id_film WHERE id_user = :id_user");
+$requete->execute(array('id_user' => $_SESSION['id_user']));
+$listeReservations = $requete->fetchAll();
+$requete->closeCursor();
 
 ?>
 
@@ -201,70 +205,7 @@ $requeteNbReserv->closeCursor();
                         </div>
                     </div>
 
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            Earnings (Annual)</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-info shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="progress progress-sm mr-2">
-                                                    <div class="progress-bar bg-info" role="progressbar"
-                                                         style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                         aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pending Requests Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- Content Row -->
 
@@ -282,7 +223,6 @@ $requeteNbReserv->closeCursor();
                         <table style="width: 100%;" id="reservations">
                             <thead>
                             <tr>
-                                <td>Utilisateurs</td>
                                 <td>Places</td>
                                 <td>Date</td>
                                 <td>Heure</td>
@@ -292,23 +232,20 @@ $requeteNbReserv->closeCursor();
                             </thead>
                             <tbody>
                             <?php
-                            //for ($i=0; $i < count($listeReservations); $i++) {
+                            for ($i=0; $i < count($listeReservations); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        ?
+                                        <?= $listeReservations[$i]['nb_place']?>
                                     </td>
                                     <td>
-                                        ?
+                                        <?= $listeReservations[$i]['date_seance']?>
                                     </td>
                                     <td>
-                                        ?
+                                        <?= $listeReservations[$i]['heure']?>
                                     </td>
                                     <td>
-                                        ?
-                                    </td>
-                                    <td>
-                                        ?
+                                        <?= $listeReservations[$i]['titre']?>
                                     </td>
                                     <td>
                                         <form action="" method="post">
@@ -319,7 +256,7 @@ $requeteNbReserv->closeCursor();
                                     </td>
                                 </tr>
                                 <?php
-                            //} ?>
+                            } ?>
                             </tbody>
                         </table>
                     </div>
@@ -331,7 +268,7 @@ $requeteNbReserv->closeCursor();
                         <h6 class="m-0 font-weight-bold text-primary" id="utilisateur">MON PROFIL</h6>
                     </div>
                     <div class="card-body">
-                        <table style="width: 100%;">
+                        <table style="width: 100%;" id="user">
                             <thead>
                             <tr>
                                 <td>prénom</td>
@@ -473,6 +410,10 @@ $requeteNbReserv->closeCursor();
 <script>
     new DataTable('#reservations', {
         responsive: true
+    });
+    new DataTable('#user', {
+        responsive: true
+        paging: false
     });
 </script>
 </html>
