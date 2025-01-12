@@ -10,6 +10,30 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+.submit-btn {
+  background-color: #4CAF50; /* Couleur de fond */
+  color: white; /* Texte en blanc */
+  border: none; /* Pas de bordure */
+  padding: 10px 20px; /* Espacement autour du texte */
+  font-size: 16px; /* Taille du texte */
+  cursor: pointer; /* Curseur pointer pour indiquer qu'il est cliquable */
+  border-radius: 5px; /* Bords arrondis */
+  transition: background-color 0.3s, transform 0.2s; /* Animation au survol */
+}
+
+/* Effet au survol */
+.submit-btn:hover {
+  background-color: #45a049; /* Couleur de fond plus foncée au survol */
+  transform: scale(1.05); /* Légère augmentation de taille */
+}
+
+/* Effet lorsque le bouton est pressé */
+.submit-btn:active {
+  transform: scale(0.98); /* Légère réduction de taille lorsque pressé */
+}
+
+
 :root {
   --blue: #4e73df;
   --indigo: #6610f2;
