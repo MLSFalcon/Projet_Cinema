@@ -25,12 +25,20 @@ $requete->execute();
 $listeSeances = $requete->fetchAll();
 $requete->closeCursor();
 
+$requete = $bdd->prepare("SELECT * FROM `seance`");
+$requete->execute();
+$listeSeance = $requete->fetchAll();
+$requete->closeCursor();
 //Liste Reservation
 $requete = $bdd->prepare("SELECT utilisateur.email, reservation.nb_place, seance.date_seance, seance.heure, seance.ref_salle, film.titre FROM `utilisateur` INNER JOIN reservation ON utilisateur.id_user = reservation.ref_user INNER JOIN seance ON reservation.ref_seance = seance.id_seance INNER JOIN film ON seance.ref_film = film.id_film");
 $requete->execute();
 $listeReservations = $requete->fetchAll();
 $requete->closeCursor();
-
+//Liste Salle
+$requete = $bdd->prepare("SELECT * FROM `salle`");
+$requete->execute();
+$listeSalle = $requete->fetchAll();
+$requete->closeCursor();
 ?>
 
 <!DOCTYPE html>
@@ -528,7 +536,7 @@ $requete->closeCursor();
                             <div class="col-10">
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
                             </div>
-                            <div class="col-2">
+                            <div class="col-1">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutUser">Ajouter un utilisateur</button>
                                 <?php
                                 if (isset($_GET['erreur'])) {
@@ -682,9 +690,65 @@ $requete->closeCursor();
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION SEANCES</h6>
                             </div>
                             <div class="col-2">
-                                <form action="" method="post">
-                                    <input class="btn btn-primary" type="submit" value="Ajouter une Séance">
-                                </form>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutSeance">Ajouter une séance</button>
+                            </div>
+                            <div class="modal fade" id="ajoutSeance" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutSeance" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'une séance</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="traitement/gestionSeance.php" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Film
+                                                        <select name="titre" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeFilms); $j++ ) {
+                                                                ?>
+                                                                <option value="<?= $listeFilms[$j]['id_film'] ?>"><?= $listeFilms[$j]['titre'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Date
+                                                        <input type="date" class="form-control" name="date" required>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Heure
+                                                        <input texte class="form-control" name="heure" required>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Salle
+                                                        <select name="salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
+                                                                ?>
+                                                                <option><?= $listeSeances[$j]['salle'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Place Disponible
+                                                        <input texte class="form-control" name="place" required>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutSeance">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -703,103 +767,155 @@ $requete->closeCursor();
                             <tbody>
                             <?php
                             for ($i=0; $i < count($listeSeances); $i++) {
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?= $listeSeances[$i]['titre']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeSeances[$i]['date_seance']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeSeances[$i]['heure']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeSeances[$i]['salle']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeSeances[$i]['nb_place_dispo']?>
-                                    </td>
-                                    <td>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="seance" value=<?= $listeSeances[$i]['id_seance'] ?>>
-                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
+                            ?>
+                            <tr>
+                                <td>
+                                    <?= $listeSeances[$i]['titre']?>
+                                </td>
+                                <td>
+                                    <?= $listeSeances[$i]['date_seance']?>
+                                </td>
+                                <td>
+                                    <?= $listeSeances[$i]['heure']?>
+                                </td>
+                                <td>
+                                    <?= $listeSeances[$i]['salle']?>
+                                </td>
+                                <td>
+                                    <?= $listeSeances[$i]['nb_place_dispo']?>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
+                                    <br><br>
+                                    <form action="traitement/gestionSeance.php" method="post">
+                                        <input type="hidden" name="idsup" value="<?=$listeSeances[$i]['id_seance']?>">
+                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
+                                    </form>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="modifSeance<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifSeance" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modification de la séance</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="traitement/gestionSeance.php" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Titre
+                                                        <select name="titre"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeFilms); $j++ ) {
+                                                                ?>
+                                                                <option value="<?= $listeFilms[$j]['id_film'] ?>"><?= $listeFilms[$j]['titre'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Date
+                                                        <input type="date" class="form-control" value="<?=$listeSeances[$i]['date_seance']?>" name="date">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Heure
+                                                        <input type="text" class="form-control" value="<?=$listeSeances[$i]['heure']?>" name="heure">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Salle
+                                                        <select name="salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
+                                                                ?>
+                                                                <option><?= $listeSeances[$j]['salle'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nombre de place dispo
+                                                        <input type="text" class="form-control" value="<?=$listeSeances[$i]['nb_place_dispo']?>" name="nbPlace">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeSeances[$i]['id_seance']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
+                                            </div>
+                                            </tr>
                                         </form>
-                                        <br>
-                                        <form action="" method="post">
-                                            <input    type="hidden" name="seance" value="<?= $listeSeances[$i]['id_seance'] ?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer">
-                                        </form>
-                                    </td>
+                                        <?php
+                                        } ?>
+                                    </div>
+                                </div>
 
-                                </tr>
-                                <?php
-                            } ?>
+
+
+                            </div>
+                            <!-- /.container-fluid -->
+
+                    </div>
+                    <!-- End of Main Content -->
+
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                    </footer>
+                    <!-- End of Footer -->
+
+                </div>
+                <!-- End of Content Wrapper -->
+
+            </div>
+            <!-- End of Page Wrapper -->
+
+            <!-- Scroll to Top Button-->
+            <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
+
+            <!-- Logout Modal-->
+            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Prèt à partir ?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">Selectionnez se déconnecter pour quitter votre session</div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                            <a class="btn btn-primary" href="traitement/gestionDeconnexion.php">Se déconnecter</a>
+                        </div>
                     </div>
                 </div>
-
-
-
             </div>
-            <!-- /.container-fluid -->
 
-        </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-        </footer>
-        <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->
-
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Prèt à partir ?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Selectionnez se déconnecter pour quitter votre session</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                <a class="btn btn-primary" href="traitement/gestionDeconnexion.php">Se déconnecter</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
 
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
+            <!-- Page level plugins -->
+            <script src="vendor/chart.js/Chart.min.js"></script>
 
-<!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
+            <!-- Page level custom scripts -->
+            <script src="js/demo/chart-area-demo.js"></script>
+            <script src="js/demo/chart-pie-demo.js"></script>
 
 </body>
 
