@@ -1,3 +1,32 @@
+<?php
+$bdd = include "includes/bdd.php";
+
+//Liste Utilisateurs
+$requete = $bdd->prepare("SELECT nom, prenom, email, role FROM `utilisateur`");
+$requete->execute();
+$listeUsers = $requete->fetchAll();
+$requete->closeCursor();
+
+//Liste Films
+$requete = $bdd->prepare("SELECT * FROM `film`");
+$requete->execute();
+$listeFilms = $requete->fetchAll();
+$requete->closeCursor();
+
+//Liste Séances
+$requete = $bdd->prepare("SELECT film.titre, seance.id_seance, seance.date_seance, seance.heure, seance.nb_place_dispo, seance.ref_salle as salle  FROM `film` INNER JOIN `seance` ON film.id_film = seance.ref_film");
+$requete->execute();
+$listeSeances = $requete->fetchAll();
+$requete->closeCursor();
+
+//Liste Reservation
+$requete = $bdd->prepare("SELECT utilisateur.email, reservation.nb_place, seance.date_seance, seance.heure, seance.ref_salle, film.titre FROM `utilisateur` INNER JOIN reservation ON utilisateur.id_user = reservation.ref_user INNER JOIN seance ON reservation.ref_seance = seance.id_seance INNER JOIN film ON seance.ref_film = film.id_film");
+$requete->execute();
+$listeReservations = $requete->fetchAll();
+$requete->closeCursor();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,11 +43,15 @@
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
+
 
 </head>
 
@@ -69,28 +102,29 @@
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="charts.html">
+            <a class="nav-link" href="#films">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Films</span></a>
         </li>
 
         <!-- Nav Item - Tables -->
-        <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Gestion Seances</span></a>
-        </li>
+
 
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="#reservations">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Reservations</span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="tables.html">
+            <a class="nav-link" href="#utilisateur">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#seances">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Gestion Seances</span></a>
         </li>
 
         <!-- Divider -->
@@ -152,10 +186,10 @@
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                     <!-- Nav Item - User Information -->
-                            <a  class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Déconnexion
-                            </a>
+                    <a  class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Déconnexion
+                    </a>
 
 
                 </ul>
@@ -259,42 +293,247 @@
                 </div>
                 <!-- Content Row -->
 
-                <!-- Illustrations -->
+                <!-- Gestion Film -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">GESTION FILMS</h6>
+                        <div class="row" >
+                            <div class="col-10">
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION FILMS</h6>
+                            </div>
+                            <div class="col-1">
+                                <form action="" method="post">
+                                    <input class="btn btn-primary" type="submit" value="Ajouter un Film">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
+                        <table style="width: 100%;" id="films">
+                            <thead>
+                            <tr>
+                                <td>image</td>
+                                <td>titre</td>
+                                <td>resume</td>
+                                <td>genre</td>
+                                <td>duree</td>
+                                <td>action</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            for ($i=0; $i < count($listeFilms); $i++) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <img width="125" height="150" src="<?= $listeFilms[$i]['image']?>">
+                                    </td>
+                                    <td>
+                                        <?= $listeFilms[$i]['titre']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeFilms[$i]['resume']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeFilms[$i]['genre']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeFilms[$i]['duree']?>
+                                    </td>
+                                    <td>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="film" value=<?= $listeFilms[$i]['id_film'] ?>>
+                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
+                                        </form>
+                                        <br>
+                                        <form action="" method="post">
+                                            <input    type="hidden" name="film" value="<?= $listeFilms[$i]['id_film'] ?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer">
+                                        </form>
+                                    </td>
 
-                        <p>ECRIRE ICI</p>
+                                </tr>
+                                <?php
+                            } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">GESTION SEANCES</h6>
-                    </div>
-                    <div class="card-body">
-                        <p> ECRIRE DES TRUCS LA </p>
-                    </div>
-                </div>
+
+
+
+                <!-- Gestion Réservations -->
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">GESTION SUPERVISION RESERVATION</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">GESTION RESERVATIONS</h6>
                     </div>
                     <div class="card-body">
-                        <p> ECRIRE DES TRUCS LA </p>
+                        <table style="width: 100%;" id="reservations">
+                            <thead>
+                            <tr>
+                                <td>Utilisateurs</td>
+                                <td>Places</td>
+                                <td>Date</td>
+                                <td>Heure</td>
+                                <td>Film</td>
+                                <td>action</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            for ($i=0; $i < count($listeReservations); $i++) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $listeReservations[$i]['email']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeReservations[$i]['nb_place']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeReservations[$i]['date_seance']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeReservations[$i]['heure']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeReservations[$i]['titre']?>
+                                    </td>
+                                    <td>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="seance" >
+                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
+                                        </form>
+                                        <br>
+                                        <form action="" method="post">
+                                            <input    type="hidden" name="seance" ">
+                                            <input class="btn btn-primary" type="submit" value="supprimer">
+                                        </form>
+                                    </td>
+
+                                </tr>
+                                <?php
+                            } ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
+                <!-- Gestion Utilisateur-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
+                        <h6 class="m-0 font-weight-bold text-primary" id="utilisateur">GESTION UTILISATEUR</h6>
                     </div>
                     <div class="card-body">
-                        <p> ECRIRE DES TRUCS LA </p>
+                        <table style="width: 100%;" id="example">
+                            <thead>
+                            <tr>
+                                <td>prénom</td>
+                                <td>nom</td>
+                                <td>email</td>
+                                <td>rôle</td>
+                                <td>action</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            for ($i=0; $i < count($listeUsers); $i++) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $listeUsers[$i]['nom']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeUsers[$i]['prenom']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeUsers[$i]['email']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeUsers[$i]['role']?>
+                                    </td>
+                                    <td>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="inscrit" value=<?= $listeUsers[$i]['email'] ?>>
+                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
+                                        </form>
+                                        <br>
+                                        <form action="" method="post">
+                                            <input    type="hidden" name="inscrit" value="<?= $listeUsers[$i]['email'] ?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer">
+                                        </form>
+                                    </td>
+
+                                </tr>
+                                <?php
+                            } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Gestion Séances -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="row" >
+                            <div class="col-10">
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION SEANCES</h6>
+                            </div>
+                            <div class="col-1">
+                                <form action="" method="post">
+                                    <input class="btn btn-primary" type="submit" value="Ajouter une Séance">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table style="width: 100%;" id="seances">
+                            <thead>
+                            <tr>
+                                <td>Film</td>
+                                <td>Date</td>
+                                <td>Heure</td>
+                                <td>Salle</td>
+                                <td>Place Disponible</td>
+                                <td>action</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            for ($i=0; $i < count($listeSeances); $i++) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $listeSeances[$i]['titre']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeSeances[$i]['date_seance']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeSeances[$i]['heure']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeSeances[$i]['salle']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeSeances[$i]['nb_place_dispo']?>
+                                    </td>
+                                    <td>
+                                        <form action="" method="post">
+                                            <input type="hidden" name="seance" value=<?= $listeSeances[$i]['id_seance'] ?>>
+                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
+                                        </form>
+                                        <br>
+                                        <form action="" method="post">
+                                            <input    type="hidden" name="seance" value="<?= $listeSeances[$i]['id_seance'] ?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer">
+                                        </form>
+                                    </td>
+
+                                </tr>
+                                <?php
+                            } ?>
                     </div>
                 </div>
 
@@ -336,7 +575,7 @@
             <div class="modal-body">Selectionnez se déconnecter pour quitter votre session</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                <a class="btn btn-primary" href="login.html">Se déconnecter</a>
+                <a class="btn btn-primary" href="index.php">Se déconnecter</a>
             </div>
         </div>
     </div>
@@ -361,4 +600,22 @@
 
 </body>
 
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+<script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
+<script>
+    new DataTable('#example', {
+        responsive: true
+    });
+    new DataTable('#reservations', {
+        responsive: true
+    });
+    new DataTable('#seances', {
+        responsive: true
+    });
+    new DataTable('#films', {
+        responsive: true
+    });
+</script>
 </html>
