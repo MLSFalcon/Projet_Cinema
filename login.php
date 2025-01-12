@@ -70,6 +70,9 @@
                                 <div class="text-center">
                                     <a class="small" href="register.php">Créer un compte!</a>
                                 </div>
+                                <div class="text-center">
+                                    <a class="small" href="index.php">Retour à l'accueil.</a>
+                                </div>
                             </div>
                         </div>
                     </div>

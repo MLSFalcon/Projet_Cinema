@@ -87,6 +87,9 @@
                         <div class="text-center">
                             <a class="small" href="login.php">Vous posséder déja un compte ? Se connecter!</a>
                         </div>
+                        <div class="text-center">
+                            <a class="small" href="index.php">Retour à l'accueil.</a>
+                        </div>
                     </div>
                 </div>
             </div>
