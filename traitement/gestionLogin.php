@@ -11,6 +11,7 @@ if (isset($_POST['mdp'])){
     session_start();
     $_SESSION['nom'] = $donnee['nom'];
     $_SESSION['id_user'] = $donnee['id_user'];
+    $_SESSION['email'] = $donnee['email'];
     if ($donnee){
         header("location:../index.php");
     }
