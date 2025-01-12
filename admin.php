@@ -528,7 +528,7 @@ $requete->closeCursor();
                             <div class="col-10">
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
                             </div>
-                            <div class="col-1">
+                            <div class="col-2">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutUser">Ajouter un utilisateur</button>
                                 <?php
                                 if (isset($_GET['erreur'])) {
@@ -681,7 +681,7 @@ $requete->closeCursor();
                             <div class="col-10">
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION SEANCES</h6>
                             </div>
-                            <div class="col-1">
+                            <div class="col-2">
                                 <form action="" method="post">
                                     <input class="btn btn-primary" type="submit" value="Ajouter une Séance">
                                 </form>
