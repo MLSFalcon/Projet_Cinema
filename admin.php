@@ -34,7 +34,11 @@ $requete = $bdd->prepare("SELECT utilisateur.email, reservation.nb_place, seance
 $requete->execute();
 $listeReservations = $requete->fetchAll();
 $requete->closeCursor();
-
+//Liste Salle
+$requete = $bdd->prepare("SELECT * FROM `salle`");
+$requete->execute();
+$listeSalle = $requete->fetchAll();
+$requete->closeCursor();
 ?>
 
 <!DOCTYPE html>
@@ -325,27 +329,27 @@ $requete->closeCursor();
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
-                                                        <input style="width: 100%" type="text" class="form-control" name="image">
+                                                        <input style="width: 100%" type="text" class="form-control" name="image" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Titre
-                                                        <input type="text" class="form-control" name="titre">
+                                                        <input type="text" class="form-control" name="titre" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Résumé
-                                                        <input texte class="form-control" name="resume">
+                                                        <input texte class="form-control" name="resume" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Genre
-                                                        <input texte class="form-control" name="genre">
+                                                        <input texte class="form-control" name="genre" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input texte class="form-control" name="duree">
+                                                        <input texte class="form-control" name="duree" required>
                                                     </label>
                                                 </div>
                                             </div>
@@ -414,27 +418,27 @@ $requete->closeCursor();
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
-                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilms[$i]['image']?>" name="image">
+                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilms[$i]['image']?>" name="image" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Titre
-                                                        <input type="text" class="form-control" value="<?=$listeFilms[$i]['titre']?>" name="titre">
+                                                        <input type="text" class="form-control" value="<?=$listeFilms[$i]['titre']?>" name="titre" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Résumé
-                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['resume']?>" name="resume">
+                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['resume']?>" name="resume" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Genre
-                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['genre']?>" name="genre">
+                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['genre']?>" name="genre" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['duree']?>" name="duree">
+                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['duree']?>" name="duree" required>
                                                     </label>
                                                 </div>
                                             </div>
@@ -641,17 +645,17 @@ $requete->closeCursor();
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
-                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUsers[$i]['nom']?>" name="nom">
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUsers[$i]['nom']?>" name="nom" required>
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Prenom
-                                                            <input type="text" class="form-control" value="<?=$listeUsers[$i]['prenom']?>" name="prenom">
+                                                            <input type="text" class="form-control" value="<?=$listeUsers[$i]['prenom']?>" name="prenom" required>
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Address Email
-                                                            <input type="email" class="form-control" value="<?=$listeUsers[$i]['email']?>" name="email">
+                                                            <input type="email" class="form-control" value="<?=$listeUsers[$i]['email']?>" name="email" required>
                                                         </label>
                                                     </div>
                                                     <label>Rôle
@@ -685,10 +689,66 @@ $requete->closeCursor();
                             <div class="col-10">
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION SEANCES</h6>
                             </div>
-                            <div class="col-1">
-                                <form action="traitement/gestionSeance.php" method="post">
-                                    <input class="btn btn-primary" type="submit" name="ajoutSeance" value="Ajouter une Séance">
-                                </form>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutSeance">Ajouter une séance</button>
+                            </div>
+                            <div class="modal fade" id="ajoutSeance" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutSeance" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'une séance</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form action="traitement/gestionSeance.php" method="post">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Film
+                                                        <select name="titre" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeFilms); $j++ ) {
+                                                                ?>
+                                                                <option value="<?= $listeFilms[$j]['id_film'] ?>"><?= $listeFilms[$j]['titre'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Date
+                                                        <input type="date" class="form-control" name="date" required>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Heure
+                                                        <input texte class="form-control" name="heure" required>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Salle
+                                                        <select name="salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
+                                                                ?>
+                                                                <option><?= $listeSeances[$j]['salle'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Place Disponible
+                                                        <input texte class="form-control" name="place" required>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutSeance">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -747,7 +807,7 @@ $requete->closeCursor();
                                                 <div class="form-group">
                                                     <label>Titre
                                                         <select name="titre"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSeances); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($listeFilms); $j++ ) {
                                                                 ?>
                                                                 <option value="<?= $listeFilms[$j]['id_film'] ?>"><?= $listeFilms[$j]['titre'] ?> </option>
                                                                 <?php
@@ -768,7 +828,7 @@ $requete->closeCursor();
                                                 <div class="form-group">
                                                     <label>Salle
                                                         <select name="salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSeances); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
                                                                 ?>
                                                                 <option><?= $listeSeances[$j]['salle'] ?> </option>
                                                                 <?php
