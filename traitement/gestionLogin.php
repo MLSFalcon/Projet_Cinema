@@ -13,6 +13,7 @@ if (isset($_POST['mdp'])){
         session_start();
         $_SESSION['nom'] = $donnee['nom'];
         $_SESSION['id_user'] = $donnee['id_user'];
+        $_SESSION['role'] = $donnee['role'];
         header("location:../index.php");
     }
     else{
