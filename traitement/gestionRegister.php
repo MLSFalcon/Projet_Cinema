@@ -2,7 +2,7 @@
 $bdd = include '../includes/bdd.php';
 if (isset($_POST['mdp'])) {
     if ($_POST['mdp'] == $_POST['confirmeMdp']) {
-
+        $mdpchiffre = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
         $req = $bdd->prepare('SELECT * FROM utilisateur WHERE email = :email');
         $req->execute(array(
             'email' => $_POST['email']
@@ -17,9 +17,10 @@ if (isset($_POST['mdp'])) {
                 'nom' => $_POST['nom'],
                 'prenom' => $_POST['prenom'],
                 'email' => $_POST['email'],
-                'mdp' => $_POST['mdp'],
+                'mdp' => $mdpchiffre,
             ));
             $req->closeCursor();
+            echo $mdpchiffre;
             header("location:../register.php?confirm=Inscription bien prise en compte !");
         }
     } else{
