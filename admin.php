@@ -371,7 +371,16 @@ $requete->closeCursor();
 
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">GESTION RESERVATIONS</h6>
+                        <div class="row" >
+                            <div class="col-10">
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION RESERVATIONS</h6>
+                            </div>
+                            <div class="col-1">
+                                <form action="" method="post">
+                                    <input class="btn btn-primary" type="submit" value="Ajouter une Séance">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table style="width: 100%;" id="reservations">
@@ -428,7 +437,16 @@ $requete->closeCursor();
                 <!-- Gestion Utilisateur-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary" id="utilisateur">GESTION UTILISATEUR</h6>
+                        <div class="row" >
+                            <div class="col-10">
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
+                            </div>
+                            <div class="col-1">
+                                <form action="" method="post">
+                                    <input class="btn btn-primary" type="submit" value="Ajouter un utilisateur">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table style="width: 100%;" id="example">
