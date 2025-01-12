@@ -2,10 +2,10 @@
 <html lang="fr">
 
 <?php
-if (!isset($_SESSION)) {
+session_start();
+if (!isset($_SESSION['id_user'])) {
     header('Location: index.php');
 }
-session_start();
 $bdd = include "includes/bdd.php";
 
 $requete = $bdd->prepare("SELECT id_user,nom, prenom, email, role FROM `utilisateur` WHERE id_user = :id_user");
