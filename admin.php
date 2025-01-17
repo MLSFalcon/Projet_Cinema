@@ -584,7 +584,7 @@ $liste->listeSalle();
                             <tr>
                                 <td>prénom</td>
                                 <td>nom</td>
-                                <td>email</td>
+                                <td>emchail</td>
                                 <td>rôle</td>
                                 <td>action</td>
                             </tr>
