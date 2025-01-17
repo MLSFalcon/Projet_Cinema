@@ -1,7 +1,10 @@
 <?php
 require_once "traitement/Liste.php";
-
+require_once "traitement/Film.php";
+require_once "traitement/Seance.php";
 $liste = new Liste();
+$film = new Film();
+$seance = new Seance();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 //if ($_SESSION['role'] != "admin") {
@@ -308,7 +311,7 @@ $liste->listeSalle();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="traitement/gestionFilm.php" method="post">
+                                        <form method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
@@ -347,6 +350,11 @@ $liste->listeSalle();
                             </div>
                         </div>
                     </div>
+                    <?php
+                    if (isset($_POST['ajoutFilm'])){
+                        $film->ajouter($_POST['titre'],$_POST['resume'],$_POST['genre'],$_POST['duree'],$_POST['image']);
+                    }
+                    ?>
                     <div class="card-body">
                         <table style="width: 100%;" id="films">
                             <thead>
@@ -382,12 +390,17 @@ $liste->listeSalle();
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
                                         <br><br>
-                                        <form action="traitement/gestionFilm.php" method="post">
+                                        <form method="post">
                                             <input type="hidden" name="idsup" value="<?=$liste->listeFilms()[$i]['id_film']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
                                         </form>
                                     </td>
                                 </tr>
+                                <?php
+                                if (isset($_POST['supprimerFilm'])){
+                                    $film ->supprimer($_POST['idsup']);
+                                }
+                                ?>
                             <div class="modal fade" id="modifFilm<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifFilm" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -397,7 +410,7 @@ $liste->listeSalle();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="traitement/gestionFilm.php" method="post">
+                                        <form method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
@@ -436,6 +449,9 @@ $liste->listeSalle();
                                 </div>
                             </div>
                                 <?php
+                                if (isset($_POST['modifierFilm'])){
+                                    $film->modifier($_POST['titre'],$_POST['resume'],$_POST['genre'],$_POST['duree'],$_POST['image'],$_POST['idmodif']);
+                                }
                             } ?>
                             </tbody>
                         </table>
@@ -584,7 +600,7 @@ $liste->listeSalle();
                             <tr>
                                 <td>prénom</td>
                                 <td>nom</td>
-                                <td>emchail</td>
+                                <td>email</td>
                                 <td>rôle</td>
                                 <td>action</td>
                             </tr>
@@ -694,7 +710,7 @@ $liste->listeSalle();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="traitement/gestionSeance.php" method="post">
+                                        <form method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Film
@@ -740,6 +756,11 @@ $liste->listeSalle();
                                                 <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutSeance">
                                             </div>
                                         </form>
+                                        <?php
+                                        if (isset($_POST['ajoutSeance'])){
+                                            $seance->ajouter($_POST['date'],$_POST['heure'],$_POST['salle'],$_POST['titre'],$_POST['place']);
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -780,12 +801,17 @@ $liste->listeSalle();
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
                                     <br><br>
-                                    <form action="traitement/gestionSeance.php" method="post">
+                                    <form method="post">
                                         <input type="hidden" name="idsup" value="<?=$liste->listeSeances()[$i]['id_seance']?>">
-                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
+                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerSeance">
                                     </form>
                                 </td>
                             </tr>
+                            <?php
+                            if (isset($_POST['supprimerSeance'])){
+                                $seance->supprimer($_POST['idsup']);
+                            }
+                            ?>
                             <div class="modal fade" id="modifSeance<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifSeance" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -795,7 +821,7 @@ $liste->listeSalle();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="traitement/gestionSeance.php" method="post">
+                                        <form method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Titre
@@ -838,10 +864,15 @@ $liste->listeSalle();
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                 <input class="btn btn-primary" type="hidden" value="<?= $liste->listeSeances()[$i]['id_seance']?>" name="idmodif">
-                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
+                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierSeance">
                                             </div>
                                             </tr>
                                         </form>
+                                        <?php
+                                        if (isset($_POST['modifierSeance'])){
+                                            $seance->modifier($_POST['date'],$_POST['heure'],$_POST['salle'],$_POST['titre'],$_POST['nbPlace'],$_POST['idmodif']);
+                                        }
+                                        ?>
                                         <?php
                                         } ?>
                                     </div>
