@@ -609,7 +609,7 @@ $liste->listeSalle();
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
                                         <br><br>
-                                        <form action="traitement/gestionUser.php" method="post">
+                                        <form method="post">
                                             <input type="hidden" name="idsup" value="<?=$liste->listeUtilisateurs()[$i]['id_user']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
                                         </form>
@@ -624,7 +624,7 @@ $liste->listeSalle();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="traitement/gestionUser" method="post">
+                                            <form method="post">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
@@ -654,6 +654,16 @@ $liste->listeSalle();
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
                                                 </div>
                                             </form>
+                                            <?php
+                                            require_once "traitement/User.php";
+                                            $user = new User();
+                                            if (isset($_POST['modifierAdmin'])) {
+                                                $user->updateAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['role'],$_POST['idmodif']);
+                                            }
+                                            if (isset($_POST['supprimerAdmin'])) {
+                                                $user->suppAdmin($_POST['idsup']);
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>

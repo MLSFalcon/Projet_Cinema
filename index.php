@@ -1,5 +1,5 @@
 <?php
-require_once "includes/bdd.php";
+require_once "traitement/bdd.php";
 $bdd = new Bdd();
 
 $req = $bdd->getBdd()->prepare('SELECT * FROM `film`');
@@ -45,9 +45,14 @@ session_start();
                 if (isset($_SESSION['id_user'])) {
                     echo '
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="profil.php">Profil</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="traitement/gestionDeconnexion.php">Déconnexion</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="contact.php">Contact</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="index.php?deco=deco">Déconnexion</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded link" href="contact.php">Contact</a></li>
                     ';
+                    if (isset($_GET['deco'])) {
+                        require_once "traitement/User.php";
+                        $deco = new User();
+                        $deco->deconnexion();
+                    }
                 }else{
                     echo '
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="register.php">Inscription</a></li>

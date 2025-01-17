@@ -303,7 +303,7 @@ $requete->closeCursor();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="traitement/gestionUser" method="post">
+                                            <form method="post">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
@@ -328,6 +328,11 @@ $requete->closeCursor();
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifier">
                                                 </div>
                                             </form>
+                                            <?php
+                                            require_once "traitement/User.php";
+                                            $modif = new User();
+                                            $modif->update($_POST['nom'],$_POST['prenom'],$_POST['email'],$_SESSION['id_user']);
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
