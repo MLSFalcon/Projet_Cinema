@@ -1,44 +1,27 @@
 <?php
-$bdd = include "includes/bdd.php";
+require_once "traitement/Liste.php";
 
+$liste = new Liste();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
-if ($_SESSION['role'] != "admin") {
-    header("Location: index.php");
-}
+//if ($_SESSION['role'] != "admin") {
+    //header("Location: index.php");
+//}
 
 //Liste Utilisateurs
-$requete = $bdd->prepare("SELECT id_user,nom, prenom, email, role FROM `utilisateur`");
-$requete->execute();
-$listeUsers = $requete->fetchAll();
-$requete->closeCursor();
+$liste->listeUtilisateurs();
 
 //Liste Films
-$requete = $bdd->prepare("SELECT * FROM `film`");
-$requete->execute();
-$listeFilms = $requete->fetchAll();
-$requete->closeCursor();
+$liste->listeFilms();
 
 //Liste Séances
-$requete = $bdd->prepare("SELECT film.titre, seance.id_seance, seance.date_seance, seance.heure, seance.nb_place_dispo, seance.ref_salle as salle  FROM `film` INNER JOIN `seance` ON film.id_film = seance.ref_film");
-$requete->execute();
-$listeSeances = $requete->fetchAll();
-$requete->closeCursor();
+$liste->listeSeances();
 
-$requete = $bdd->prepare("SELECT * FROM `seance`");
-$requete->execute();
-$listeSeance = $requete->fetchAll();
-$requete->closeCursor();
+$liste->listeSeance();
 //Liste Reservation
-$requete = $bdd->prepare("SELECT utilisateur.email, reservation.nb_place, seance.date_seance, seance.heure, seance.ref_salle, film.titre FROM `utilisateur` INNER JOIN reservation ON utilisateur.id_user = reservation.ref_user INNER JOIN seance ON reservation.ref_seance = seance.id_seance INNER JOIN film ON seance.ref_film = film.id_film");
-$requete->execute();
-$listeReservations = $requete->fetchAll();
-$requete->closeCursor();
+$liste->listeReservations();
 //Liste Salle
-$requete = $bdd->prepare("SELECT * FROM `salle`");
-$requete->execute();
-$listeSalle = $requete->fetchAll();
-$requete->closeCursor();
+$liste->listeSalle();
 ?>
 
 <!DOCTYPE html>
@@ -378,29 +361,29 @@ $requete->closeCursor();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeFilms); $i++) {
+                            for ($i=0; $i < count($liste->listeFilms()); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <img width="125" height="150" src="<?= $listeFilms[$i]['image']?>">
+                                        <img width="125" height="150" src="<?= $liste->listeFilms()[$i]['image']?>">
                                     </td>
                                     <td>
-                                        <?= $listeFilms[$i]['titre']?>
+                                        <?= $liste->listeFilms()[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <?= $listeFilms[$i]['resume']?>
+                                        <?= $liste->listeFilms()[$i]['resume']?>
                                     </td>
                                     <td>
-                                        <?= $listeFilms[$i]['genre']?>
+                                        <?= $liste->listeFilms()[$i]['genre']?>
                                     </td>
                                     <td>
-                                        <?= $listeFilms[$i]['duree']?>
+                                        <?= $liste->listeFilms()[$i]['duree']?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
                                         <br><br>
                                         <form action="traitement/gestionFilm.php" method="post">
-                                            <input type="hidden" name="idsup" value="<?=$listeFilms[$i]['id_film']?>">
+                                            <input type="hidden" name="idsup" value="<?=$liste->listeFilms()[$i]['id_film']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
                                         </form>
                                     </td>
@@ -418,34 +401,34 @@ $requete->closeCursor();
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
-                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilms[$i]['image']?>" name="image">
+                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$liste->listeFilms()[$i]['image']?>" name="image">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Titre
-                                                        <input type="text" class="form-control" value="<?=$listeFilms[$i]['titre']?>" name="titre">
+                                                        <input type="text" class="form-control" value="<?=$liste->listeFilms()[$i]['titre']?>" name="titre">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Résumé
-                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['resume']?>" name="resume">
+                                                        <input texte class="form-control" value="<?=$liste->listeFilms()[$i]['resume']?>" name="resume">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Genre
-                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['genre']?>" name="genre">
+                                                        <input texte class="form-control" value="<?=$liste->listeFilms()[$i]['genre']?>" name="genre">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input texte class="form-control" value="<?=$listeFilms[$i]['duree']?>" name="duree">
+                                                        <input texte class="form-control" value="<?=$liste->listeFilms()[$i]['duree']?>" name="duree">
                                                     </label>
                                                 </div>
                                             </div>
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeFilms[$i]['id_film']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="hidden" value="<?= $liste->listeFilms()[$i]['id_film']?>" name="idmodif">
                                                 <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierFilm">
                                             </div>
                                         </form>
@@ -491,23 +474,23 @@ $requete->closeCursor();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeReservations); $i++) {
+                            for ($i=0; $i < count($liste->listeReservations()); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $listeReservations[$i]['email']?>
+                                        <?= $liste->listeReservations()[$i]['email']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservations[$i]['nb_place']?>
+                                        <?= $liste->listeReservations()[$i]['nb_place']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservations[$i]['date_seance']?>
+                                        <?= $liste->listeReservations()[$i]['date_seance']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservations[$i]['heure']?>
+                                        <?= $liste->listeReservations()[$i]['heure']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservations[$i]['titre']?>
+                                        <?= $liste->listeReservations()[$i]['titre']?>
                                     </td>
                                     <td>
                                         <form action="" method="post">
@@ -608,26 +591,26 @@ $requete->closeCursor();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeUsers); $i++) {
+                            for ($i=0; $i < count($liste->listeUtilisateurs()); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $listeUsers[$i]['nom']?>
+                                        <?= $liste->listeUtilisateurs()[$i]['nom']?>
                                     </td>
                                     <td>
-                                        <?= $listeUsers[$i]['prenom']?>
+                                        <?= $liste->listeUtilisateurs()[$i]['prenom']?>
                                     </td>
                                     <td>
-                                        <?= $listeUsers[$i]['email']?>
+                                        <?= $liste->listeUtilisateurs()[$i]['email']?>
                                     </td>
                                     <td>
-                                        <?= $listeUsers[$i]['role']?>
+                                        <?= $liste->listeUtilisateurs()[$i]['role']?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
                                         <br><br>
                                         <form action="traitement/gestionUser.php" method="post">
-                                            <input type="hidden" name="idsup" value="<?=$listeUsers[$i]['id_user']?>">
+                                            <input type="hidden" name="idsup" value="<?=$liste->listeUtilisateurs()[$i]['id_user']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
                                         </form>
                                     </td>
@@ -645,17 +628,17 @@ $requete->closeCursor();
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
-                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUsers[$i]['nom']?>" name="nom">
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$liste->listeUtilisateurs()[$i]['nom']?>" name="nom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Prenom
-                                                            <input type="text" class="form-control" value="<?=$listeUsers[$i]['prenom']?>" name="prenom">
+                                                            <input type="text" class="form-control" value="<?=$liste->listeUtilisateurs()[$i]['prenom']?>" name="prenom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Address Email
-                                                            <input type="email" class="form-control" value="<?=$listeUsers[$i]['email']?>" name="email">
+                                                            <input type="email" class="form-control" value="<?=$liste->listeUtilisateurs()[$i]['email']?>" name="email">
                                                         </label>
                                                     </div>
                                                     <label>Rôle
@@ -667,7 +650,7 @@ $requete->closeCursor();
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUsers[$i]['id_user']?>" name="idmodif">
+                                                    <input class="btn btn-primary" type="hidden" value="<?= $liste->listeUtilisateurs()[$i]['id_user']?>" name="idmodif">
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
                                                 </div>
                                             </form>
@@ -706,9 +689,9 @@ $requete->closeCursor();
                                                 <div class="form-group">
                                                     <label>Film
                                                         <select name="titre" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeFilms); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($liste->listeFilms()); $j++ ) {
                                                                 ?>
-                                                                <option value="<?= $listeFilms[$j]['id_film'] ?>"><?= $listeFilms[$j]['titre'] ?> </option>
+                                                                <option value="<?= $liste->listeFilms()[$j]['id_film'] ?>"><?= $liste->listeFilms()[$j]['titre'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -727,9 +710,9 @@ $requete->closeCursor();
                                                 <div class="form-group">
                                                     <label>Salle
                                                         <select name="salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($liste->listeSalle()); $j++ ) {
                                                                 ?>
-                                                                <option><?= $listeSeances[$j]['salle'] ?> </option>
+                                                                <option><?= $liste->listeSeances()[$j]['salle'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -766,29 +749,29 @@ $requete->closeCursor();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeSeances); $i++) {
+                            for ($i=0; $i < count($liste->listeSeances()); $i++) {
                             ?>
                             <tr>
                                 <td>
-                                    <?= $listeSeances[$i]['titre']?>
+                                    <?= $liste->listeSeances()[$i]['titre']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeances[$i]['date_seance']?>
+                                    <?= $liste->listeSeances()[$i]['date_seance']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeances[$i]['heure']?>
+                                    <?= $liste->listeSeances()[$i]['heure']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeances[$i]['salle']?>
+                                    <?= $liste->listeSeances()[$i]['salle']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeances[$i]['nb_place_dispo']?>
+                                    <?= $liste->listeSeances()[$i]['nb_place_dispo']?>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
                                     <br><br>
                                     <form action="traitement/gestionSeance.php" method="post">
-                                        <input type="hidden" name="idsup" value="<?=$listeSeances[$i]['id_seance']?>">
+                                        <input type="hidden" name="idsup" value="<?=$liste->listeSeances()[$i]['id_seance']?>">
                                         <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
                                     </form>
                                 </td>
@@ -807,9 +790,9 @@ $requete->closeCursor();
                                                 <div class="form-group">
                                                     <label>Titre
                                                         <select name="titre"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeFilms); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($liste->listeFilms()); $j++ ) {
                                                                 ?>
-                                                                <option value="<?= $listeFilms[$j]['id_film'] ?>"><?= $listeFilms[$j]['titre'] ?> </option>
+                                                                <option value="<?= $liste->listeFilms()[$j]['id_film'] ?>"><?= $liste->listeFilms()[$j]['titre'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -817,20 +800,20 @@ $requete->closeCursor();
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Date
-                                                        <input type="date" class="form-control" value="<?=$listeSeances[$i]['date_seance']?>" name="date">
+                                                        <input type="date" class="form-control" value="<?=$liste->listeSeances()[$i]['date_seance']?>" name="date">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Heure
-                                                        <input type="text" class="form-control" value="<?=$listeSeances[$i]['heure']?>" name="heure">
+                                                        <input type="text" class="form-control" value="<?=$liste->listeSeances()[$i]['heure']?>" name="heure">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Salle
                                                         <select name="salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($liste->listeSalle()); $j++ ) {
                                                                 ?>
-                                                                <option><?= $listeSeances[$j]['salle'] ?> </option>
+                                                                <option><?= $liste->listeSeances()[$j]['salle'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -838,13 +821,13 @@ $requete->closeCursor();
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nombre de place dispo
-                                                        <input type="text" class="form-control" value="<?=$listeSeances[$i]['nb_place_dispo']?>" name="nbPlace">
+                                                        <input type="text" class="form-control" value="<?=$liste->listeSeances()[$i]['nb_place_dispo']?>" name="nbPlace">
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeSeances[$i]['id_seance']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="hidden" value="<?= $liste->listeSeances()[$i]['id_seance']?>" name="idmodif">
                                                 <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
                                             </div>
                                             </tr>
