@@ -36,7 +36,7 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Créer un compte!</h1>
                         </div>
-                        <form class="user" action="traitement/gestionRegister.php" method="post">
+                        <form class="user" method="post">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="text" class="form-control form-control-user" id="exampleFirstName"
@@ -78,9 +78,16 @@
                                     ?>
                                 </div>
                             </div>
-                            <input type="submit" value="Inscription" class="btn btn-primary btn-user btn-block">
+                            <input type="submit" name="valider" value="Inscription" class="btn btn-primary btn-user btn-block">
                             <hr>
                         </form>
+                        <?php
+                        require_once "traitement/User.php";
+                        $user = new User();
+                        if (isset($_POST['valider'])) {
+                            $user->register($_POST['prenom'], $_POST['nom'], $_POST['email'], $_POST['mdp'], $_POST['confirmeMdp']);
+                        }
+                        ?>
                         <div class="text-center">
                             <a class="small" href="forgot-password.html">Mot de passe oublié?</a>
                         </div>

@@ -2,11 +2,12 @@
 if(!isset($_POST)){
     header('location: index.php');
 }
-$bdd = include "../includes/bdd.php";
+require_once "../includes/bdd.php";
+$bdd = new BDD();
 
 
 if(isset($_POST['ajoutFilm'])){
-    $reqModif = $bdd->prepare("INSERT INTO film (titre, resume, genre, duree, image) VALUES (:titre, :resume, :genre, :duree, :image)");
+    $reqModif = $bdd->getBdd()->prepare("INSERT INTO film (titre, resume, genre, duree, image) VALUES (:titre, :resume, :genre, :duree, :image)");
     $reqModif->execute(array(
         "image" => $_POST['image'],
         "titre" => $_POST['titre'],
@@ -20,7 +21,7 @@ if(isset($_POST['ajoutFilm'])){
 }
 
 if(isset($_POST['modifierFilm'])){
-    $reqModif = $bdd->prepare("UPDATE film SET image = :image, titre = :titre, resume = :resume, genre = :genre, duree = :duree WHERE id_film = :id");
+    $reqModif = $bdd->getBdd()->prepare("UPDATE film SET image = :image, titre = :titre, resume = :resume, genre = :genre, duree = :duree WHERE id_film = :id");
     $reqModif->execute(array(
         "image" => $_POST['image'],
         "titre" => $_POST['titre'],
@@ -35,7 +36,7 @@ if(isset($_POST['modifierFilm'])){
 }
 
 if(isset($_POST['supprimerFilm'])){
-    $reqSupp = $bdd->prepare("DELETE FROM film WHERE id_film = :id");
+    $reqSupp = $bdd->getBdd()->prepare("DELETE FROM film WHERE id_film = :id");
     $reqSupp->execute(array(
         'id' => $_POST['idsup']
     ));

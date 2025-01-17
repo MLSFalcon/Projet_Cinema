@@ -1,8 +1,9 @@
 <?php
-$bdd = include '../includes/bdd.php';
+require_once '../includes/bdd.php';
+$bdd = new Bdd();
 if (isset($_POST['mdp'])){
 
-    $req = $bdd -> prepare('SELECT * FROM utilisateur WHERE email = :email');
+    $req = $bdd->getBdd()-> prepare('SELECT * FROM utilisateur WHERE email = :email');
     $req -> execute(array(
         'email' => $_POST['email'],
     ));

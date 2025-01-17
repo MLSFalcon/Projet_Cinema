@@ -1,7 +1,8 @@
 <?php
-$bdd = include 'includes/bdd.php';
+require_once "includes/bdd.php";
+$bdd = new Bdd();
 
-$req = $bdd->prepare('SELECT * FROM `film`');
+$req = $bdd->getBdd()->prepare('SELECT * FROM `film`');
 $req->execute();
 $films = $req->fetchAll();
 
