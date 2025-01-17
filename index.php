@@ -1,5 +1,5 @@
 <?php
-require_once "includes/bdd.php";
+require_once "traitement/Bdd.php";
 $bdd = new Bdd();
 
 $req = $bdd->getBdd()->prepare('SELECT * FROM `film`');
