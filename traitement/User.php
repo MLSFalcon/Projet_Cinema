@@ -80,7 +80,6 @@ public function updateAdmin($nom, $prenom, $email, $role, $id)
         'id' => $id
     ));
     $reqModif->closeCursor();
-    header('location: admin.php?confirmModifUser=true#utilisateur');
 }
 
 public function update($nom, $prenom, $email, $id){
@@ -130,7 +129,6 @@ public function suppAdmin($id)
         'id' => $id
     ));
     $reqSupp->closeCursor();
-    header('location: admin.php?confirmSupUser=true#utilisateur');
 }
 
 public function suppProfil($id)

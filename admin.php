@@ -2,14 +2,16 @@
 require_once "traitement/Liste.php";
 require_once "traitement/Film.php";
 require_once "traitement/Seance.php";
+require_once "traitement/User.php";
 $liste = new Liste();
 $film = new Film();
 $seance = new Seance();
+$user = new User();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
-//if ($_SESSION['role'] != "admin") {
-    //header("Location: index.php");
-//}
+if ($_SESSION['role'] != "admin") {
+    header("Location: index.php");
+}
 
 //Liste Utilisateurs
 $liste->listeUtilisateurs();
@@ -557,7 +559,7 @@ $liste->listeSalle();
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="traitement/gestionUser.php" method="post">
+                                <form  method="post">
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label>Nom
@@ -591,6 +593,11 @@ $liste->listeSalle();
                                         <input class="btn btn-primary" type="submit" name="ajoutUser">
                                     </div>
                                 </form>
+                                <?php
+                                if(isset($_POST['ajoutUser'])){
+                                    $user->ajoutAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['role']);
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -671,8 +678,6 @@ $liste->listeSalle();
                                                 </div>
                                             </form>
                                             <?php
-                                            require_once "traitement/User.php";
-                                            $user = new User();
                                             if (isset($_POST['modifierAdmin'])) {
                                                 $user->updateAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['role'],$_POST['idmodif']);
                                             }
