@@ -1,3 +1,8 @@
+<?php
+require_once "src/bdd/Bdd.php";
+require_once "src/class/User.php";
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -18,7 +23,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="asset/CSS/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -82,7 +87,6 @@
                             <hr>
                         </form>
                         <?php
-                        require_once "traitement/User.php";
                         $user = new User();
                         if (isset($_POST['valider'])) {
                             $user->register($_POST['prenom'], $_POST['nom'], $_POST['email'], $_POST['mdp'], $_POST['confirmeMdp']);
