@@ -1,0 +1,292 @@
+<?php
+class Film
+{
+    private $bdd;
+
+    public function __construct()
+    {
+        $this->bdd = new Bdd();
+    }
+
+    public function modifier($titre,$resume,$genre,$duree,$image,$id)
+    {
+        $reqModif = $this->bdd->getBdd()->prepare("UPDATE film SET image = :image, titre = :titre, resume = :resume, genre = :genre, duree = :duree WHERE id_film = :id");
+        $reqModif->execute(array(
+            "titre" => $titre,
+            "resume" => $resume,
+            "genre" => $genre,
+            "duree" => $duree,
+            "image" => $image,
+            "id" => $id
+        ));
+        $reqModif->closeCursor();
+    }
+
+    public function ajouter($titre,$resume,$genre,$duree,$image)
+    {
+        $reqModif = $this->bdd->getBdd()->prepare("INSERT INTO film (titre, resume, genre, duree, image) VALUES (:titre, :resume, :genre, :duree, :image)");
+        $reqModif->execute(array(
+            "titre" => $titre,
+            "resume" => $resume,
+            "genre" => $genre,
+            "duree" => $duree,
+            "image" => $image,
+        ));
+        $reqModif->closeCursor();
+    }
+
+    public function supprimer($id)
+    {
+        $reqSupp = $this->bdd->getBdd()->prepare("DELETE FROM film WHERE id_film = :id");
+        $reqSupp->execute(array(
+            'id' => $id
+        ));
+        $reqSupp->closeCursor();
+    }
+}
+?>
+---------------------------------------------------------------------------------------------------|
+
+<?php
+class Liste
+{
+    private $bdd;
+    public function __construct()
+    {
+        $this->bdd = new Bdd();
+    }
+
+public function listeFilms(){
+    $requete = $this->bdd->getBdd()->prepare("SELECT * FROM `film`");
+    $requete->execute();
+    $listeFilms = $requete->fetchAll();
+    $requete->closeCursor();
+    return $listeFilms;
+}
+public function listeUtilisateurs(){
+    $requete = $this->bdd->getBdd()->prepare("SELECT id_user,nom, prenom, email, role FROM `utilisateur`");
+    $requete->execute();
+    $listeUsers = $requete->fetchAll();
+    $requete->closeCursor();
+    return $listeUsers;
+}
+public function listeSeances(){
+    $requete = $this->bdd->getBdd()->prepare("SELECT film.titre, seance.id_seance, seance.date_seance, seance.heure, seance.nb_place_dispo, seance.ref_salle as salle  FROM `film` INNER JOIN `seance` ON film.id_film = seance.ref_film");
+    $requete->execute();
+    $listeSeances = $requete->fetchAll();
+    $requete->closeCursor();
+    return $listeSeances;
+}
+public function listeSeance(){
+    $requete = $this->bdd->getBdd()->prepare("SELECT * FROM `seance`");
+    $requete->execute();
+    $listeSeance = $requete->fetchAll();
+    $requete->closeCursor();
+    return $listeSeance;
+}
+public function listeReservations(){
+    $requete = $this->bdd->getBdd()->prepare("SELECT utilisateur.email, reservation.nb_place, seance.date_seance, seance.heure, seance.ref_salle, film.titre FROM `utilisateur` INNER JOIN reservation ON utilisateur.id_user = reservation.ref_user INNER JOIN seance ON reservation.ref_seance = seance.id_seance INNER JOIN film ON seance.ref_film = film.id_film");
+    $requete->execute();
+    $listeReservations = $requete->fetchAll();
+    $requete->closeCursor();
+    return $listeReservations;
+}
+public function listeSalle(){
+    $requete = $this->bdd->getBdd()->prepare("SELECT * FROM `salle`");
+    $requete->execute();
+    $listeSalle = $requete->fetchAll();
+    $requete->closeCursor();
+    return $listeSalle;
+}
+}
+?>
+----------------------------------------------------------------------------------------|
+
+<?php
+class Seance
+{
+    private $bdd;
+    public function __construct()
+    {
+        $this->bdd = new Bdd();
+    }
+    public function modifier($date,$heure,$salle,$titre,$nbPlace,$idmodif){
+        $req = $this->bdd->getBdd() -> prepare('UPDATE seance SET date_seance = :date_seance, heure = :heure, ref_salle = :ref_salle, ref_film = :ref_film, nb_place_dispo = :place WHERE id_seance = :id_seance');
+        $req -> execute(array(
+            'date_seance' => $date,
+            'heure' => $heure,
+            'ref_salle' => $salle,
+            'ref_film' => $titre,
+            'place' => $nbPlace,
+            'id_seance' => $idmodif
+        ));
+        $req->closeCursor();
+    }
+    public function ajouter($date,$heure,$salle,$titre,$place){
+        $req = $this->bdd->getBdd() -> prepare('INSERT INTO `seance`(`date_seance`, `heure`, `ref_salle`, `ref_film`, `nb_place_dispo`) VALUES (:date,:heure,:ref_salle,:ref_film,:place)');
+        $req -> execute(array(
+            'date' => $date,
+            'heure' => $heure,
+            'ref_salle' => $salle,
+            'ref_film' => $titre,
+            'place' => $place
+        ));
+        $req->closeCursor();
+    }
+    public function supprimer($id){
+        $req = $this->bdd->getBdd() -> prepare('DELETE FROM seance WHERE id_seance = :id_seance');
+        $req -> execute(array(
+            'id_seance' => $id
+        ));
+        $req->closeCursor();
+    }
+
+}
+?>
+--------------------------------------------------------------------------------------------------------------------------------|
+<?php
+
+class User
+{
+public function __construct()
+{
+}
+
+public function register($nom, $prenom, $email, $mdp, $mdpVerif)
+{
+    $bddUser = new Bdd();
+    if ($mdp != $mdpVerif) {
+        header("location:register.php?erreur=Les deux mot passe ne sont pas identique");
+    }else {
+        $req = $bddUser->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
+        $req->execute(array(
+            'email' => $email
+        ));
+        $liste = $req->fetchAll();
+        if ($liste){
+            header("location:register.php?erreur=Le compte existe déjà");
+        } else{
+            $mdpchiffre = password_hash($mdp, PASSWORD_DEFAULT);
+            var_dump($liste);
+            $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp) VALUES(:nom, :prenom, :email, :mdp)');
+            $req->execute(array(
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'email' => $email,
+                'mdp' => $mdpchiffre,
+            ));
+            $req->closeCursor();
+            header("location:register.php?confirm=Inscription bien prise en compte !");
+        }
+    }
+
+}
+
+public function login($email, $mdp){
+    $bddUser = new Bdd();
+    $req = $bddUser->getBdd()-> prepare('SELECT * FROM utilisateur WHERE email = :email');
+    $req -> execute(array(
+        'email' => $email,
+    ));
+    $donnee = $req -> fetch();
+    var_dump($donnee['mdp']);
+    var_dump(password_verify($mdp, $donnee['mdp']));
+    if ($donnee && password_verify($mdp, $donnee['mdp'])) {
+        session_start();
+        $_SESSION['nom'] = $donnee['nom'];
+        $_SESSION['id_user'] = $donnee['id_user'];
+        $_SESSION['role'] = $donnee['role'];
+        header("location:index.php");
+    }
+    else{
+        header("location:login.php?erreur=Email ou mot de passe incorrect");
+    }
+}
+
+public function deconnexion()
+{
+    session_start();
+    if(!isset($_SESSION['id_user'])){
+        header('location:index.php');
+    }
+    session_destroy();
+    header("location:index.php");
+}
+
+public function updateAdmin($nom, $prenom, $email, $role, $id)
+{
+    $bddUser = new Bdd();
+    $reqModif = $bddUser->getBdd()->prepare("UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email, role = :role WHERE id_user = :id");
+    $reqModif->execute(array(
+        'nom' => $nom,
+        'prenom' => $prenom,
+        'email' => $email,
+        'role' => $role,
+        'id' => $id
+    ));
+    $reqModif->closeCursor();
+}
+
+public function update($nom, $prenom, $email, $id){
+    $bddUser = new Bdd();
+    $reqModif = $bddUser->getBdd()->prepare("UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email WHERE id_user = :id");
+    $reqModif->execute(array(
+        'nom' => $nom,
+        'prenom' => $prenom,
+        'email' => $email,
+        'id' => $id
+    ));
+    $reqModif->closeCursor();
+    header('location: profil.php?confirmModifUser=true#utilisateur');
+}
+
+public function ajoutAdmin($nom, $prenom, $email,$mdp ,$role)
+{
+    $bddUser = new Bdd();
+    $mdpchiffre = password_hash($mdp, PASSWORD_DEFAULT);
+    $req = $bddUser->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
+    $req->execute(array(
+        'email' => $email
+    ));
+    $liste = $req->fetchAll();
+    if ($liste){
+        header("location:admin.php?erreur=Le compte existe déjà");
+    } else {
+        var_dump($liste);
+        $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp, role) VALUES(:nom, :prenom, :email, :mdp, :role)');
+        $req->execute(array(
+            'nom' => $nom,
+            'prenom' => $prenom,
+            'email' => $email,
+            'mdp' => $mdpchiffre,
+            'role' => $role
+        ));
+        $req->closeCursor();
+        header("location:admin.php?confirm=Inscription bien prise en compte !");
+    }
+}
+
+public function suppAdmin($id)
+{
+    $bddUser = new Bdd();
+    $reqSupp = $bddUser->getBdd()->prepare("DELETE FROM utilisateur WHERE id_user = :id");
+    $reqSupp->execute(array(
+        'id' => $id
+    ));
+    $reqSupp->closeCursor();
+}
+
+public function suppProfil($id)
+{
+    $bddUser = new Bdd();
+    $reqSupp = $bddUser->getBdd()->prepare("DELETE FROM utilisateur WHERE id_user = :id");
+    $reqSupp->execute(array(
+        'id' => $id
+    ));
+    $reqSupp->closeCursor();
+    header('location: index.php?confirmSupUser=true#utilisateur');
+}
+}
+
+
+?>
