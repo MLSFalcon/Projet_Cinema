@@ -1,46 +1,119 @@
 <?php
 class Film
 {
-    private $bdd;
+    private $idFilm;
+    private $titre;
+    private $resume;
+    private $genre;
+    private $duree;
+    private $image;
 
-    public function __construct()
+    private function hydrate($array) {
+        foreach ($array as $key => $value) {
+            $method = 'set'.ucfirst($key);
+
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
+    }
+    public function __construct($array)
     {
-        $this->bdd = new Bdd();
+        $this->hydrate($array);
+    }
+    /**
+     * @return mixed
+     */
+    public function getIdFilm()
+    {
+        return $this->idFilm;
     }
 
-    public function modifier($titre,$resume,$genre,$duree,$image,$id)
+    /**
+     * @param mixed $idFilm
+     */
+    public function setIdFilm($idFilm)
     {
-        $reqModif = $this->bdd->getBdd()->prepare("UPDATE film SET image = :image, titre = :titre, resume = :resume, genre = :genre, duree = :duree WHERE id_film = :id");
-        $reqModif->execute(array(
-            "titre" => $titre,
-            "resume" => $resume,
-            "genre" => $genre,
-            "duree" => $duree,
-            "image" => $image,
-            "id" => $id
-        ));
-        $reqModif->closeCursor();
+        $this->idFilm = $idFilm;
     }
 
-    public function ajouter($titre,$resume,$genre,$duree,$image)
+    /**
+     * @return mixed
+     */
+    public function getTitre()
     {
-        $reqModif = $this->bdd->getBdd()->prepare("INSERT INTO film (titre, resume, genre, duree, image) VALUES (:titre, :resume, :genre, :duree, :image)");
-        $reqModif->execute(array(
-            "titre" => $titre,
-            "resume" => $resume,
-            "genre" => $genre,
-            "duree" => $duree,
-            "image" => $image,
-        ));
-        $reqModif->closeCursor();
+        return $this->titre;
     }
 
-    public function supprimer($id)
+    /**
+     * @param mixed $titre
+     */
+    public function setTitre($titre)
     {
-        $reqSupp = $this->bdd->getBdd()->prepare("DELETE FROM film WHERE id_film = :id");
-        $reqSupp->execute(array(
-            'id' => $id
-        ));
-        $reqSupp->closeCursor();
+        $this->titre = $titre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResume()
+    {
+        return $this->resume;
+    }
+
+    /**
+     * @param mixed $resume
+     */
+    public function setResume($resume)
+    {
+        $this->resume = $resume;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGenre()
+    {
+        return $this->genre;
+    }
+
+    /**
+     * @param mixed $genre
+     */
+    public function setGenre($genre)
+    {
+        $this->genre = $genre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDuree()
+    {
+        return $this->duree;
+    }
+
+    /**
+     * @param mixed $duree
+     */
+    public function setDuree($duree)
+    {
+        $this->duree = $duree;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 }
