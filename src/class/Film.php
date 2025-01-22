@@ -1,5 +1,4 @@
 <?php
-require_once "../bdd/Bdd.php";
 class Film
 {
     private $bdd;

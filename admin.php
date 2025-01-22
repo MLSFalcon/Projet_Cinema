@@ -1,8 +1,9 @@
 <?php
-require_once "traitement/Liste.php";
-require_once "traitement/Film.php";
-require_once "traitement/Seance.php";
-require_once "traitement/User.php";
+require_once "src/bdd/Bdd.php";
+require_once "src/class/Liste.php";
+require_once "src/class/Film.php";
+require_once "src/class/Seance.php";
+require_once "src/class/User.php";
 $liste = new Liste();
 $film = new Film();
 $seance = new Seance();
@@ -49,8 +50,8 @@ $liste->listeSalle();
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="CSS/sb-admin-2.min.css" rel="stylesheet">
-    <link href="CSS/sb-admin-2.css" rel="stylesheet">
+    <link href="asset/CSS/sb-admin-2.min.css" rel="stylesheet">
+    <link href="asset/CSS/sb-admin-2.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
 

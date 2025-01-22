@@ -1,5 +1,5 @@
 <?php
-require_once "traitement/Bdd.php";
+require_once "src/bdd/bdd.php";
 $bdd = new Bdd();
 
 $req = $bdd->getBdd()->prepare('SELECT * FROM `film`');
@@ -28,7 +28,7 @@ session_start();
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="CSS/styles.css" rel="stylesheet" />
+    <link href="asset/CSS/styles.css" rel="stylesheet" />
 </head>
 <body id="page-top">
 <!-- Navigation-->
