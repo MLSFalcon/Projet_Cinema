@@ -1,5 +1,5 @@
 <?php
-require_once "traitement/Bdd.php";
+require_once "../bdd/Bdd.php";
 class Seance
 {
     private $bdd;
