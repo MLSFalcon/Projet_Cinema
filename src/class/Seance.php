@@ -1,40 +1,124 @@
 <?php
 class Seance
 {
-    private $bdd;
-    public function __construct()
-    {
-        $this->bdd = new Bdd();
-    }
-    public function modifier($date,$heure,$salle,$titre,$nbPlace,$idmodif){
-        $req = $this->bdd->getBdd() -> prepare('UPDATE seance SET date_seance = :date_seance, heure = :heure, ref_salle = :ref_salle, ref_film = :ref_film, nb_place_dispo = :place WHERE id_seance = :id_seance');
-        $req -> execute(array(
-            'date_seance' => $date,
-            'heure' => $heure,
-            'ref_salle' => $salle,
-            'ref_film' => $titre,
-            'place' => $nbPlace,
-            'id_seance' => $idmodif
-        ));
-        $req->closeCursor();
-    }
-    public function ajouter($date,$heure,$salle,$titre,$place){
-        $req = $this->bdd->getBdd() -> prepare('INSERT INTO `seance`(`date_seance`, `heure`, `ref_salle`, `ref_film`, `nb_place_dispo`) VALUES (:date,:heure,:ref_salle,:ref_film,:place)');
-        $req -> execute(array(
-            'date' => $date,
-            'heure' => $heure,
-            'ref_salle' => $salle,
-            'ref_film' => $titre,
-            'place' => $place
-        ));
-        $req->closeCursor();
-    }
-    public function supprimer($id){
-        $req = $this->bdd->getBdd() -> prepare('DELETE FROM seance WHERE id_seance = :id_seance');
-        $req -> execute(array(
-            'id_seance' => $id
-        ));
-        $req->closeCursor();
+    private $idSeance;
+    private $dateSeance;
+    private $heure;
+    private $refSalle;
+    private $refFilm;
+    private $nbPlaceDispo;
+    public function __construct($array) {
+        $this->hydrate($array);
     }
 
+    public function hydrate(array $array) {
+        foreach ($array as $key => $value) {
+            // On récupère le nom du setter correspondant à l'attribut
+            $method = 'set'.ucfirst($key);
+            var_dump($method);
+
+            // Si le setter correspondant existe.
+            if (method_exists($this, $method)) {
+                // On appelle le setter
+                $this->$method($value);
+            }
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdSeance()
+    {
+        return $this->idSeance;
+    }
+
+    /**
+     * @param mixed $idSeance
+     */
+    public function setIdSeance($idSeance)
+    {
+        $this->idSeance = $idSeance;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateSeance()
+    {
+        return $this->dateSeance;
+    }
+
+    /**
+     * @param mixed $dateSeance
+     */
+    public function setDateSeance($dateSeance)
+    {
+        $this->dateSeance = $dateSeance;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHeure()
+    {
+        return $this->heure;
+    }
+
+    /**
+     * @param mixed $heure
+     */
+    public function setHeure($heure)
+    {
+        $this->heure = $heure;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefSalle()
+    {
+        return $this->refSalle;
+    }
+
+    /**
+     * @param mixed $refSalle
+     */
+    public function setRefSalle($refSalle)
+    {
+        $this->refSalle = $refSalle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefFilm()
+    {
+        return $this->refFilm;
+    }
+
+    /**
+     * @param mixed $refFilm
+     */
+    public function setRefFilm($refFilm)
+    {
+        $this->refFilm = $refFilm;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNbPlaceDispo()
+    {
+        return $this->nbPlaceDispo;
+    }
+
+    /**
+     * @param mixed $nbPlaceDispo
+     */
+    public function setNbPlaceDispo($nbPlaceDispo)
+    {
+        $this->nbPlaceDispo = $nbPlaceDispo;
+    }
+    
 }
