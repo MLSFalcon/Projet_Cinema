@@ -21,7 +21,7 @@ class Reservation
     {
         $this->hydrate($array);
     }
-    
+
     /**
      * @return mixed
      */
