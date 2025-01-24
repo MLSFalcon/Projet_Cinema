@@ -1,5 +1,4 @@
 <?php
-require_once '../class/User.php';
 class UserRepository
 {
     public function register($user)
