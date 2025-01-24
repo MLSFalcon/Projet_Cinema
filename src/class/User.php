@@ -19,7 +19,7 @@ class User
             }
         }
     }
-    
+
     public function getIdUser()
     {
         return $this->id_user;
