@@ -34,4 +34,19 @@ if (isset($_GET['deconnexion'])) {
     session_destroy();
     header('Location: ../../index.php');
 }
+if (isset($_POST['inscription'])) {
+    if ($_POST['mdp'] != $_POST['mdpConfirmer']) {
+        header('Location: ../../register.php?erreur=Erreur, mot de passe non confirmé !');
+    }
+    else {
+        $hydrated = array(
+            'nom' => $_POST['nom'],
+            'prenom' => $_POST['prenom'],
+            'email' => $_POST['email'],
+            'mdp' => password_hash($_POST['mdp'] , PASSWORD_DEFAULT),
+        );
+        $user = new User($hydrated);
+        $inscription = new User($hydrated);
+    }
+}
 ?>

@@ -19,8 +19,8 @@ require_once "src/class/User.php";
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="asset/CSS/sb-admin-2.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@ require_once "src/class/User.php";
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Créer un compte!</h1>
                         </div>
-                        <form class="user" method="post">
+                        <form class="user" method="post" action="src/traitement/gestionUser.php">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="text" class="form-control form-control-user" id="exampleFirstName"
@@ -71,27 +71,20 @@ require_once "src/class/User.php";
                                            name="confirmeMdp" required>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="text-center">
+                            <?php
+                            if (isset($_GET['erreur'])) {
+                                ?>
+                                <div class="form-group">
                                     <?php
-                                    if (isset($_GET['erreur'])) {
-                                        echo '<p style="color:red">'.$_GET['erreur'].'</p>';
-                                    }
-                                    if (isset($_GET['confirm'])) {
-                                        echo '<p style="color:green">'.$_GET['confirm'].'</p>';
-                                    }
+                                    echo '<p style="color:red">'.$_GET['erreur'].'</p>';
                                     ?>
                                 </div>
-                            </div>
-                            <input type="submit" name="valider" value="Inscription" class="btn btn-primary btn-user btn-block">
+                                <?php
+                            }
+                            ?>
+                            <input type="submit" name="inscription" value="Inscription" class="btn btn-primary btn-user btn-block">
                             <hr>
                         </form>
-                        <?php
-                        $user = new User();
-                        if (isset($_POST['valider'])) {
-                            $user->register($_POST['prenom'], $_POST['nom'], $_POST['email'], $_POST['mdp'], $_POST['confirmeMdp']);
-                        }
-                        ?>
                         <div class="text-center">
                             <a class="small" href="forgot-password.html">Mot de passe oublié?</a>
                         </div>

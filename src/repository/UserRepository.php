@@ -5,24 +5,24 @@ class UserRepository
     public function register($user)
     {
         $bddUser = new Bdd();
-            $req = $bddUser->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
+        $req = $bddUser->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
+        $req->execute(array(
+            'email' => $user->getEmail()
+        ));
+        $liste = $req->fetchAll();
+        if ($liste){
+            return false;
+        } else{
+            $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp) VALUES(:nom, :prenom, :email, :mdp)');
             $req->execute(array(
-                'email' => $user->getEmail()
+                'nom' => $user->getNom(),
+                'prenom' => $user->getPrenom(),
+                'email' => $user->getEmail(),
+                'mdp' => $user->getMdp(),
             ));
-            $liste = $req->fetchAll();
-            if ($liste){
-                return false;
-            } else{
-                $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp) VALUES(:nom, :prenom, :email, :mdp)');
-                $req->execute(array(
-                    'nom' => $user->getNom(),
-                    'prenom' => $user->getPrenom(),
-                    'email' => $user->getEmail(),
-                    'mdp' => $user->getMdp(),
-                ));
-                $req->closeCursor();
-                return true;
-            }
+            $req->closeCursor();
+            return true;
+        }
 
     }
 
@@ -34,8 +34,6 @@ class UserRepository
             'email' => $connexion->getEmail(),
         ));
         $donnee = $req->fetch();
-        var_dump($connexion);
-var_dump($donnee);
         if ($donnee && password_verify($connexion->getMdp(), $donnee['mdp'])) {
             $user = new User($donnee);
             return $user;
