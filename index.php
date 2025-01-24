@@ -1,9 +1,13 @@
 <?php
 require_once "src/bdd/bdd.php";
 require_once "src/repository/FilmRepository.php";
+require_once "src/class/User.php";
 $films = new FilmRepository();
 
 session_start();
+/** @var User $User */
+$User = $_SESSION['user'];
+
 ?>
 
 
@@ -39,7 +43,7 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
                 <?php
-                if (isset($_SESSION['id_user'])) {
+                if (isset($_SESSION)) {
                     echo '
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="profil.php">Profil</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="traitement/gestionDeconnexion.php">Déconnexion</a></li>
@@ -52,8 +56,8 @@ session_start();
                         ';
                 }
 
-                if (isset($_SESSION['id_user'])) {
-                    if ($_SESSION['role'] == 'admin') {
+                if (isset($_SESSION)) {
+                    if ($User->getRole() == 'admin') {
                         echo '<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="admin.php">Admin</a></li>';
                     }
                 }

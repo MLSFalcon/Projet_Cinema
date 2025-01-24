@@ -1,10 +1,21 @@
 <?php
 require_once "src/bdd/Bdd.php";
-require_once "src/class/Film.php";
 require_once "src/repository/FilmRepository.php";
+require_once "src/repository/ReservationRepository.php";
+require_once "src/repository/UserRepository.php";
+require_once "src/repository/SeanceRepository.php";
+require_once "src/repository/SalleRepository.php";
 
 //liste film
 $listeFilm = new FilmRepository();
+//liste reservation
+$listeReservation = new ReservationRepository();
+//liste Users
+$listeUser = new UserRepository();
+//liste Séances
+$listeSeance = new SeanceRepository();
+//liste Salle
+$listeSalle = new SalleRepository();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 //if ($_SESSION['role'] != "admin") {
@@ -465,32 +476,32 @@ session_start();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($liste->listeReservations()); $i++) {
+                            for ($i=0; $i < count($listeReservation->listeReservations()); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['email']?>
+                                        <?= $listeReservation->listeReservations()[$i]['email']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['nb_place']?>
+                                        <?= $listeReservation->listeReservations()[$i]['nb_place']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['date_seance']?>
+                                        <?= $listeReservation->listeReservations()[$i]['date_seance']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['heure']?>
+                                        <?= $listeReservation->listeReservations()[$i]['heure']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['titre']?>
+                                        <?= $listeReservation->listeReservations()[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <form action="src/traitement/gestionFilm.php" method="post">
+                                        <form action="src/traitement/gestionReservation.php" method="post">
                                             <input type="hidden" name="seance" >
                                             <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
                                         </form>
                                         <br>
-                                        <form action=action="src/traitement/gestionFilm.php" method="post">
-                                            <input    type="hidden" name="seance" ">
+                                        <form action="src/traitement/gestionReservation.php" method="post">
+                                            <input type="hidden" name="id_reservation" value="<?=$listeReservation->listeReservations()[$i]['id_reservation']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer">
                                         </form>
                                     </td>
@@ -567,9 +578,9 @@ session_start();
                                     </div>
                                 </form>
                                 <?php
-                                if(isset($_POST['ajoutUser'])){
-                                    $user->ajoutAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['role']);
-                                }
+                                //if(isset($_POST['ajoutUser'])){
+                                //    $user->ajoutAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['role']);
+                                //}
                                 ?>
                             </div>
                         </div>
@@ -587,26 +598,26 @@ session_start();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($liste->listeUtilisateurs()); $i++) {
+                            for ($i=0; $i < count($listeUser->listeUtilisateurs()); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $liste->listeUtilisateurs()[$i]['nom']?>
+                                        <?= $listeUser->listeUtilisateurs()[$i]['nom']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeUtilisateurs()[$i]['prenom']?>
+                                        <?= $listeUser->listeUtilisateurs()[$i]['prenom']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeUtilisateurs()[$i]['email']?>
+                                        <?= $listeUser->listeUtilisateurs()[$i]['email']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeUtilisateurs()[$i]['role']?>
+                                        <?= $listeUser->listeUtilisateurs()[$i]['role']?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
                                         <br><br>
                                         <form method="post">
-                                            <input type="hidden" name="idsup" value="<?=$liste->listeUtilisateurs()[$i]['id_user']?>">
+                                            <input type="hidden" name="idsup" value="<?=$listeUser->listeUtilisateurs()[$i]['id_user']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
                                         </form>
                                     </td>
@@ -624,17 +635,17 @@ session_start();
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
-                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$liste->listeUtilisateurs()[$i]['nom']?>" name="nom">
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUser->listeUtilisateurs()[$i]['nom']?>" name="nom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Prenom
-                                                            <input type="text" class="form-control" value="<?=$liste->listeUtilisateurs()[$i]['prenom']?>" name="prenom">
+                                                            <input type="text" class="form-control" value="<?=$listeUser->listeUtilisateurs()[$i]['prenom']?>" name="prenom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Address Email
-                                                            <input type="email" class="form-control" value="<?=$liste->listeUtilisateurs()[$i]['email']?>" name="email">
+                                                            <input type="email" class="form-control" value="<?=$listeUser->listeUtilisateurs()[$i]['email']?>" name="email">
                                                         </label>
                                                     </div>
                                                     <label>Rôle
@@ -646,17 +657,17 @@ session_start();
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input class="btn btn-primary" type="hidden" value="<?= $liste->listeUtilisateurs()[$i]['id_user']?>" name="idmodif">
+                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUser->listeUtilisateurs()[$i]['id_user']?>" name="idmodif">
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
                                                 </div>
                                             </form>
                                             <?php
-                                            if (isset($_POST['modifierAdmin'])) {
-                                                $user->updateAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['role'],$_POST['idmodif']);
-                                            }
-                                            if (isset($_POST['supprimerAdmin'])) {
-                                                $user->suppAdmin($_POST['idsup']);
-                                            }
+                                            //if (isset($_POST['modifierAdmin'])) {
+                                            //    $user->updateAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['role'],$_POST['idmodif']);
+                                            //}
+                                            //if (isset($_POST['supprimerAdmin'])) {
+                                            //    $user->suppAdmin($_POST['idsup']);
+                                            //}
                                             ?>
                                         </div>
                                     </div>
@@ -693,9 +704,9 @@ session_start();
                                                 <div class="form-group">
                                                     <label>Film
                                                         <select name="titre" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($liste->listeFilms()); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($listeFilm->listeFilms()); $j++ ) {
                                                                 ?>
-                                                                <option value="<?= $liste->listeFilms()[$j]['id_film'] ?>"><?= $liste->listeFilms()[$j]['titre'] ?> </option>
+                                                                <option value="<?= $listeFilm->listeFilms()[$j]['id_film'] ?>"><?= $listeFilm->listeFilms()[$j]['titre'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -714,9 +725,9 @@ session_start();
                                                 <div class="form-group">
                                                     <label>Salle
                                                         <select name="salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($liste->listeSalle()); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($listeSalle->listeSalle()); $j++ ) {
                                                                 ?>
-                                                                <option><?= $liste->listeSeances()[$j]['salle'] ?> </option>
+                                                                <option><?= $listeSeance->listeSeances()[$j]['salle'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -734,11 +745,6 @@ session_start();
                                                 <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutSeance">
                                             </div>
                                         </form>
-                                        <?php
-                                        if (isset($_POST['ajoutSeance'])){
-                                            $seance->ajouter($_POST['date'],$_POST['heure'],$_POST['salle'],$_POST['titre'],$_POST['place']);
-                                        }
-                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -758,37 +764,37 @@ session_start();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($liste->listeSeances()); $i++) {
+                            for ($i=0; $i < count($listeSeance->listeSeances()); $i++) {
                             ?>
                             <tr>
                                 <td>
-                                    <?= $liste->listeSeances()[$i]['titre']?>
+                                    <?= $listeSeance->listeSeances()[$i]['titre']?>
                                 </td>
                                 <td>
-                                    <?= $liste->listeSeances()[$i]['date_seance']?>
+                                    <?= $listeSeance->listeSeances()[$i]['date_seance']?>
                                 </td>
                                 <td>
-                                    <?= $liste->listeSeances()[$i]['heure']?>
+                                    <?= $listeSeance->listeSeances()[$i]['heure']?>
                                 </td>
                                 <td>
-                                    <?= $liste->listeSeances()[$i]['salle']?>
+                                    <?= $listeSeance->listeSeances()[$i]['salle']?>
                                 </td>
                                 <td>
-                                    <?= $liste->listeSeances()[$i]['nb_place_dispo']?>
+                                    <?= $listeSeance->listeSeances()[$i]['prix']?>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
                                     <br><br>
                                     <form method="post">
-                                        <input type="hidden" name="idsup" value="<?=$liste->listeSeances()[$i]['id_seance']?>">
+                                        <input type="hidden" name="idsup" value="<?=$listeSeance->listeSeances()[$i]['id_seance']?>">
                                         <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerSeance">
                                     </form>
                                 </td>
                             </tr>
                             <?php
-                            if (isset($_POST['supprimerSeance'])){
-                                $seance->supprimer($_POST['idsup']);
-                            }
+                            //if (isset($_POST['supprimerSeance'])){
+                            //    $seance->supprimer($_POST['idsup']);
+                            //}
                             ?>
                             <div class="modal fade" id="modifSeance<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifSeance" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -804,9 +810,9 @@ session_start();
                                                 <div class="form-group">
                                                     <label>Titre
                                                         <select name="titre"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($liste->listeFilms()); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($listeFilm->listeFilms()); $j++ ) {
                                                                 ?>
-                                                                <option value="<?= $liste->listeFilms()[$j]['id_film'] ?>"><?= $liste->listeFilms()[$j]['titre'] ?> </option>
+                                                                <option value="<?= $listeFilm->listeFilms()[$j]['id_film'] ?>"><?= $listeFilm->listeFilms()[$j]['titre'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -814,20 +820,20 @@ session_start();
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Date
-                                                        <input type="date" class="form-control" value="<?=$liste->listeSeances()[$i]['date_seance']?>" name="date">
+                                                        <input type="date" class="form-control" value="<?=$listeSeance->listeSeances()[$i]['date_seance']?>" name="date">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Heure
-                                                        <input type="text" class="form-control" value="<?=$liste->listeSeances()[$i]['heure']?>" name="heure">
+                                                        <input type="text" class="form-control" value="<?=$listeSeance->listeSeances()[$i]['heure']?>" name="heure">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Salle
                                                         <select name="salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($liste->listeSalle()); $j++ ) {
+                                                            <?php for ($j = 0 ; $j < count($listeSalle->listeSalle()); $j++ ) {
                                                                 ?>
-                                                                <option><?= $liste->listeSeances()[$j]['salle'] ?> </option>
+                                                                <option><?= $listeSeance->listeSeances()[$j]['salle'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -835,22 +841,18 @@ session_start();
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nombre de place dispo
-                                                        <input type="text" class="form-control" value="<?=$liste->listeSeances()[$i]['nb_place_dispo']?>" name="nbPlace">
+                                                        <input type="text" class="form-control" value="<?=$listeSeance->listeSeances()[$i]['prix']?>" name="prix">
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $liste->listeSeances()[$i]['id_seance']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeSeance->listeSeances()[$i]['id_seance']?>" name="idmodif">
                                                 <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierSeance">
                                             </div>
                                             </tr>
                                         </form>
-                                        <?php
-                                        if (isset($_POST['modifierSeance'])){
-                                            $seance->modifier($_POST['date'],$_POST['heure'],$_POST['salle'],$_POST['titre'],$_POST['nbPlace'],$_POST['idmodif']);
-                                        }
-                                        ?>
+
                                         <?php
                                         } ?>
                                     </div>
