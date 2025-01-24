@@ -153,9 +153,9 @@ session_start();
         <div>
             <h4 class="text-uppercase mb-4">Adresse : </h4>
             <p class="lead mb-0">
-                RUE
+                5 Av. du Général de Gaulle,
                 <br />
-                Ville Code postal
+                93440, Dugny
             </p>
         </div>
     </div>
