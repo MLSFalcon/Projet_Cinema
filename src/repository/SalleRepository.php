@@ -4,7 +4,7 @@ class SalleRepository
 {
 public function ajouter($salle){
     $bdd = new Bdd() ;
-    $req = $bdd ->getBdd->prepare("INSERT INTO salle(nb_place) VALUES(:nbPlace)");
+    $req = $bdd ->getBdd()->prepare("INSERT INTO salle(nb_place) VALUES(:nbPlace)");
     $req -> execute(array('nbPlace' => $salle->getNbPlace()));
 }
 public function modifier($salle){
@@ -21,10 +21,11 @@ public function supprimer($salle){
 }
 
 public function listeSalle(){
-        $req = $this->bdd->getBdd()->prepare("SELECT * FROM salle");
-        $req->execute();
-        $listeSalle = $req->fetchAll();
-        $req->closeCursor();
-        return $listeSalle;
+    $bdd = new Bdd() ;
+    $req = $bdd->getBdd()->prepare("SELECT * FROM salle");
+    $req->execute();
+    $listeSalle = $req->fetchAll();
+    $req->closeCursor();
+    return $listeSalle;
     }
 }

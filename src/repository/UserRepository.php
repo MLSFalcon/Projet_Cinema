@@ -68,7 +68,7 @@ var_dump($donnee);
         $reqSupp->closeCursor();
     }
 
-    public function listeUsers()
+    public function listeUtilisateurs()
     {
         $bddUser = new Bdd();
         $req = $bddUser->getBdd()-> prepare('SELECT * FROM utilisateur');

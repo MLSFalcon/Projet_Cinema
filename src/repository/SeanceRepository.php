@@ -42,7 +42,7 @@ class SeanceRepository
 
     public function listeSeances(){
     $bddUser = new Bdd();
-    $req = $bddUser->getBdd()->query("SELECT * FROM seance");
+    $req = $bddUser->getBdd()->query("SELECT film.titre, seance.id_seance, seance.date_seance, seance.heure, seance.prix, seance.ref_salle as salle  FROM `film` INNER JOIN `seance` ON film.id_film = seance.ref_film");
     $req->execute();
     $listeSeances = $req->fetchAll();
 
