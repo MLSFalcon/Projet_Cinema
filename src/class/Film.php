@@ -1,7 +1,7 @@
 <?php
 class Film
 {
-    private $idFilm;
+    private $id_film;
     private $titre;
     private $resume;
     private $genre;
@@ -24,9 +24,9 @@ class Film
     /**
      * @return mixed
      */
-    public function getIdFilm()
+    public function getId_film()
     {
-        return $this->idFilm;
+        return $this->id_film;
     }
 
     /**

@@ -6,11 +6,14 @@ require_once "../class/Film.php";
 $action = new FilmRepository();
 if (isset($_POST['ajoutFilm'])){
     $action->ajouter($film = new Film($_POST));
-    header("location: ../");
+    header("location: ../../admin.php");
 }
 if (isset($_POST['supprimerFilm'])){
     $action->supprimer($film = new Film($_POST));
+    var_dump($action);
+   // header("location: ../../admin.php");
 }
 if (isset($_POST['modifierFilm'])){
     $action->modifier($film = new Film($_POST));
+    header("location: ../../admin.php");
 }

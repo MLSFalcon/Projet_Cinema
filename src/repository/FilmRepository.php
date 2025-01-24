@@ -14,7 +14,7 @@ class FilmRepository
             "genre" => $film->getGenre(),
             "duree" => $film->getDuree(),
             "image" => $film->getImage(),
-            "id" => $film->getIdFilm()
+            "id" => $film->getId_film()
         ));
         $reqModif->closeCursor();
     }
@@ -43,6 +43,7 @@ class FilmRepository
      */
     public function supprimer($film)
     {
+        var_dump($film);
         $bdd = new Bdd();
         $reqSupp = $bdd->getBdd()->prepare("DELETE FROM film WHERE id_film = :id");
         $reqSupp->execute(array(
