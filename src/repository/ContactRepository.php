@@ -42,7 +42,7 @@ class ContactRepository
         $bddUser = new Bdd();
         $reqList = $bddUser->getBdd()->query("SELECT * FROM contact");
         $listeContacts = $reqList->fetchAll();
-        
+
         return $listeContacts;
     }
 }
