@@ -44,7 +44,7 @@ public function delete($reservation)
 }
 
 public function listeReservations(){
-    $requete = $this->bdd->getBdd()->prepare("SELECT * FROM `reservation`");
+    $requete = $this->bdd->getBdd()->prepare("SELECT utilisateur.email, reservation.nb_place, seance.date_seance, seance.heure, seance.ref_salle, film.titre, reservation.id_reservation FROM `utilisateur` INNER JOIN reservation ON utilisateur.id_user = reservation.ref_user INNER JOIN seance ON reservation.ref_seance = seance.id_seance INNER JOIN film ON seance.ref_film = film.id_film");
     $requete->execute();
     $listeReservations = $requete->fetchAll();
     $requete->closeCursor();

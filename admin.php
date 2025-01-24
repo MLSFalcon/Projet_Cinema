@@ -485,7 +485,7 @@ session_start();
                                         <?= $listeReservation->listeReservations()[$i]['heure']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['titre']?>
+                                        <?= $listeReservation->listeReservations()[$i]['titre']?>
                                     </td>
                                     <td>
                                         <form action="src/traitement/gestionReservation.php" method="post">
@@ -494,7 +494,7 @@ session_start();
                                         </form>
                                         <br>
                                         <form action="src/traitement/gestionReservation.php" method="post">
-                                            <input    type="hidden" name="seance" ">
+                                            <input type="hidden" name="id_reservation" value="<?=$listeReservation->listeReservations()[$i]['id_reservation']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer">
                                         </form>
                                     </td>
