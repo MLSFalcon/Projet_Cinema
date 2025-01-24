@@ -46,7 +46,7 @@ require_once "src/bdd/Bdd.php";
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>
                                 </div>
-                                <form class="user" method="post">
+                                <form class="user" method="post" action="src/traitement/gestionUser.php">
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
@@ -66,15 +66,10 @@ require_once "src/bdd/Bdd.php";
                                             ?>
                                         </div>
                                     </div>
-                                    <input type="submit" name="valider" class="btn btn-primary btn-user btn-block" value="Connexion">
+                                    <input type="submit" name="connexion" class="btn btn-primary btn-user btn-block" value="Connexion">
                                     <hr>
                                 </form>
-                                <?php
-                                $user = new User();
-                                if (isset($_POST['valider'])) {
-                                    $user->login($_POST['email'], $_POST['mdp']);
-                                }
-                                ?>
+
                                 <div class="text-center">
                                     <a class="small" href="forgot-password.html">Mot de passe oublié?</a>
                                 </div>
