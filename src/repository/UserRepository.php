@@ -62,4 +62,14 @@ class UserRepository
         $reqSupp->closeCursor();
     }
 
+    public function listeUsers()
+    {
+        $bddUser = new Bdd();
+        $req = $bddUser->getBdd()-> prepare('SELECT * FROM utilisateur');
+        $req -> execute();
+        $listeUsers = $req -> fetchAll();
+
+        return $listeUsers;
+    }
+
 }

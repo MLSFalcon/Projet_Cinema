@@ -40,4 +40,13 @@ class SeanceRepository
         $reqSupp->closeCursor();
     }
 
+    public function listeSeances(){
+    $bddUser = new Bdd();
+    $req = $bddUser->getBdd()->query("SELECT * FROM seance");
+    $req->execute();
+    $listeSeances = $req->fetchAll();
+
+    return $listeSeances;
+    }
+
 }
