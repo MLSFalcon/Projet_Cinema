@@ -1,33 +1,16 @@
 <?php
 require_once "src/bdd/Bdd.php";
-require_once "src/class/Liste.php";
 require_once "src/class/Film.php";
-require_once "src/class/Seance.php";
-require_once "src/class/User.php";
-$liste = new Liste();
-$film = new Film();
-$seance = new Seance();
-$user = new User();
+require_once "src/repository/FilmRepository.php";
+
+//liste film
+$listeFilm = new FilmRepository();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
-if ($_SESSION['role'] != "admin") {
-    header("Location: index.php");
-}
+//if ($_SESSION['role'] != "admin") {
+  //  header("Location: index.php");
+//}
 
-//Liste Utilisateurs
-$liste->listeUtilisateurs();
-
-//Liste Films
-$liste->listeFilms();
-
-//Liste Séances
-$liste->listeSeances();
-
-$liste->listeSeance();
-//Liste Reservation
-$liste->listeReservations();
-//Liste Salle
-$liste->listeSalle();
 ?>
 
 <!DOCTYPE html>
@@ -314,7 +297,7 @@ $liste->listeSalle();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post">
+                                        <form method="post" action="src/traitement/gestionFilm.php">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
@@ -353,11 +336,6 @@ $liste->listeSalle();
                             </div>
                         </div>
                     </div>
-                    <?php
-                    if (isset($_POST['ajoutFilm'])){
-                        $film->ajouter($_POST['titre'],$_POST['resume'],$_POST['genre'],$_POST['duree'],$_POST['image']);
-                    }
-                    ?>
                     <div class="card-body">
                         <table style="width: 100%;" id="films">
                             <thead>
@@ -372,38 +350,34 @@ $liste->listeSalle();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($liste->listeFilms()); $i++) {
+                            for ($i=0; $i < count($listeFilm->listeFilms()); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <img width="125" height="150" src="<?= $liste->listeFilms()[$i]['image']?>">
+                                        <img width="125" height="150" src="<?= $listeFilm->listeFilms()[$i]['image']?>">
                                     </td>
                                     <td>
-                                        <?= $liste->listeFilms()[$i]['titre']?>
+                                        <?= $listeFilm->listeFilms()[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeFilms()[$i]['resume']?>
+                                        <?= $listeFilm->listeFilms()[$i]['resume']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeFilms()[$i]['genre']?>
+                                        <?= $listeFilm->listeFilms()[$i]['genre']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeFilms()[$i]['duree']?>
+                                        <?= $listeFilm->listeFilms()[$i]['duree']?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
                                         <br><br>
-                                        <form method="post">
-                                            <input type="hidden" name="idsup" value="<?=$liste->listeFilms()[$i]['id_film']?>">
+                                        <form method="post" action="src/traitement/gestionFilm.php">
+                                            <input type="hidden" name="idsup" value="<?=$listeFilm->listeFilms()[$i]['id_film']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
                                         </form>
                                     </td>
                                 </tr>
-                                <?php
-                                if (isset($_POST['supprimerFilm'])){
-                                    $film ->supprimer($_POST['idsup']);
-                                }
-                                ?>
+
                             <div class="modal fade" id="modifFilm<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifFilm" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -413,49 +387,47 @@ $liste->listeSalle();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post">
+                                        <form method="post" action="src/traitement/gestionFilm.php">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
-                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$liste->listeFilms()[$i]['image']?>" name="image">
+                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilm->listeFilms()[$i]['image']?>" name="image">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Titre
-                                                        <input type="text" class="form-control" value="<?=$liste->listeFilms()[$i]['titre']?>" name="titre">
+                                                        <input type="text" class="form-control" value="<?=$listeFilm->listeFilms()[$i]['titre']?>" name="titre">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Résumé
-                                                        <input texte class="form-control" value="<?=$liste->listeFilms()[$i]['resume']?>" name="resume">
+                                                        <input texte class="form-control" value="<?=$listeFilm->listeFilms()[$i]['resume']?>" name="resume">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Genre
-                                                        <input texte class="form-control" value="<?=$liste->listeFilms()[$i]['genre']?>" name="genre">
+                                                        <input texte class="form-control" value="<?=$listeFilm->listeFilms()[$i]['genre']?>" name="genre">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input texte class="form-control" value="<?=$liste->listeFilms()[$i]['duree']?>" name="duree">
+                                                        <input texte class="form-control" value="<?=$listeFilm->listeFilms()[$i]['duree']?>" name="duree">
                                                     </label>
                                                 </div>
                                             </div>
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $liste->listeFilms()[$i]['id_film']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeFilm->listeFilms()[$i]['id_film']?>" name="idmodif">
                                                 <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierFilm">
                                             </div>
                                         </form>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
-                                <?php
-                                if (isset($_POST['modifierFilm'])){
-                                    $film->modifier($_POST['titre'],$_POST['resume'],$_POST['genre'],$_POST['duree'],$_POST['image'],$_POST['idmodif']);
-                                }
-                            } ?>
                             </tbody>
                         </table>
                     </div>
@@ -512,12 +484,12 @@ $liste->listeSalle();
                                         <?= $liste->listeReservations()[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <form action="" method="post">
+                                        <form action="src/traitement/gestionFilm.php" method="post">
                                             <input type="hidden" name="seance" >
                                             <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
                                         </form>
                                         <br>
-                                        <form action="" method="post">
+                                        <form action=action="src/traitement/gestionFilm.php" method="post">
                                             <input    type="hidden" name="seance" ">
                                             <input class="btn btn-primary" type="submit" value="supprimer">
                                         </form>
