@@ -43,8 +43,12 @@ public function delete($reservation)
     return true;
 }
 
-public function listeReservation($reservation){
-    return $reservation;
+public function listeReservations(){
+    $requete = $this->bdd->getBdd()->prepare("SELECT * FROM `reservation`");
+    $requete->execute();
+    $listeReservations = $requete->fetchAll();
+    $requete->closeCursor();
+    return $listeReservations;
 }
 
 }

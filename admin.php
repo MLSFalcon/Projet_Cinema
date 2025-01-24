@@ -1,10 +1,14 @@
 <?php
 require_once "src/bdd/Bdd.php";
 require_once "src/class/Film.php";
+require_once "src/class/Reservation.php";
 require_once "src/repository/FilmRepository.php";
+require_once "src/repository/ReservationRepository.php";
 
 //liste film
 $listeFilm = new FilmRepository();
+//liste reservation
+$listeReservation = new ReservationRepository();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 //if ($_SESSION['role'] != "admin") {
@@ -465,31 +469,31 @@ session_start();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($liste->listeReservations()); $i++) {
+                            for ($i=0; $i < count($listeReservation->listeReservations()); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['email']?>
+                                        <?= $listeReservation->listeReservations()[$i]['email']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['nb_place']?>
+                                        <?= $listeReservation->listeReservations()[$i]['nb_place']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['date_seance']?>
+                                        <?= $listeReservation->listeReservations()[$i]['date_seance']?>
                                     </td>
                                     <td>
-                                        <?= $liste->listeReservations()[$i]['heure']?>
+                                        <?= $listeReservation->listeReservations()[$i]['heure']?>
                                     </td>
                                     <td>
                                         <?= $liste->listeReservations()[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <form action="src/traitement/gestionFilm.php" method="post">
+                                        <form action="src/traitement/gestionReservation.php" method="post">
                                             <input type="hidden" name="seance" >
                                             <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
                                         </form>
                                         <br>
-                                        <form action=action="src/traitement/gestionFilm.php" method="post">
+                                        <form action="src/traitement/gestionReservation.php" method="post">
                                             <input    type="hidden" name="seance" ">
                                             <input class="btn btn-primary" type="submit" value="supprimer">
                                         </form>
