@@ -37,4 +37,12 @@ class ContactRepository
         ));
         $reqSupp->closeCursor();
     }
+
+    public function listeContacts(){
+        $bddUser = new Bdd();
+        $reqList = $bddUser->getBdd()->query("SELECT * FROM contact");
+        $listeContacts = $reqList->fetchAll();
+        
+        return $listeContacts;
+    }
 }
