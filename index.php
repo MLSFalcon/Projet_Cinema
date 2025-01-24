@@ -5,8 +5,7 @@ require_once "src/class/User.php";
 $films = new FilmRepository();
 
 session_start();
-/** @var User $User */
-$User = $_SESSION['user'];
+
 
 ?>
 
@@ -43,10 +42,10 @@ $User = $_SESSION['user'];
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
                 <?php
-                if (isset($_SESSION)) {
+                if (isset($_SESSION['user'])) {
                     echo '
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="profil.php">Profil</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="traitement/gestionDeconnexion.php">Déconnexion</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="src/traitement/gestionUser.php?deconnexion=oui">Déconnexion</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="contact.php">Contact</a></li>
                     ';
                 }else{
@@ -56,7 +55,9 @@ $User = $_SESSION['user'];
                         ';
                 }
 
-                if (isset($_SESSION)) {
+                if (isset($_SESSION['user'])) {
+                    /** @var User $User */
+                    $User = $_SESSION['user'];
                     if ($User->getRole() == 'admin') {
                         echo '<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="admin.php">Admin</a></li>';
                     }

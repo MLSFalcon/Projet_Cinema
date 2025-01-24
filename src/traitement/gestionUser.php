@@ -3,6 +3,8 @@ require_once '../bdd/bdd.php';
 require_once '../class/User.php';
 require_once '../repository/UserRepository.php';
 
+var_dump($_GET);
+
 if (isset($_POST['connexion'])) {
     $hydrated = array(
         'email' => $_POST['email'],
@@ -26,6 +28,10 @@ if (isset($_POST['connexion'])) {
         $_SESSION['user'] = $utilisateur;
        header('Location: ../../index.php');
     }
-
+}
+if (isset($_GET['deconnexion'])) {
+    session_start();
+    session_destroy();
+    header('Location: ../../index.php');
 }
 ?>
