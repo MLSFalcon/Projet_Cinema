@@ -8,10 +8,10 @@ class User
     private $email;
     private $mdp;
     private $role;
-    public function __construct($array){
+    public function __construct(array $array){
         $this->hydrate($array);
     }
-    public function hydrate($array){
+    public function hydrate(array $array){
         foreach ($array as $key => $value){
             $method = 'set'.ucfirst($key);
             if (method_exists($this, $method)){
@@ -20,12 +20,12 @@ class User
         }
     }
 
-    public function getIdUser()
+    public function getId_User()
     {
         return $this->id_user;
     }
 
-    public function setIdUser($id_user)
+    public function setId_User($id_user)
     {
         $this->id_user = $id_user;
     }

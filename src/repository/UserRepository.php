@@ -1,5 +1,5 @@
 <?php
-
+require_once '../class/User.php';
 class UserRepository
 {
     public function register($user)
@@ -26,16 +26,22 @@ class UserRepository
 
     }
 
-    public function login($connexion){
+    public function login(User $connexion)
+    {
         $bddUser = new Bdd();
-        $req = $bddUser->getBdd()-> prepare('SELECT * FROM utilisateur WHERE email = :email');
-        $req -> execute(array(
+        $req = $bddUser->getBdd()->prepare('SELECT * FROM utilisateur WHERE email = :email');
+        $req->execute(array(
             'email' => $connexion->getEmail(),
         ));
-        $donnee = $req -> fetch();
-
-        $User = new User($donnee);
-        return $User;
+        $donnee = $req->fetch();
+        var_dump($connexion);
+var_dump($donnee);
+        if ($donnee && password_verify($connexion->getMdp(), $donnee['mdp'])) {
+            $user = new User($donnee);
+            return $user;
+        } else {
+            return false;
+        }
     }
 
     public function update($user)
