@@ -21,7 +21,6 @@ $listeSeance = $listeSeance->listeSeances();
 //liste Salle
 $listeSalle = new SalleRepository();
 $listeSalle = $listeSalle->listeSalle();
-var_dump($listeReservation);
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 //if ($_SESSION['role'] != "admin") {
@@ -524,25 +523,19 @@ session_start();
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Prenom
-                                                            <input type="text" class="form-control" value="<?=$listeUser[$i]['prenom']?>" name="prenom">
+                                                        <label>Id User
+                                                            <input type="text" class="form-control" value="<?=$listeReservation[$i]['ref_user']?>" name="prenom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label>Address Email
-                                                            <input type="email" class="form-control" value="<?=$listeUser[$i]['email']?>" name="email">
+                                                        <label>Film
+                                                            <input type="email" class="form-control" value="<?=$listeReservation[$i]['titre']?>" name="email">
                                                         </label>
                                                     </div>
-                                                    <label>Rôle
-                                                        <select class="form-control" name="role">
-                                                            <option value="utilisateur">utilisateur</option>
-                                                            <option value="admin">admin</option>
-                                                        </select>
-                                                    </label>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUser[$i]['id_user']?>" name="id_user">
+                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeReservation[$i]['id_reservation']?>" name="id_user">
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
                                                 </div>
                                             </form>
