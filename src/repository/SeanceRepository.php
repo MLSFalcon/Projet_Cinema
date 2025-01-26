@@ -4,12 +4,12 @@ class SeanceRepository
 {   public function nouvelleSeance($seance){
     $bddUser = new Bdd();
 
-    $req = $bddUser->getBdd()->prepare('INSERT INTO date_seance(date_seance, heure, ref_salle, ref_film, prix) VALUES(:date_seance, :heure, :ref_salle, :ref_film, :prix)');
+    $req = $bddUser->getBdd()->prepare('INSERT INTO seance(date_seance, heure, ref_salle, ref_film, prix) VALUES(:date_seance, :heure, :ref_salle, :ref_film, :prix)');
     $req->execute(array(
-        'date_seance' => $seance->getDateSeance(),
+        'date_seance' => $seance->getDate_seance(),
         'heure' => $seance->getHeure(),
-        'ref_salle' => $seance->getRefSalle(),
-        'ref_film' => $seance->getRefFilm(),
+        'ref_salle' => $seance->getRef_salle(),
+        'ref_film' => $seance->getRef_film(),
         'prix' => $seance->getPrix()
     ));
     $req->closeCursor();
@@ -21,11 +21,12 @@ class SeanceRepository
         $bddUser = new Bdd();
         $reqModif = $bddUser->getBdd()->prepare("UPDATE seance SET date_seance = :date_seance, heure = :heure, ref_salle=:ref_salle, ref_film=:ref_film, prix=:prix WHERE id_seance = :id");
         $reqModif->execute(array(
-            'date_seance' => $seance->getDateSeance(),
+            'date_seance' => $seance->getDate_seance(),
             'heure' => $seance->getHeure(),
-            'ref_salle' => $seance->getRefSalle(),
-            'ref_film' => $seance->getRefFilm(),
-            'prix' => $seance->getPrix()
+            'ref_salle' => $seance->getRef_salle(),
+            'ref_film' => $seance->getRef_film(),
+            'prix' => $seance->getPrix(),
+            'id' => $seance->getId_seance(),
         ));
         $reqModif->closeCursor();
     }
@@ -35,7 +36,7 @@ class SeanceRepository
         $bddUser = new Bdd();
         $reqSupp = $bddUser->getBdd()->prepare("DELETE FROM seance WHERE id_seance = :id");
         $reqSupp->execute(array(
-            'id' => $seance->getIdSeance()
+            'id' => $seance->getId_seance()
         ));
         $reqSupp->closeCursor();
     }

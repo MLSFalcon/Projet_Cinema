@@ -8,14 +8,20 @@ require_once "src/repository/SalleRepository.php";
 
 //liste film
 $listeFilm = new FilmRepository();
+$listeFilm= $listeFilm->listeFilms();
 //liste reservation
 $listeReservation = new ReservationRepository();
+$listeReservation= $listeReservation->listeReservations();
 //liste Users
 $listeUser = new UserRepository();
+$listeUser = $listeUser->listeUtilisateurs();
 //liste Séances
 $listeSeance = new SeanceRepository();
+$listeSeance = $listeSeance->listeSeances();
 //liste Salle
 $listeSalle = new SalleRepository();
+$listeSalle = $listeSalle->listeSalle();
+var_dump($listeReservation);
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 //if ($_SESSION['role'] != "admin") {
@@ -322,21 +328,20 @@ session_start();
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Résumé
-                                                        <input texte class="form-control" name="resume">
+                                                        <input type="text" class="form-control" name="resume">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Genre
-                                                        <input texte class="form-control" name="genre">
+                                                        <input type="text" class="form-control" name="genre">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input texte class="form-control" name="duree">
+                                                        <input type="text" class="form-control" name="duree">
                                                     </label>
                                                 </div>
                                             </div>
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                 <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutFilm">
@@ -361,29 +366,29 @@ session_start();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeFilm->listeFilms()); $i++) {
+                            for ($i=0; $i < count($listeFilm); $i++) {
+
                                 ?>
                                 <tr>
                                     <td>
-                                        <img width="125" height="150" src="<?= $listeFilm->listeFilms()[$i]['image']?>">
+                                        <img width="125" height="150" src="<?= $listeFilm[$i]['image']?>" alt="">
                                     </td>
                                     <td>
-                                        <?= $listeFilm->listeFilms()[$i]['titre']?>
+                                        <?= $listeFilm[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <?= $listeFilm->listeFilms()[$i]['resume']?>
+                                        <?= $listeFilm[$i]['resume']?>
                                     </td>
                                     <td>
-                                        <?= $listeFilm->listeFilms()[$i]['genre']?>
+                                        <?= $listeFilm[$i]['genre']?>
                                     </td>
                                     <td>
-                                        <?= $listeFilm->listeFilms()[$i]['duree']?>
-                                    </td>
+                                        <?= $listeFilm[$i]['duree']?>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
                                         <br><br>
                                         <form method="post" action="src/traitement/gestionFilm.php">
-                                            <input type="hidden" name="idsup" value="<?=$listeFilm->listeFilms()[$i]['id_film']?>">
+                                            <input type="hidden" name="id_film" value="<?=$listeFilm[$i]['id_film']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
                                         </form>
                                     </td>
@@ -402,34 +407,33 @@ session_start();
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
-                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilm->listeFilms()[$i]['image']?>" name="image">
+                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilm[$i]['image']?>" name="image">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Titre
-                                                        <input type="text" class="form-control" value="<?=$listeFilm->listeFilms()[$i]['titre']?>" name="titre">
+                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['titre']?>" name="titre">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Résumé
-                                                        <input texte class="form-control" value="<?=$listeFilm->listeFilms()[$i]['resume']?>" name="resume">
+                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['resume']?>" name="resume">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Genre
-                                                        <input texte class="form-control" value="<?=$listeFilm->listeFilms()[$i]['genre']?>" name="genre">
+                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['genre']?>" name="genre">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input texte class="form-control" value="<?=$listeFilm->listeFilms()[$i]['duree']?>" name="duree">
+                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['duree']?>" name="duree">
                                                     </label>
                                                 </div>
                                             </div>
-
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeFilm->listeFilms()[$i]['id_film']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeFilm[$i]['id_film']?>" name="id_film">
                                                 <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierFilm">
                                             </div>
                                         </form>
@@ -476,37 +480,75 @@ session_start();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeReservation->listeReservations()); $i++) {
+                            for ($i=0; $i < count($listeReservation); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $listeReservation->listeReservations()[$i]['email']?>
+                                        <?= $listeReservation[$i]['email']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservation->listeReservations()[$i]['nb_place']?>
+                                        <?= $listeReservation[$i]['nb_place']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservation->listeReservations()[$i]['date_seance']?>
+                                        <?= $listeReservation[$i]['date_seance']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservation->listeReservations()[$i]['heure']?>
+                                        <?= $listeReservation[$i]['heure']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservation->listeReservations()[$i]['titre']?>
+                                        <?= $listeReservation[$i]['titre']?>
                                     </td>
                                     <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifReservation<?=$i?>">modifier</button>
+                                        <br><br>
                                         <form action="src/traitement/gestionReservation.php" method="post">
-                                            <input type="hidden" name="seance" >
-                                            <input class="btn btn-primary" type="submit" value="modifier" name="modifier">
-                                        </form>
-                                        <br>
-                                        <form action="src/traitement/gestionReservation.php" method="post">
-                                            <input type="hidden" name="id_reservation" value="<?=$listeReservation->listeReservations()[$i]['id_reservation']?>">
+                                            <input type="hidden" name="id_reservation" value="<?=$listeReservation[$i]['id_reservation']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer">
                                         </form>
                                     </td>
-
                                 </tr>
+                                <div class="modal fade" id="modifReservation<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifReservation" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="src/traitement/gestionUser.php" method="post">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label>Nombre de places
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeReservation[$i]['nb_place']?>" name="nb_place">
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Prenom
+                                                            <input type="text" class="form-control" value="<?=$listeUser[$i]['prenom']?>" name="prenom">
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Address Email
+                                                            <input type="email" class="form-control" value="<?=$listeUser[$i]['email']?>" name="email">
+                                                        </label>
+                                                    </div>
+                                                    <label>Rôle
+                                                        <select class="form-control" name="role">
+                                                            <option value="utilisateur">utilisateur</option>
+                                                            <option value="admin">admin</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUser[$i]['id_user']?>" name="id_user">
+                                                    <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 <?php
                             } ?>
                             </tbody>
@@ -543,7 +585,7 @@ session_start();
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form  method="post">
+                                <form action="src/traitement/gestionUser.php" method="post">
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label>Nom
@@ -574,14 +616,9 @@ session_start();
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <input class="btn btn-primary" type="submit" name="ajoutUser">
+                                        <input class="btn btn-primary" type="submit" name="ajoutUser" value="Ajouter"">
                                     </div>
                                 </form>
-                                <?php
-                                //if(isset($_POST['ajoutUser'])){
-                                //    $user->ajoutAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['mdp'],$_POST['role']);
-                                //}
-                                ?>
                             </div>
                         </div>
                     </div>
@@ -598,27 +635,27 @@ session_start();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeUser->listeUtilisateurs()); $i++) {
+                            for ($i=0; $i < count($listeUser); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $listeUser->listeUtilisateurs()[$i]['nom']?>
+                                        <?= $listeUser[$i]['nom']?>
                                     </td>
                                     <td>
-                                        <?= $listeUser->listeUtilisateurs()[$i]['prenom']?>
+                                        <?= $listeUser[$i]['prenom']?>
                                     </td>
                                     <td>
-                                        <?= $listeUser->listeUtilisateurs()[$i]['email']?>
+                                        <?= $listeUser[$i]['email']?>
                                     </td>
                                     <td>
-                                        <?= $listeUser->listeUtilisateurs()[$i]['role']?>
+                                        <?= $listeUser[$i]['role']?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
                                         <br><br>
-                                        <form method="post">
-                                            <input type="hidden" name="idsup" value="<?=$listeUser->listeUtilisateurs()[$i]['id_user']?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerAdmin">
+                                        <form action="src/traitement/gestionUser.php" method="post">
+                                            <input type="hidden" name="id_user" value="<?=$listeUser[$i]['id_user']?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimer">
                                         </form>
                                     </td>
                                 </tr>
@@ -631,44 +668,36 @@ session_start();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="post">
+                                            <form action="src/traitement/gestionUser.php" method="post">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
-                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUser->listeUtilisateurs()[$i]['nom']?>" name="nom">
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUser[$i]['nom']?>" name="nom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Prenom
-                                                            <input type="text" class="form-control" value="<?=$listeUser->listeUtilisateurs()[$i]['prenom']?>" name="prenom">
+                                                            <input type="text" class="form-control" value="<?=$listeUser[$i]['prenom']?>" name="prenom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Address Email
-                                                            <input type="email" class="form-control" value="<?=$listeUser->listeUtilisateurs()[$i]['email']?>" name="email">
+                                                            <input type="email" class="form-control" value="<?=$listeUser[$i]['email']?>" name="email">
                                                         </label>
                                                     </div>
                                                     <label>Rôle
-                                                        <select class="form-control" name="role" >
-                                                            <option>utilisateur</option>
-                                                            <option>admin</option>
+                                                        <select class="form-control" name="role">
+                                                            <option value="utilisateur">utilisateur</option>
+                                                            <option value="admin">admin</option>
                                                         </select>
                                                     </label>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUser->listeUtilisateurs()[$i]['id_user']?>" name="idmodif">
+                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUser[$i]['id_user']?>" name="id_user">
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
                                                 </div>
                                             </form>
-                                            <?php
-                                            //if (isset($_POST['modifierAdmin'])) {
-                                            //    $user->updateAdmin($_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['role'],$_POST['idmodif']);
-                                            //}
-                                            //if (isset($_POST['supprimerAdmin'])) {
-                                            //    $user->suppAdmin($_POST['idsup']);
-                                            //}
-                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -699,14 +728,14 @@ session_start();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post">
+                                        <form action="src/traitement/gestionSeance.php" method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Film
-                                                        <select name="titre" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeFilm->listeFilms()); $j++ ) {
+                                                        <select name="ref_film"  required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeFilm); $j++ ) {
                                                                 ?>
-                                                                <option value="<?= $listeFilm->listeFilms()[$j]['id_film'] ?>"><?= $listeFilm->listeFilms()[$j]['titre'] ?> </option>
+                                                                <option value="<?= $listeFilm[$j]['id_film'] ?>"><?= $listeFilm[$j]['titre'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -714,28 +743,28 @@ session_start();
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Date
-                                                        <input type="date" class="form-control" name="date" required>
+                                                        <input type="date" class="form-control" name="date_seance" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Heure
-                                                        <input texte class="form-control" name="heure" required>
+                                                        <input type="text" class="form-control" name="heure" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Salle
-                                                        <select name="salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSalle->listeSalle()); $j++ ) {
+                                                        <select name="ref_salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
                                                                 ?>
-                                                                <option><?= $listeSeance->listeSeances()[$j]['salle'] ?> </option>
+                                                                <option><?= $listeSeance[$j]['salle'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Place Disponible
-                                                        <input texte class="form-control" name="place" required>
+                                                    <label>Prix
+                                                        <input type class="form-control" name="prix" required>
                                                     </label>
                                                 </div>
                                             </div>
@@ -758,44 +787,39 @@ session_start();
                                 <td>Date</td>
                                 <td>Heure</td>
                                 <td>Salle</td>
-                                <td>Place Disponible</td>
+                                <td>Prix</td>
                                 <td>action</td>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeSeance->listeSeances()); $i++) {
-                            ?>
+                            for ($i=0; $i < count($listeSeance); $i++) {
+                                ?>
                             <tr>
                                 <td>
-                                    <?= $listeSeance->listeSeances()[$i]['titre']?>
+                                    <?= $listeSeance[$i]['titre']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeance->listeSeances()[$i]['date_seance']?>
+                                    <?= $listeSeance[$i]['date_seance']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeance->listeSeances()[$i]['heure']?>
+                                    <?= $listeSeance[$i]['heure']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeance->listeSeances()[$i]['salle']?>
+                                    <?= $listeSeance[$i]['salle']?>
                                 </td>
                                 <td>
-                                    <?= $listeSeance->listeSeances()[$i]['prix']?>
+                                    <?= $listeSeance[$i]['prix']?>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
                                     <br><br>
-                                    <form method="post">
-                                        <input type="hidden" name="idsup" value="<?=$listeSeance->listeSeances()[$i]['id_seance']?>">
+                                    <form action="src/traitement/gestionSeance.php" method="post">
+                                        <input type="hidden" name="id_seance" value="<?=$listeSeance[$i]['id_seance']?>">
                                         <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerSeance">
                                     </form>
                                 </td>
                             </tr>
-                            <?php
-                            //if (isset($_POST['supprimerSeance'])){
-                            //    $seance->supprimer($_POST['idsup']);
-                            //}
-                            ?>
                             <div class="modal fade" id="modifSeance<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifSeance" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -805,14 +829,14 @@ session_start();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post">
+                                        <form action="src/traitement/gestionSeance.php" method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Titre
-                                                        <select name="titre"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeFilm->listeFilms()); $j++ ) {
+                                                        <select name="ref_film"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeFilm); $j++ ) {
                                                                 ?>
-                                                                <option value="<?= $listeFilm->listeFilms()[$j]['id_film'] ?>"><?= $listeFilm->listeFilms()[$j]['titre'] ?> </option>
+                                                                <option value="<?= $listeFilm[$j]['id_film'] ?>"><?= $listeFilm[$j]['titre'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
@@ -820,34 +844,34 @@ session_start();
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Date
-                                                        <input type="date" class="form-control" value="<?=$listeSeance->listeSeances()[$i]['date_seance']?>" name="date">
+                                                        <input type="date" class="form-control" value="<?=$listeSeance[$i]['date_seance']?>" name="date_seance">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Heure
-                                                        <input type="text" class="form-control" value="<?=$listeSeance->listeSeances()[$i]['heure']?>" name="heure">
+                                                        <input type="text" class="form-control" value="<?=$listeSeance[$i]['heure']?>" name="heure">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Salle
-                                                        <select name="salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSalle->listeSalle()); $j++ ) {
+                                                        <select name="ref_salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
                                                                 ?>
-                                                                <option><?= $listeSeance->listeSeances()[$j]['salle'] ?> </option>
+                                                                <option><?= $listeSeance[$j]['salle'] ?> </option>
                                                                 <?php
                                                             } ?>
                                                         </select>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Nombre de place dispo
-                                                        <input type="text" class="form-control" value="<?=$listeSeance->listeSeances()[$i]['prix']?>" name="prix">
+                                                    <label>Prix
+                                                        <input type="text" class="form-control" value="<?=$listeSeance[$i]['prix']?>" name="prix">
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeSeance->listeSeances()[$i]['id_seance']?>" name="idmodif">
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeSeance[$i]['id_seance']?>" name="id_seance">
                                                 <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierSeance">
                                             </div>
                                             </tr>

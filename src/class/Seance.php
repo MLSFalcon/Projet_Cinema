@@ -1,12 +1,12 @@
 <?php
 class Seance
 {
-    private $idSeance;
-    private $dateSeance;
+    private $id_seance;
+    private $date_seance;
     private $heure;
-    private $refSalle;
-    private $refFilm;
-    private $nbPlaceDispo;
+    private $ref_salle;
+    private $ref_film;
+    private $prix;
     public function __construct($array) {
         $this->hydrate($array);
     }
@@ -15,7 +15,6 @@ class Seance
         foreach ($array as $key => $value) {
             // On récupère le nom du setter correspondant à l'attribut
             $method = 'set'.ucfirst($key);
-            var_dump($method);
 
             // Si le setter correspondant existe.
             if (method_exists($this, $method)) {
@@ -28,33 +27,33 @@ class Seance
     /**
      * @return mixed
      */
-    public function getIdSeance()
+    public function getId_seance()
     {
-        return $this->idSeance;
+        return $this->id_seance;
     }
 
     /**
-     * @param mixed $idSeance
+     * @param mixed $id_seance
      */
-    public function setIdSeance($idSeance)
+    public function setId_seance($id_seance)
     {
-        $this->idSeance = $idSeance;
+        $this->id_seance = $id_seance;
     }
 
     /**
      * @return mixed
      */
-    public function getDateSeance()
+    public function getDate_seance()
     {
-        return $this->dateSeance;
+        return $this->date_seance;
     }
 
     /**
-     * @param mixed $dateSeance
+     * @param mixed $date_seance
      */
-    public function setDateSeance($dateSeance)
+    public function setDate_seance($date_seance)
     {
-        $this->dateSeance = $dateSeance;
+        $this->date_seance = $date_seance;
     }
 
     /**
@@ -76,49 +75,49 @@ class Seance
     /**
      * @return mixed
      */
-    public function getRefSalle()
+    public function getRef_salle()
     {
-        return $this->refSalle;
+        return $this->ref_salle;
     }
 
     /**
-     * @param mixed $refSalle
+     * @param mixed $ref_salle
      */
-    public function setRefSalle($refSalle)
+    public function setRef_salle($ref_salle)
     {
-        $this->refSalle = $refSalle;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRefFilm()
-    {
-        return $this->refFilm;
-    }
-
-    /**
-     * @param mixed $refFilm
-     */
-    public function setRefFilm($refFilm)
-    {
-        $this->refFilm = $refFilm;
+        $this->ref_salle = $ref_salle;
     }
 
     /**
      * @return mixed
      */
-    public function getNbPlaceDispo()
+    public function getRef_film()
     {
-        return $this->nbPlaceDispo;
+        return $this->ref_film;
     }
 
     /**
-     * @param mixed $nbPlaceDispo
+     * @param mixed $ref_film
      */
-    public function setNbPlaceDispo($nbPlaceDispo)
+    public function setRef_film($ref_film)
     {
-        $this->nbPlaceDispo = $nbPlaceDispo;
+        $this->ref_film = $ref_film;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * @param mixed $prix
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
     }
     
 }

@@ -3,10 +3,10 @@
 
 class Reservation
 {
-    private $idReservation;
-    private $nbPlace;
-    private $refUser;
-    private $refSeance;
+    private $id_reservation;
+    private $nb_place;
+    private $ref_user;
+    private $ref_seance;
 
     private function hydrate($array) {
         foreach ($array as $key => $value) {
@@ -25,64 +25,64 @@ class Reservation
     /**
      * @return mixed
      */
-    public function getIdReservation()
+    public function getId_reservation()
     {
-        return $this->idReservation;
+        return $this->id_reservation;
     }
 
     /**
-     * @param mixed $idReservation
+     * @param mixed $id_reservation
      */
-    public function setIdReservation($idReservation)
+    public function setId_reservation($id_reservation)
     {
-        $this->idReservation = $idReservation;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNbPlace()
-    {
-        return $this->nbPlace;
-    }
-
-    /**
-     * @param mixed $nbPlace
-     */
-    public function setNbPlace($nbPlace)
-    {
-        $this->nbPlace = $nbPlace;
+        $this->id_reservation = $id_reservation;
     }
 
     /**
      * @return mixed
      */
-    public function getRefUser()
+    public function getNb_place()
     {
-        return $this->refUser;
+        return $this->nb_place;
     }
 
     /**
-     * @param mixed $refUser
+     * @param mixed $nb_place
      */
-    public function setRefUser($refUser)
+    public function setNb_place($nb_place)
     {
-        $this->refUser = $refUser;
+        $this->nb_place = $nb_place;
     }
 
     /**
      * @return mixed
      */
-    public function getRefSeance()
+    public function getRef_user()
     {
-        return $this->refSeance;
+        return $this->ref_user;
     }
 
     /**
-     * @param mixed $refSeance
+     * @param mixed $ref_user
      */
-    public function setRefSeance($refSeance)
+    public function setRef_user($ref_user)
     {
-        $this->refSeance = $refSeance;
+        $this->ref_user = $ref_user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRef_seance()
+    {
+        return $this->ref_seance;
+    }
+
+    /**
+     * @param mixed $ref_seance
+     */
+    public function setRef_seance($ref_seance)
+    {
+        $this->ref_seance = $ref_seance;
     }
 }

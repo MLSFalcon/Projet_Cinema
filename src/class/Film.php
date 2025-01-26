@@ -30,11 +30,11 @@ class Film
     }
 
     /**
-     * @param mixed $idFilm
+     * @param mixed $id_film
      */
-    public function setIdFilm($idFilm)
+    public function setId_film($id_film)
     {
-        $this->idFilm = $idFilm;
+        $this->id_film = $id_film;
     }
 
     /**
