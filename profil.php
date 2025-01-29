@@ -17,21 +17,15 @@ $UserRepository = new UserRepository();
 //liste reservation
 $listeReservation = new ReservationRepository();
 $listeReservation= $listeReservation->listeReservations();
+
+$nbReservation = $UserRepository->nombreResa($User);
+
+
 ?>
 
 
 <!DOCTYPE html>
 <html lang="fr">
-
-<?php
-
-//$requeteNbReserv = $bdd->prepare("SELECT COUNT(*) FROM `reservation` WHERE ref_user = :id_user");
-//$requeteNbReserv->execute(array('id_user' => $_SESSION['id_user']));
-//$nbReserv = $requeteNbReserv->fetch();
-//$requeteNbReserv->closeCursor();
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -201,7 +195,7 @@ $listeReservation= $listeReservation->listeReservations();
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Total de mes réservations</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">NOMBRE RES</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$nbReservation['COUNT(*)']?></div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -254,8 +248,8 @@ $listeReservation= $listeReservation->listeReservations();
                                         <?= $listeReservation[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="seance" >
+                                        <form action="src/traitement/gestionReservation.php" method="post">
+                                            <input type="hidden" name="reservation" value="<?=$listeReservation[$i]['id_reservation'] ?>" >
                                             <input class="btn btn-primary" type="submit" value="Annuler" name="annuler">
                                         </form>
                                         <br>
@@ -309,7 +303,7 @@ $listeReservation= $listeReservation->listeReservations();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="post">
+                                            <form method="post" action="src/traitement/gestionUser.php">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
@@ -334,16 +328,7 @@ $listeReservation= $listeReservation->listeReservations();
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifier">
                                                 </div>
                                             </form>
-                                            <?php
-                                            if (isset($_POST['modifier'])) {
-                                                $User->setNom($_POST['nom']);
-                                                $User->setPrenom($_POST['prenom']);
-                                                $User->setEmail($_POST['email']);
 
-                                                $UserRepository->update($User);
-                                            }
-
-                                            ?>
                                         </div>
                                     </div>
                                 </div>

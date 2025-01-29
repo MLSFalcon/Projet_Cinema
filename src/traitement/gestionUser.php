@@ -3,8 +3,10 @@ require_once '../bdd/bdd.php';
 require_once '../class/User.php';
 require_once '../repository/UserRepository.php';
 
-var_dump($_GET);
-var_dump($_POST);
+session_start();
+
+/** @var User $User */
+$User = $_SESSION['user'];
 
 if (isset($_POST['connexion'])) {
 
@@ -97,3 +99,20 @@ if (isset($_POST['supprimer'])){
     $supprimer->suppProfil($user);
     header('Location: ../../admin.php?');
 }
+
+
+if (isset($_POST['modifier'])) {
+    $hydrated = array(
+        'nom' => $_POST['nom'],
+        'prenom' => $_POST['prenom'],
+        'email' => $_POST['email'],
+        'role' => $User->getRole(),
+        'id_user' => $User->getId_User()
+    );
+    $User->hydrate($hydrated);
+    $modifier = new UserRepository();
+    $modifier->update($User);
+
+    header('Location: ../../profil.php?');
+}
+

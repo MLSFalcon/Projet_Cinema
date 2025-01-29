@@ -44,8 +44,11 @@ class UserRepository
 
     public function update($user)
     {
+        $sql = "UPDATE utilisateur 
+                SET nom = :nom, prenom = :prenom, email = :email, role = :role 
+                WHERE id_user = :id";
         $bddUser = new Bdd();
-        $reqModif = $bddUser->getBdd()->prepare("UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email, role = :role WHERE id_user = :id");
+        $reqModif = $bddUser->getBdd()->prepare($sql);
         $reqModif->execute(array(
             'nom' => $user->getNom(),
             'prenom' => $user->getPrenom(),
@@ -72,8 +75,24 @@ class UserRepository
         $req = $bddUser->getBdd()-> prepare('SELECT * FROM utilisateur');
         $req -> execute();
         $listeUsers = $req -> fetchAll();
+        $req->closeCursor();
 
         return $listeUsers;
     }
+
+    public function nombreResa($user)
+    {
+        $bdd = new Bdd();
+
+        $requeteNbReserv = $bdd->getBdd()->prepare("SELECT COUNT(*) FROM `reservation` WHERE ref_user = :id_user");
+        $requeteNbReserv->execute(array(
+            'id_user' => $user->getId_user()
+        ));
+        $nbReserv = $requeteNbReserv->fetch();
+        $requeteNbReserv->closeCursor();
+
+        return $nbReserv;
+    }
+
 
 }
