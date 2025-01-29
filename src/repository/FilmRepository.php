@@ -1,20 +1,22 @@
 <?php
 class FilmRepository
 {
+
     /**
      * @param Film $film
      * @return void
      */
     public function modifier($film)
     {
-        $reqModif = $this->bdd->getBdd()->prepare("UPDATE film SET image = :image, titre = :titre, resume = :resume, genre = :genre, duree = :duree WHERE id_film = :id");
+        $bdd = new Bdd();
+        $reqModif = $bdd->getBdd()->prepare("UPDATE film SET image = :image, titre = :titre, resume = :resume, genre = :genre, duree = :duree WHERE id_film = :id");
         $reqModif->execute(array(
             "titre" => $film->getTitre(),
             "resume" => $film->getResume(),
             "genre" => $film->getGenre(),
             "duree" => $film->getDuree(),
             "image" => $film->getImage(),
-            "id" => $film->getIdFilm()
+            "id" => $film->getId_film()
         ));
         $reqModif->closeCursor();
     }
@@ -43,10 +45,11 @@ class FilmRepository
      */
     public function supprimer($film)
     {
+        var_dump($film);
         $bdd = new Bdd();
         $reqSupp = $bdd->getBdd()->prepare("DELETE FROM film WHERE id_film = :id");
         $reqSupp->execute(array(
-            'id' => $film->getIdFilm()
+            'id' => $film->getId_film()
         ));
         $reqSupp->closeCursor();
     }

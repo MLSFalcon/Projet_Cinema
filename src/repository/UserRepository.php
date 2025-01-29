@@ -12,12 +12,13 @@ class UserRepository
         if ($liste){
             return false;
         } else{
-            $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp) VALUES(:nom, :prenom, :email, :mdp)');
+            $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp, role) VALUES(:nom, :prenom, :email, :mdp, :role)');
             $req->execute(array(
                 'nom' => $user->getNom(),
                 'prenom' => $user->getPrenom(),
                 'email' => $user->getEmail(),
                 'mdp' => $user->getMdp(),
+                'role' => $user->getRole(),
             ));
             $req->closeCursor();
             return true;
@@ -50,7 +51,7 @@ class UserRepository
             'prenom' => $user->getPrenom(),
             'email' => $user->getEmail(),
             'role' => $user->getRole(),
-            'id' => $user->getId(),
+            'id' => $user->getId_user(),
         ));
         $reqModif->closeCursor();
     }
@@ -60,7 +61,7 @@ class UserRepository
         $bddUser = new Bdd();
         $reqSupp = $bddUser->getBdd()->prepare("DELETE FROM utilisateur WHERE id_user = :id");
         $reqSupp->execute(array(
-            'id' => $user->getId()
+            'id' => $user->getId_user()
         ));
         $reqSupp->closeCursor();
     }

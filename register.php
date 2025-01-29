@@ -81,6 +81,15 @@ require_once "src/class/User.php";
                                 </div>
                                 <?php
                             }
+                            if (isset($_GET['confirm'])) {
+                                ?>
+                                <div class="form-group">
+                                    <?php
+                                    echo '<p style="color:green">'.$_GET['confirm'].'</p>';
+                                    ?>
+                                </div>
+                                <?php
+                            }
                             ?>
                             <input type="submit" name="inscription" value="Inscription" class="btn btn-primary btn-user btn-block">
                             <hr>
