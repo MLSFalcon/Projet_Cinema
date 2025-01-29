@@ -1,9 +1,7 @@
 <?php
-
 require_once '../bdd/Bdd.php';
 require_once '../class/Seance.php';
 require_once '../repository/SeanceRepository.php';
-
 if (isset($_POST['ajoutSeance'])){
     $hydrate = array(
         'ref_film' => $_POST['ref_film'],
@@ -31,9 +29,6 @@ if (isset($_POST['modifierSeance'])){
     $action->updateSeance($seance);
     header("location: ../../admin.php");
 }
-
-
-
 if (isset($_POST['supprimerSeance'])){
     $hydrate = array('id_seance' => $_POST['id_seance']);
     $seance = new Seance($hydrate);
