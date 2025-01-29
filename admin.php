@@ -39,7 +39,6 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>MNRT CINEMA - Page Admin</title>
 
     <!-- Custom fonts for this template-->
@@ -53,6 +52,7 @@ session_start();
     <link href="asset/CSS/sb-admin-2.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
+
 
 </head>
 
