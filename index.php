@@ -3,6 +3,7 @@ require_once "src/bdd/bdd.php";
 require_once "src/repository/FilmRepository.php";
 require_once "src/class/User.php";
 $films = new FilmRepository();
+$
 
 session_start();
 
