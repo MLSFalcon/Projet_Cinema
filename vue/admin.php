@@ -6,6 +6,7 @@ require_once "../src/repository/UserRepository.php";
 require_once "../src/repository/SeanceRepository.php";
 require_once "../src/repository/SalleRepository.php";
 require_once "../src/repository/ContactRepository.php";
+require_once "../src/class/User.php";
 //liste film
 $listeFilm = new FilmRepository();
 $listeFilm= $listeFilm->listeFilms();
@@ -29,9 +30,15 @@ $nbContact = new ContactRepository();
 $nbContact = $nbContact->countContact();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
-//if ($_SESSION['role'] != "admin") {
-  //header("location: index.php");
-//}
+if (isset($_SESSION['user'])) {
+    /** @var User $User */
+    $User = $_SESSION['user'];
+    if ($User->getRole() != 'admin') {
+        header("location: index.php");
+    }
+}else{
+    header("location: index.php");
+}
 
 ?>
 
@@ -973,23 +980,23 @@ session_start();
             </div>
 
             <!-- Bootstrap core JavaScript-->
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="../vendor/jquery/jquery.min.js"></script>
+            <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
 
             <!-- Core plugin JavaScript-->
-            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
             <!-- Custom scripts for all pages-->
-            <script src="js/sb-admin-2.min.js"></script>
+            <script src="../asset/js/sb-admin-2.min.js"></script>
 
             <!-- Page level plugins -->
-            <script src="vendor/chart.js/Chart.min.js"></script>
+            <script src="../vendor/chart.js/Chart.min.js"></script>
 
             <!-- Page level custom scripts -->
-            <script src="js/demo/chart-area-demo.js"></script>
-            <script src="js/demo/chart-pie-demo.js"></script>
+            <script src="../asset/js/demo/chart-area-demo.js"></script>
+            <script src="../asset/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

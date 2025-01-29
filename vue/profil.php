@@ -22,10 +22,6 @@ $nbReservation = $UserRepository->nombreResa($User);
 
 
 ?>
-
-
-<!DOCTYPE html>
-<html lang="fr">
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -376,28 +372,28 @@ $nbReservation = $UserRepository->nombreResa($User);
             <div class="modal-body">Selectionnez se déconnecter pour quitter votre session</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                <a class="btn btn-primary" href="traitement/gestionDeconnexion.php">Se déconnecter</a>
+                <a class="btn btn-primary" href="../src/traitement/gestionUser.php?deconnexion=oui">Se déconnecter</a>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="../asset/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="vendor/chart.js/Chart.min.js"></script>
+<script src="../vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="js/demo/chart-area-demo.js"></script>
-<script src="js/demo/chart-pie-demo.js"></script>
+<script src="../asset/js/demo/chart-area-demo.js"></script>
+<script src="../asset/js/demo/chart-pie-demo.js"></script>
 
 </body>
 
@@ -417,4 +413,4 @@ $nbReservation = $UserRepository->nombreResa($User);
 </html>
 
 
-</html>
+
