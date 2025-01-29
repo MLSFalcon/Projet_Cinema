@@ -44,7 +44,13 @@ require_once "src/bdd/Bdd.php";
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>
+                                    <?php
+                                    if (isset($_GET['reservation'])) {
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Veuillez vous connecter pour faire une reservation</h1>';
+                                    }else{
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>';
+                                    }
+                                    ?>
                                 </div>
                                 <form class="user" method="post" action="src/traitement/gestionUser.php">
                                     <div class="form-group">
@@ -66,6 +72,12 @@ require_once "src/bdd/Bdd.php";
                                             ?>
                                         </div>
                                     </div>
+                                    <?php
+                                    if (isset($_GET['reservation'])) {?>
+                                        <input type="hidden" name="reservation" value=<?=$_GET["reservation"]?>>
+                                    <?php
+                                    }?>
+
                                     <input type="submit" name="connexion" class="btn btn-primary btn-user btn-block" value="Connexion">
                                     <hr>
                                 </form>

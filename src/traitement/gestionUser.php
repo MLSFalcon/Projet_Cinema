@@ -23,11 +23,19 @@ if (isset($_POST['connexion'])) {
     $utilisateur = $connexion->login($user);
 
     if (!$utilisateur) {
-       header('Location: ../../login.php?erreur=Connexion echoué');
+       if (isset($_POST['reservation'])) {
+           header('Location: ../../login.php?erreur=Connexion echoué&reservation='.$_POST["reservation"]);
+       }
     }else{
         session_start();
         $_SESSION['user'] = $utilisateur;
-       header('Location: ../../index.php');
+        var_dump($_SESSION['user']);
+        var_dump($utilisateur);
+       if (isset($_POST['reservation'])){
+           header('Location: ../../reservation.php?id_film='.$_POST['reservation']);
+       }else{
+           header('Location: ../../index.php');
+       }
     }
 }
 if (isset($_GET['deconnexion'])) {
