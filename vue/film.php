@@ -1,7 +1,7 @@
 <?php
-require_once "src/bdd/bdd.php";
-require_once "src/repository/FilmRepository.php";
-require_once "src/class/User.php";
+require_once "../src/bdd/bdd.php";
+require_once "../src/repository/FilmRepository.php";
+require_once "../src/class/User.php";
 $films = new FilmRepository();
 $listeFilm = $films->listeFilms();
 
@@ -24,14 +24,14 @@ session_start();
     <meta name="author" content="" />
     <title>MNRT CINEMA - Index</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="asset/CSS/styles.css" rel="stylesheet" />
+    <link href="../asset/CSS/styles.css" rel="stylesheet" />
 </head>
 <body id="page-top">
 <!-- Navigation-->
@@ -44,7 +44,7 @@ session_start();
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="film.php">Films</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="index.php">Accueil</a></li>
                 <?php
                 if (isset($_SESSION['user'])) {
                     echo '
@@ -153,7 +153,7 @@ foreach ($listeFilm as $film) {
                                 <div class="divider-custom-line"></div>
                             </div>
                             <!-- Portfolio Modal - Text-->
-                            <p class="mb-4">Genre : <?=$film['genre'] ?><br>Durée : <?=$film['duree'] ?><br>Résumé : <?=$films->listeFilms()[0]['resume'] ?><br> </p>
+                            <p class="mb-4">Genre : <?=$film['genre'] ?><br>Durée : <?=$film['duree'] ?><br>Résumé : <?=$film['resume'] ?><br> </p>
                             <div class="row">
                                 <div class="col">
                                     <form action="reservation.php" method="post">

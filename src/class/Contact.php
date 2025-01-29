@@ -18,12 +18,12 @@ class Contact
         }
     }
 
-    public function getIdContact()
+    public function getId_contact()
     {
         return $this->id_contact;
     }
 
-    public function setIdContact($id_contact)
+    public function setId_contact($id_contact)
     {
         $this->id_contact = $id_contact;
     }
@@ -48,12 +48,12 @@ class Contact
         $this->explication = $explication;
     }
 
-    public function getRefUser()
+    public function getRef_user()
     {
         return $this->ref_user;
     }
 
-    public function setRefUser($ref_user)
+    public function setRef_user($ref_user)
     {
         $this->ref_user = $ref_user;
     }

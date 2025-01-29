@@ -1,31 +1,31 @@
-<!DOCTYPE html>
-<html lang="fr">
-
 <?php
+require_once "../src/bdd/bdd.php";
+require_once "../src/class/User.php";
+require_once "../src/repository/ReservationRepository.php";
+require_once "../src/repository/UserRepository.php";
+
 session_start();
-if (!isset($_SESSION['id_user'])) {
+if (!isset($_SESSION['user'])) {
     header('Location: index.php');
 }
-$bdd = include "includes/bdd.php";
 
-$requete = $bdd->prepare("SELECT id_user,nom, prenom, email, role FROM `utilisateur` WHERE id_user = :id_user");
-$requete->execute(array('id_user' => $_SESSION['id_user']));
-$user = $requete->fetch();
-$requete->closeCursor();
+/** @var User $User */
+$User = $_SESSION['user'];
+$UserRepository = new UserRepository();
 
-$requeteNbReserv = $bdd->prepare("SELECT COUNT(*) FROM `reservation` WHERE ref_user = :id_user");
-$requeteNbReserv->execute(array('id_user' => $_SESSION['id_user']));
-$nbReserv = $requeteNbReserv->fetch();
-$requeteNbReserv->closeCursor();
 
-//Liste Reservation
-$requete = $bdd->prepare("SELECT utilisateur.email, reservation.nb_place, seance.date_seance, seance.heure, seance.ref_salle, film.titre FROM `utilisateur` INNER JOIN reservation ON utilisateur.id_user = reservation.ref_user INNER JOIN seance ON reservation.ref_seance = seance.id_seance INNER JOIN film ON seance.ref_film = film.id_film WHERE id_user = :id_user");
-$requete->execute(array('id_user' => $_SESSION['id_user']));
-$listeReservations = $requete->fetchAll();
-$requete->closeCursor();
+//liste reservation
+$listeReservation = new ReservationRepository();
+$listeReservation= $listeReservation->listeReservations();
+
+$nbReservation = $UserRepository->nombreResa($User);
+
 
 ?>
 
+
+<!DOCTYPE html>
+<html lang="fr">
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -40,14 +40,14 @@ $requete->closeCursor();
     <title>MNRT CINEMA - Page Admin</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="CSS/sb-admin-2.min.css" rel="stylesheet">
-    <link href="CSS/sb-admin-2.css" rel="stylesheet">
+    <link href="../asset/CSS/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../asset/CSS/sb-admin-2.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
 
@@ -195,7 +195,7 @@ $requete->closeCursor();
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Total de mes réservations</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$nbReserv[0]?></div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$nbReservation['COUNT(*)']?></div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -232,24 +232,24 @@ $requete->closeCursor();
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeReservations); $i++) {
+                            for ($i=0; $i < count($listeReservation); $i++) {
                                 ?>
                                 <tr>
                                     <td>
-                                        <?= $listeReservations[$i]['nb_place']?>
+                                        <?= $listeReservation[$i]['nb_place']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservations[$i]['date_seance']?>
+                                        <?= $listeReservation[$i]['date_seance']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservations[$i]['heure']?>
+                                        <?= $listeReservation[$i]['heure']?>
                                     </td>
                                     <td>
-                                        <?= $listeReservations[$i]['titre']?>
+                                        <?= $listeReservation[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="seance" >
+                                        <form action="../src/traitement/gestionReservation.php" method="post">
+                                            <input type="hidden" name="reservation" value="<?=$listeReservation[$i]['id_reservation'] ?>" >
                                             <input class="btn btn-primary" type="submit" value="Annuler" name="annuler">
                                         </form>
                                         <br>
@@ -280,16 +280,15 @@ $requete->closeCursor();
                             <tbody>
                                 <tr>
                                     <td>
-                                        <?= $user['nom']?>
+                                        <?= $User->getNom()?>
                                     </td>
                                     <td>
-                                        <?= $user['prenom']?>
+                                        <?= $User->getPrenom()?>
                                     </td>
                                     <td>
-                                        <?= $user['email']?>
+                                        <?= $User->getEmail()?>
                                     </td>
                                     <td>
-
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser">modifier</button>
                                         <br><br>
                                     </td>
@@ -303,36 +302,32 @@ $requete->closeCursor();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="post">
+                                            <form method="post" action="../src/traitement/gestionUser.php">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
-                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$user['nom']?>" name="nom">
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$User->getNom()?>" name="nom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Prenom
-                                                            <input type="text" class="form-control" value="<?=$user['prenom']?>" name="prenom">
+                                                            <input type="text" class="form-control" value="<?=$User->getPrenom()?>" name="prenom">
                                                         </label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Address Email
-                                                            <input type="email" class="form-control" value="<?=$user['email']?>" name="email">
+                                                            <input type="email" class="form-control" value="<?=$User->getEmail()?>" name="email">
                                                         </label>
                                                     </div>
                                                 </div>
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input type="hidden" value="<?= $user['id_user']?>" name="idmodif">
+                                                    <input type="hidden" value="<?= $User->getId_User()?>" name="idmodif">
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifier">
                                                 </div>
                                             </form>
-                                            <?php
-                                            require_once "traitement/User.php";
-                                            $modif = new User();
-                                            $modif->update($_POST['nom'],$_POST['prenom'],$_POST['email'],$_SESSION['id_user']);
-                                            ?>
+
                                         </div>
                                     </div>
                                 </div>
@@ -390,8 +385,6 @@ $requete->closeCursor();
 <!-- Bootstrap core JavaScript-->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-
 
 <!-- Core plugin JavaScript-->
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>

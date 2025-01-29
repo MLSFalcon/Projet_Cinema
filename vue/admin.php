@@ -1,11 +1,11 @@
 <?php
-require_once "src/bdd/Bdd.php";
-require_once "src/repository/FilmRepository.php";
-require_once "src/repository/ReservationRepository.php";
-require_once "src/repository/UserRepository.php";
-require_once "src/repository/SeanceRepository.php";
-require_once "src/repository/SalleRepository.php";
-
+require_once "../src/bdd/Bdd.php";
+require_once "../src/repository/FilmRepository.php";
+require_once "../src/repository/ReservationRepository.php";
+require_once "../src/repository/UserRepository.php";
+require_once "../src/repository/SeanceRepository.php";
+require_once "../src/repository/SalleRepository.php";
+require_once "../src/repository/ContactRepository.php";
 //liste film
 $listeFilm = new FilmRepository();
 $listeFilm= $listeFilm->listeFilms();
@@ -21,10 +21,16 @@ $listeSeance = $listeSeance->listeSeances();
 //liste Salle
 $listeSalle = new SalleRepository();
 $listeSalle = $listeSalle->listeSalle();
+//liste contact
+$listeContact = new ContactRepository();
+$listeContact = $listeContact->listeContacts();
+$nbContact = new ContactRepository();
+//nombre de requete
+$nbContact = $nbContact->countContact();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 //if ($_SESSION['role'] != "admin") {
-  //  header("Location: index.php");
+  //header("location: index.php");
 //}
 
 ?>
@@ -39,20 +45,20 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>MNRT CINEMA - Page Admin</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="asset/CSS/sb-admin-2.min.css" rel="stylesheet">
-    <link href="asset/CSS/sb-admin-2.css" rel="stylesheet">
+    <link href="../asset/CSS/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../asset/CSS/sb-admin-2.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css" rel="stylesheet">
+
 
 </head>
 
@@ -281,8 +287,8 @@ session_start();
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            Nombre de demande</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $nbContact['nombre'] ?></div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -313,7 +319,7 @@ session_start();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post" action="src/traitement/gestionFilm.php">
+                                        <form method="post" action="../src/traitement/gestionFilm.php">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
@@ -367,31 +373,31 @@ session_start();
                             <?php
                             for ($i=0; $i < count($listeFilm); $i++) {
 
-                                ?>
-                                <tr>
-                                    <td>
-                                        <img width="125" height="150" src="<?= $listeFilm[$i]['image']?>" alt="">
-                                    </td>
-                                    <td>
-                                        <?= $listeFilm[$i]['titre']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeFilm[$i]['resume']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeFilm[$i]['genre']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeFilm[$i]['duree']?>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
-                                        <br><br>
-                                        <form method="post" action="src/traitement/gestionFilm.php">
-                                            <input type="hidden" name="id_film" value="<?=$listeFilm[$i]['id_film']?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
-                                        </form>
-                                    </td>
-                                </tr>
+                            ?>
+                            <tr>
+                                <td>
+                                    <img width="125" height="150" src="<?= $listeFilm[$i]['image']?>" alt="">
+                                </td>
+                                <td>
+                                    <?= $listeFilm[$i]['titre']?>
+                                </td>
+                                <td>
+                                    <?= $listeFilm[$i]['resume']?>
+                                </td>
+                                <td>
+                                    <?= $listeFilm[$i]['genre']?>
+                                </td>
+                                <td>
+                                    <?= $listeFilm[$i]['duree']?>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
+                                    <br><br>
+                                    <form method="post" action="../src/traitement/gestionFilm.php">
+                                        <input type="hidden" name="id_film" value="<?=$listeFilm[$i]['id_film']?>">
+                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
+                                    </form>
+                                </td>
+                            </tr>
 
                             <div class="modal fade" id="modifFilm<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifFilm" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -402,7 +408,7 @@ session_start();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post" action="src/traitement/gestionFilm.php">
+                                        <form method="post" action="../src/traitement/gestionFilm.php">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Image
@@ -500,7 +506,7 @@ session_start();
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifReservation<?=$i?>">modifier</button>
                                         <br><br>
-                                        <form action="src/traitement/gestionReservation.php" method="post">
+                                        <form action="../src/traitement/gestionReservation.php" method="post">
                                             <input type="hidden" name="id_reservation" value="<?=$listeReservation[$i]['id_reservation']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer">
                                         </form>
@@ -515,7 +521,7 @@ session_start();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="src/traitement/gestionUser.php" method="post">
+                                            <form action="../src/traitement/gestionUser.php" method="post">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nombre de places
@@ -578,7 +584,7 @@ session_start();
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="src/traitement/gestionUser.php" method="post">
+                                <form action="../src/traitement/gestionUser.php" method="post">
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label>Nom
@@ -646,7 +652,7 @@ session_start();
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
                                         <br><br>
-                                        <form action="src/traitement/gestionUser.php" method="post">
+                                        <form action="../src/traitement/gestionUser.php" method="post">
                                             <input type="hidden" name="id_user" value="<?=$listeUser[$i]['id_user']?>">
                                             <input class="btn btn-primary" type="submit" value="supprimer" name="supprimer">
                                         </form>
@@ -661,7 +667,7 @@ session_start();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="src/traitement/gestionUser.php" method="post">
+                                            <form action="../src/traitement/gestionUser.php" method="post">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
@@ -701,7 +707,52 @@ session_start();
                         </table>
                     </div>
                 </div>
-
+                <!-- Gestion Contact -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="row" >
+                            <div class="col-10">
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION CONTACT</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table style="width: 100%;" id="contact">
+                            <thead>
+                            <tr>
+                                <td>sujet</td>
+                                <td>explication</td>
+                                <td>utilisateur</td>
+                                <td>action</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            for ($i=0; $i < count($listeContact); $i++) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $listeContact[$i]['sujet']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeContact[$i]['explication']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeContact[$i]['email']?>
+                                    </td>
+                                    <td>
+                                        <form action="../src/traitement/gestionContact.php" method="post">
+                                            <input type="hidden" name="id_contact" value="<?=$listeContact[$i]['id_contact']?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimer">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php
+                            } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <!-- Gestion Séances -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -721,7 +772,7 @@ session_start();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="src/traitement/gestionSeance.php" method="post">
+                                        <form action="../src/traitement/gestionSeance.php" method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Film
@@ -787,7 +838,7 @@ session_start();
                             <tbody>
                             <?php
                             for ($i=0; $i < count($listeSeance); $i++) {
-                                ?>
+                            ?>
                             <tr>
                                 <td>
                                     <?= $listeSeance[$i]['titre']?>
@@ -807,7 +858,7 @@ session_start();
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
                                     <br><br>
-                                    <form action="src/traitement/gestionSeance.php" method="post">
+                                    <form action="../src/traitement/gestionSeance.php" method="post">
                                         <input type="hidden" name="id_seance" value="<?=$listeSeance[$i]['id_seance']?>">
                                         <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerSeance">
                                     </form>
@@ -822,7 +873,7 @@ session_start();
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form action="src/traitement/gestionSeance.php" method="post">
+                                        <form action="../src/traitement/gestionSeance.php" method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Titre
@@ -891,7 +942,9 @@ session_start();
                 </div>
                 <!-- End of Content Wrapper -->
 
+
             </div>
+
             <!-- End of Page Wrapper -->
 
             <!-- Scroll to Top Button-->
@@ -913,7 +966,7 @@ session_start();
                         <div class="modal-body">Selectionnez se déconnecter pour quitter votre session</div>
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
-                            <a class="btn btn-primary" href="traitement/gestionDeconnexion.php">Se déconnecter</a>
+                            <a class="btn btn-primary" href="../src/traitement/gestionUser.php?deconnexion=oui">Se déconnecter</a>
                         </div>
                     </div>
                 </div>
@@ -946,6 +999,9 @@ session_start();
 <script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
 <script>
     new DataTable('#example', {
+        responsive: true
+    });
+    new DataTable('#contact', {
         responsive: true
     });
     new DataTable('#reservations', {

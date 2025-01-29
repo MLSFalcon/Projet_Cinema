@@ -15,6 +15,7 @@ if(!empty($_POST["titre"])) {
         $data = json_decode($reponse, true);
         $film  = $data['results'][0]; //J'ai pris la 1ère version original du film
 
+
         //Concatenation du lien API + Url de l'image
         $poster  = $poster_url = "https://image.tmdb.org/t/p/w500" . $film['poster_path'];
     }
