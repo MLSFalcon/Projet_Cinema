@@ -44,8 +44,11 @@ class UserRepository
 
     public function update($user)
     {
+        $sql = "UPDATE utilisateur 
+                SET nom = :nom, prenom = :prenom, email = :email, role = :role 
+                WHERE id_user = :id";
         $bddUser = new Bdd();
-        $reqModif = $bddUser->getBdd()->prepare("UPDATE utilisateur SET nom = :nom, prenom = :prenom, email = :email, role = :role WHERE id_user = :id");
+        $reqModif = $bddUser->getBdd()->prepare($sql);
         $reqModif->execute(array(
             'nom' => $user->getNom(),
             'prenom' => $user->getPrenom(),

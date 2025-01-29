@@ -309,7 +309,7 @@ $listeReservation= $listeReservation->listeReservations();
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form method="post">
+                                            <form method="post" action="src/traitement/gestionUser.php">
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label>Nom
@@ -334,16 +334,7 @@ $listeReservation= $listeReservation->listeReservations();
                                                     <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifier">
                                                 </div>
                                             </form>
-                                            <?php
-                                            if (isset($_POST['modifier'])) {
-                                                $User->setNom($_POST['nom']);
-                                                $User->setPrenom($_POST['prenom']);
-                                                $User->setEmail($_POST['email']);
 
-                                                $UserRepository->update($User);
-                                            }
-
-                                            ?>
                                         </div>
                                     </div>
                                 </div>
