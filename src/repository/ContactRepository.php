@@ -10,7 +10,7 @@ class ContactRepository
         $req->execute(array(
             'sujet' => $contact->getSujet(),
             'explication' => $contact->getExplication(),
-            'ref_user' => $contact->getRefUser()
+            'ref_user' => $contact->getRef_user()
         ));
         $req->closeCursor();
         return true;
@@ -23,7 +23,7 @@ class ContactRepository
         $reqModif->execute(array(
             'sujet' => $contact->getSujet(),
             'explication' => $contact->getExplication(),
-            'ref_user' => $contact->getRefUser(),
+            'ref_user' => $contact->getRef_user(),
         ));
         $reqModif->closeCursor();
     }
