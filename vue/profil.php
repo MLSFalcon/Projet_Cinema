@@ -289,7 +289,6 @@ $nbReservation = $UserRepository->nombreResa($User);
                                         <?= $User->getEmail()?>
                                     </td>
                                     <td>
-
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser">modifier</button>
                                         <br><br>
                                     </td>
