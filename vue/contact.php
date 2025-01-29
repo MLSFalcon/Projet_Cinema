@@ -1,9 +1,9 @@
 <?php
-require_once 'src/class/User.php';
+require_once '../src/class/User.php';
 session_start();
 ?>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="asset/CSS/styleContact.css" rel="stylesheet">
+<link href="../asset/CSS/styleContact.css" rel="stylesheet">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
@@ -11,7 +11,7 @@ session_start();
     <div class="contact-image">
         <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
     </div>
-    <form method="post" action="src/traitement/gestionContact.php">
+    <form method="post" action="../src/traitement/gestionContact.php">
         <h3>Drop Us a Message</h3>
         <div class="row">
             <div class="col-md-6">

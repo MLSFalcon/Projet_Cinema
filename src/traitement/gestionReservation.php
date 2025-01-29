@@ -13,5 +13,5 @@ if (isset($_POST['annuler'])){
 $reservation = new Reservation($donnee);
 $supprimer = new ReservationRepository();
 $supprimer->delete($reservation);
-header('Location:../../profil.php');
+header('Location:../../vue/profil.php');
 }
