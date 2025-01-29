@@ -153,7 +153,7 @@ foreach ($listeFilm as $film) {
                                 <div class="divider-custom-line"></div>
                             </div>
                             <!-- Portfolio Modal - Text-->
-                            <p class="mb-4">Genre : <?=$film['genre'] ?><br>Durée : <?=$film['duree'] ?><br>Résumé : <?=$films->listeFilms()[0]['resume'] ?><br> </p>
+                            <p class="mb-4">Genre : <?=$film['genre'] ?><br>Durée : <?=$film['duree'] ?><br>Résumé : <?=$film['resume'] ?><br> </p>
                             <div class="row">
                                 <div class="col">
                                     <form action="reservation.php" method="post">
