@@ -17,6 +17,7 @@ $UserRepository = new UserRepository();
 //liste reservation
 $listeReservation = new ReservationRepository();
 $listeReservation= $listeReservation->listeReservations();
+
 ?>
 
 
@@ -254,8 +255,8 @@ $listeReservation= $listeReservation->listeReservations();
                                         <?= $listeReservation[$i]['titre']?>
                                     </td>
                                     <td>
-                                        <form action="" method="post">
-                                            <input type="hidden" name="seance" >
+                                        <form action="src/traitement/gestionReservation.php" method="post">
+                                            <input type="hidden" name="reservation" value="<?=$listeReservation[$i]['id_reservation'] ?>" >
                                             <input class="btn btn-primary" type="submit" value="Annuler" name="annuler">
                                         </form>
                                         <br>
