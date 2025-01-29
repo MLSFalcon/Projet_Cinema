@@ -147,7 +147,7 @@ session_start();
                 <!--J'ARRIVE PAS à ALLIGNER LE BOUTON -->
 
                 <div>
-                    <form>
+                    <form action="film.php">
                         <input type="submit" class="btn btn-primary" value="Voir tout les films à l'affiche">
                     </form>
                 </div>
