@@ -75,8 +75,24 @@ class UserRepository
         $req = $bddUser->getBdd()-> prepare('SELECT * FROM utilisateur');
         $req -> execute();
         $listeUsers = $req -> fetchAll();
+        $req->closeCursor();
 
         return $listeUsers;
     }
+
+    public function nombreResa($user)
+    {
+        $bdd = new Bdd();
+
+        $requeteNbReserv = $bdd->getBdd()->prepare("SELECT COUNT(*) FROM `reservation` WHERE ref_user = :id_user");
+        $requeteNbReserv->execute(array(
+            'id_user' => $user->getId_user()
+        ));
+        $nbReserv = $requeteNbReserv->fetch();
+        $requeteNbReserv->closeCursor();
+
+        return $nbReserv;
+    }
+
 
 }
