@@ -18,12 +18,12 @@ class Contact
         }
     }
 
-    public function getIdContact()
+    public function getId_contact()
     {
         return $this->id_contact;
     }
 
-    public function setIdContact($id_contact)
+    public function setId_contact($id_contact)
     {
         $this->id_contact = $id_contact;
     }
