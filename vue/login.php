@@ -44,7 +44,13 @@ require_once "../src/bdd/Bdd.php";
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>
+                                    <?php
+                                    if (isset($_GET['reservation'])) {
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Veuillez vous connecter pour faire une reservation</h1>';
+                                    }else{
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>';
+                                    }
+                                    ?>
                                 </div>
                                 <form class="user" method="post" action="../src/traitement/gestionUser.php">
                                     <div class="form-group">
@@ -66,6 +72,12 @@ require_once "../src/bdd/Bdd.php";
                                             ?>
                                         </div>
                                     </div>
+                                    <?php
+                                    if (isset($_GET['reservation'])) {?>
+                                        <input type="hidden" name="reservation" value=<?=$_GET["reservation"]?>>
+                                    <?php
+                                    }?>
+
                                     <input type="submit" name="connexion" class="btn btn-primary btn-user btn-block" value="Connexion">
                                     <hr>
                                 </form>
@@ -92,14 +104,14 @@ require_once "../src/bdd/Bdd.php";
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="../asset/js/sb-admin-2.min.js"></script>
 
 </body>
 

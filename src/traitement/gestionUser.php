@@ -89,7 +89,7 @@ if (isset($_POST['modifierAdmin'])) {
     $user = new User($hydrated);
     $modifier = new UserRepository();
     $modifier->update($user);
-    header('Location: ../../vue/admin.php?');
+    header('Location: ../../admin.php?');
 }
 
 if (isset($_POST['supprimer'])){
