@@ -3,6 +3,9 @@ require_once "src/bdd/bdd.php";
 require_once "src/repository/FilmRepository.php";
 require_once "src/class/User.php";
 $films = new FilmRepository();
+$listeFilm = $films->listeFilms();
+
+//A OPTIMISER (JQUERY?)
 
 session_start();
 
@@ -96,62 +99,23 @@ session_start();
         <!-- Portfolio Grid Items-->
         <div class="row justify-content-center">
             <!-- Portfolio Item 1-->
+            <?php
+            foreach ($listeFilm as $film) {
+            ?>
             <div class="col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
+                <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal<?=$film["id_film"]?>">
                     <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                         <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                     </div>
-                    <?php
-                    if (isset($films->listeFilms()[0]['image'])) {
-                        ?>
-                        <img class="img-fluid" src=<?=$films->listeFilms()[0]['image']?>>
-                        <?php
-                    }
-                    ?>
+                        <img class="img-fluid" src=<?=$film['image']?>>
                 </div>
             </div>
-            <!-- Portfolio Item 2-->
-            <div class="col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
-                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                    </div>
-                    <?php
-                    if (isset($films->listeFilms()[1]['image'])) {
-                        ?>
-                        <img class="img-fluid" src=<?=$films->listeFilms()[1]['image']?>>
-                        <?php
-                    }
-                    ?>
-
-                </div>
-            </div>
-            <!-- Portfolio Item 3-->
-            <div class="col-md-6 col-lg-4 mb-5">
-                <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal3">
-                    <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                        <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                    </div>
-                    <?php
-                    if (isset($films->listeFilms()[2]['image'])) {
-                        ?>
-                        <img class="img-fluid" src=<?=$films->listeFilms()[2]['image']?>>
-                        <?php
-                    }
-                    ?>
-                </div>
-            </div>
-            <div class="row">
-
-                <!--J'ARRIVE PAS à ALLIGNER LE BOUTON -->
-
-                <div>
-                    <form>
-                        <input type="submit" class="btn btn-primary" value="Voir tout les films à l'affiche">
-                    </form>
-                </div>
-            </div>
+            <?php
+            }
+            ?>
         </div>
+
+    </div>
 </section>
 <!-- Footer-->
 <footer class="footer text-center">
@@ -167,8 +131,12 @@ session_start();
     </div>
 </footer>
 <!-- Portfolio Modals-->
-<!-- Portfolio Modal 1-->
-<div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
+
+<?php
+foreach ($listeFilm as $film) {
+?>
+
+<div class="portfolio-modal modal fade" id="portfolioModal<?=$film['id_film']?>" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
@@ -177,7 +145,7 @@ session_start();
                     <div class="row justify-content-center">
                         <div class="col-lg-8">
                             <!-- Portfolio Modal - Title-->
-                            <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"><?=$films->listeFilms()[0]['titre']?></h2>
+                            <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"><?=$film['titre']?></h2>
                             <!-- Icon Divider-->
                             <div class="divider-custom">
                                 <div class="divider-custom-line"></div>
@@ -185,79 +153,11 @@ session_start();
                                 <div class="divider-custom-line"></div>
                             </div>
                             <!-- Portfolio Modal - Text-->
-                            <p class="mb-4">Genre : <?=$films->listeFilms()[0]['genre'] ?><br>Durée : <?=$films->listeFilms()[0]['duree'] ?><br>Résumer : <?=$films->listeFilms()[0]['resume'] ?><br> </p>
+                            <p class="mb-4">Genre : <?=$film['genre'] ?><br>Durée : <?=$film['duree'] ?><br>Résumé : <?=$films->listeFilms()[0]['resume'] ?><br> </p>
                             <div class="row">
                                 <div class="col">
                                     <form action="reservation.php" method="post">
-                                        <input type="hidden" name="id_film" value=<?=$films->listeFilms()[0]['id_film'] ?>>
-                                        <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Portfolio Modal 2-->
-<div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" aria-labelledby="portfolioModal2" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
-            <div class="modal-body text-center pb-5">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <!-- Portfolio Modal - Title-->
-                            <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"><?=$films->listeFilms()[1]['titre']?></h2>
-                            <!-- Icon Divider-->
-                            <div class="divider-custom">
-                                <div class="divider-custom-line"></div>
-                                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                                <div class="divider-custom-line"></div>
-                            </div>
-                            <!-- Portfolio Modal - Text-->
-                            <p class="mb-4">Genre : <?=$films->listeFilms()[1]['genre'] ?><br>Durée : <?=$films->listeFilms()[1]['duree'] ?><br>Résumer : <?=$films->listeFilms()[1]['resume'] ?><br> </p>
-                            <div class="row">
-                                <div class="col">
-                                    <form action="reservation.php" method="post">
-                                        <input type="hidden" name="id_film" value=<?=$films->listeFilms()[1]['id_film'] ?>>
-                                        <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Portfolio Modal 3-->
-<div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" aria-labelledby="portfolioModal3" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
-            <div class="modal-body text-center pb-5">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
-                            <!-- Portfolio Modal - Title-->
-                            <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0"><?=$films->listeFilms()[2]['titre']?></h2>
-                            <!-- Icon Divider-->
-                            <div class="divider-custom">
-                                <div class="divider-custom-line"></div>
-                                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                                <div class="divider-custom-line"></div>
-                            </div>
-                            <!-- Portfolio Modal - Text-->
-                            <p class="mb-4">Genre : <?=$films->listeFilms()[2]['genre'] ?><br>Durée : <?=$films->listeFilms()[2]['duree'] ?><br>Résumer : <?=$films->listeFilms()[2]['resume'] ?><br> </p>
-                            <div class="row">
-                                <div class="col">
-                                    <form action="reservation.php" method="post">
-                                        <input type="hidden" name="id_film" value=<?=$films->listeFilms()[2]['id_film'] ?>>
+                                        <input type="hidden" name="id_film" value=<?=$film['id_film'] ?>>
                                         <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
                                     </form>
                                 </div>
@@ -270,6 +170,10 @@ session_start();
     </div>
 </div>
 
+<?php
+}
+?>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
@@ -280,4 +184,4 @@ session_start();
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
-</html>
+

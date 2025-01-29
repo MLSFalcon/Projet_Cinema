@@ -22,8 +22,6 @@ if (isset($_POST['connexion'])) {
     $connexion = new UserRepository();
     $utilisateur = $connexion->login($user);
 
-    var_dump($utilisateur);
-
     if (!$utilisateur) {
        header('Location: ../../login.php?erreur=Connexion echoué');
     }else{
