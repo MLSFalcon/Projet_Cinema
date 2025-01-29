@@ -3,7 +3,7 @@ require_once "src/bdd/bdd.php";
 require_once "src/repository/FilmRepository.php";
 require_once "src/class/User.php";
 $films = new FilmRepository();
-$
+$films = $films->listeFilms();
 
 session_start();
 
@@ -103,9 +103,9 @@ session_start();
                         <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                     </div>
                     <?php
-                    if (isset($films->listeFilms()[0]['image'])) {
+                    if (isset($films[0]['image'])) {
                         ?>
-                        <img class="img-fluid" src=<?=$films->listeFilms()[0]['image']?>>
+                        <img class="img-fluid" src=<?=$films[0]['image']?>>
                         <?php
                     }
                     ?>
@@ -118,9 +118,9 @@ session_start();
                         <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                     </div>
                     <?php
-                    if (isset($films->listeFilms()[1]['image'])) {
+                    if (isset($films[1]['image'])) {
                         ?>
-                        <img class="img-fluid" src=<?=$films->listeFilms()[1]['image']?>>
+                        <img class="img-fluid" src=<?=$films[1]['image']?>>
                         <?php
                     }
                     ?>
@@ -134,9 +134,9 @@ session_start();
                         <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                     </div>
                     <?php
-                    if (isset($films->listeFilms()[2]['image'])) {
+                    if (isset($films['image'])) {
                         ?>
-                        <img class="img-fluid" src=<?=$films->listeFilms()[2]['image']?>>
+                        <img class="img-fluid" src=<?=$films[2]['image']?>>
                         <?php
                     }
                     ?>
