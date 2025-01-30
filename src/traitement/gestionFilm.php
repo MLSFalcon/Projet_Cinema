@@ -26,6 +26,7 @@ if (isset($_POST['ajoutFilm'])) {
         //Json_decode transforme la requête en tableau
         $data = json_decode($reponse, true);
         $film = $data['results'][0]; //J'ai pris la 1ère version original du film
+        $titre = $film['title'];
         $resume = $film['overview']; //Je prends le résumé du film
 
         //Concatenation du lien API + Url de l'image
@@ -34,16 +35,15 @@ if (isset($_POST['ajoutFilm'])) {
         $duree = $_POST['duree'];
 
         $film = new Film((array(
-            'titre' => $_POST['titre'] ,
+            'titre' => $titre,
             'resume' => $resume ,
             'genre' => $_POST['genre'] ,
             'duree' => $_POST['duree'] ,
             'image' => $image ))) ;
         //----------------------------------------------------------------------------------//
-        $ajoutFilm = new FilmRepository() ;
-        $ajoutFilm -> ajouter($film);
+       $action -> ajouter($film);
+       header("location: ../../vue/admin.php");
 
-        header("location: ../../vue/admin.php");
     }
     if (isset($_POST['supprimerFilm'])) {
         $action->supprimer($film = new Film($_POST));
