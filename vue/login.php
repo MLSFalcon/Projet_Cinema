@@ -2,7 +2,7 @@
 require_once "../src/class/User.php";
 require_once "../src/bdd/Bdd.php";
 
-include "headIndex.html";
+include "head.html";
 
 ?>
 

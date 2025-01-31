@@ -150,10 +150,13 @@ session_start();
         <div>
             <h4 class="text-uppercase mb-4">Adresse : </h4>
             <p class="lead mb-0">
-                5 Av. du Général de Gaulle,
+                Boulevard Poissonière,Quartier du Mail,
                 <br />
-                93440, Dugny
+                Paris 2e Arrondissement, Paris Île-de-France,
+                <br />
+                France métropolitaine, 75002, France
             </p>
+            <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed.html?bbox=2.3464018106460576%2C48.87005903250478%2C2.3482257127761845%2C48.871008202802116&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/48.870534/2.347314">Afficher une carte plus grande</a></small>
         </div>
     </div>
 </footer>
