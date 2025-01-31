@@ -6,6 +6,7 @@ require_once "../src/repository/UserRepository.php";
 require_once "../src/repository/SeanceRepository.php";
 require_once "../src/repository/SalleRepository.php";
 require_once "../src/repository/ContactRepository.php";
+require_once "../src/repository/ProduitRepository.php";
 require_once "../src/class/User.php";
 
 include "head.html";
@@ -31,6 +32,11 @@ $listeContact = $listeContact->listeContacts();
 $nbContact = new ContactRepository();
 //nombre de requete
 $nbContact = $nbContact->countContact();
+//liste produit
+$listeProduit = new ProduitRepository();
+$count = new ProduitRepository();
+$listeProduit = $listeProduit->listeProduit();
+$count = $count->count();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 if (isset($_SESSION['user'])) {
@@ -114,9 +120,19 @@ if (isset($_SESSION['user'])) {
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#utilisateur">
+            <a class="nav-link" href="#example">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#produit">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Gestion Reservations</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#contact">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Gestion Reservations</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#seances">
@@ -217,6 +233,54 @@ if (isset($_SESSION['user'])) {
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Quantité produits sucrés</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['0']['nb'] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-apple-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Quantité produits salés</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['1']['nb'] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-bacon fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Boissons</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['2']['nb'] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-cocktail fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -622,6 +686,139 @@ if (isset($_SESSION['user'])) {
                         </table>
                     </div>
                 </div>
+                <!-- gestion produit -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <div class="row" >
+                            <div class="col-10">
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION PRODUIT</h6>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutProduit">Ajouter un Produit</button>
+                            </div>
+                            <div class="modal fade" id="ajoutProduit" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutProduit" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'un produit</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="post" action="../src/traitement/gestionProduit.php">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Nom
+                                                        <input type="text" class="form-control" name="nom">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>quantite
+                                                        <input type="text" class="form-control" name="quantite">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>type
+                                                        <select name="type">
+                                                            <option>Produit sucrés</option>
+                                                            <option>Produit salés</option>
+                                                            <option>Boissons</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutProduit">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table style="width: 100%;" id="produit">
+                            <thead>
+                            <tr>
+                                <td>Nom</td>
+                                <td>Quantité</td>
+                                <td>Type</td>
+                                <td>Action</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            for ($i=0; $i < count($listeProduit); $i++) {
+
+                            ?>
+                            <tr>
+                                <td>
+                                    <?= $listeProduit[$i]['nom']?>
+                                </td>
+                                <td>
+                                    <?= $listeProduit[$i]['quantite']?>
+                                </td>
+                                <td>
+                                    <?= $listeProduit[$i]['type']?>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifProduit<?=$i?>">modifier</button>
+                                    <br><br>
+                                    <form method="post" action="../src/traitement/gestionProduit.php">
+                                        <input type="hidden" name="id_produit" value="<?=$listeProduit[$i]['id_produit']?>">
+                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerProduit">
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="modifProduit<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifProduit" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modification du Produit</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form method="post" action="../src/traitement/gestionProduit.php">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Nom
+                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['nom']?>" name="nom">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Quantite
+                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['quantite']?>" name="quantite">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Type
+                                                        <select name="type">
+                                                            <option>Produit sucrés</option>
+                                                            <option>Produit salés</option>
+                                                            <option>Boissons</option>
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeProduit[$i]['id_produit']?>" name="id_produit">
+                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierProduit">
+                                            </div>
+                                        </form>
+                                        <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <!-- Gestion Contact -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -792,7 +989,7 @@ if (isset($_SESSION['user'])) {
                                             <div class="modal-body">
                                                 <div class="form-group">
                                                     <label>Titre
-                                                        <select name="ref_film"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                        <select name="ref_film">
                                                             <?php for ($j = 0 ; $j < count($listeFilm); $j++ ) {
                                                                 ?>
                                                                 <option value="<?= $listeFilm[$j]['id_film'] ?>"><?= $listeFilm[$j]['titre'] ?> </option>
@@ -926,6 +1123,9 @@ if (isset($_SESSION['user'])) {
         responsive: true
     });
     new DataTable('#films', {
+        responsive: true
+    });
+    new DataTable('#produit', {
         responsive: true
     });
 </script>
