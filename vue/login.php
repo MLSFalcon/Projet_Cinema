@@ -10,7 +10,7 @@ include "headIndex.html";
 <html lang="fr">
 
 <head>
-
+    <title>MNRT CINEMA - Login</title>
 </head>
 
 <body class="bg-gradient-primary">

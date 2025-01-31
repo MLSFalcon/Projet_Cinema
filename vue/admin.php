@@ -49,7 +49,7 @@ if (isset($_SESSION['user'])) {
 <html lang="fr">
 
 <head>
-
+    <title>MNRT CINEMA - Admin</title>
 </head>
 
 <body id="page-top">
