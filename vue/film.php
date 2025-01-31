@@ -5,6 +5,8 @@ require_once "../src/class/User.php";
 $films = new FilmRepository();
 $listeFilm = $films->listeFilms();
 
+include "headIndex.html";
+
 //A OPTIMISER (JQUERY?)
 
 session_start();

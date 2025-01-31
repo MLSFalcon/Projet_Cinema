@@ -2,6 +2,9 @@
 require_once "../src/bdd/bdd.php";
 require_once "../src/repository/FilmRepository.php";
 require_once "../src/class/User.php";
+
+include "headIndex.html";
+
 $films = new FilmRepository();
 $films = $films->listeFilms();
 
@@ -16,20 +19,7 @@ session_start();
 <!DOCTYPE html>
 <html data-bs-theme="dark" lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>MNRT CINEMA - Index</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../asset/CSS/styles.css" rel="stylesheet" />
+
 </head>
 <body id="page-top">
 <!-- Navigation-->
