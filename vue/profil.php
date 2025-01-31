@@ -33,7 +33,7 @@ $nbReservation = $UserRepository->nombreResa($User);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>MNRT CINEMA - Page Admin</title>
+    <title>MNRT CINEMA - Profil</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
