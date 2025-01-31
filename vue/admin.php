@@ -329,18 +329,8 @@ if (isset($_SESSION['user'])) {
                                         <form method="post" action="../src/traitement/gestionFilm.php">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label>Image
-                                                        <input style="width: 100%" type="text" class="form-control" name="image">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
                                                     <label>Titre
                                                         <input type="text" class="form-control" name="titre">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Résumé
-                                                        <input type="text" class="form-control" name="resume">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
