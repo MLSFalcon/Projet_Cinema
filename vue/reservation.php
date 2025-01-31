@@ -1,4 +1,7 @@
 <?php
+
+//PAS FINIT
+
 require_once "../src/bdd/bdd.php";
 require_once "../src/repository/ReservationRepository.php";
 require_once "../src/repository/SeanceRepository.php";
@@ -7,8 +10,9 @@ $reservation = new ReservationRepository();
 $seances = new SeanceRepository();
 $seances = $seances->listeSeancesFilm($_POST['id_film']);
 
+include 'head.html';
+
 session_start();
-var_dump($_SESSION);
 ?>
 
 
@@ -17,102 +21,89 @@ var_dump($_SESSION);
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>MNRT CINEMA - Index</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../asset/CSS/styles.css" rel="stylesheet" />
+    <title>MNRT CINEMA - Réservation</title>
 </head>
 <body>
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-    <div class="container">
-        <a class="navbar-brand" href="reservation.php">MNRT Cinéma</a>
-        <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="film.php">Films</a></li>
-                <?php
-                if (isset($_SESSION['user'])) {
-                    echo '
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="profil.php">Profil</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="src/traitement/gestionUser.php?deconnexion=oui">Déconnexion</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="contact.php">Contact</a></li>
-                    ';
-                }else{
-                    echo '
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="register.php">Inscription</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="login.php">Connexion</a></li>
-                        ';
-                }
+<body class="bg-gradient-primary">
 
-                if (isset($_SESSION['user'])) {
-                    /** @var User $User */
-                    $User = $_SESSION['user'];
-                    if ($User->getRole() == 'admin') {
-                        echo '<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="admin.php">Admin</a></li>';
-                    }
-                }
-                ?>
-            </ul>
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image">
+                            <img src="../asset/images/salle-infinite-le-grand-rex.jpg" width="100%" height="100%">
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <?php
+                                    if (isset($_GET['reservation'])) {
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Veuillez vous connecter pour faire une reservation</h1>';
+                                    }else{
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>';
+                                    }
+                                    ?>
+                                </div>
+                                <form class="user" method="post" action="../src/traitement/gestionUser.php">
+                                    <div class="form-group">
+                                        <label> Séances :
+                                            <select name="ref_seance">
+                                                <?php
+                                                for ($i = 0; $i < count($seances); $i++) {;?>
+                                                    <option value="<?= $seances[$i]['id_seance'] ?>"><?=$seances[$i]['date_seance']?>,<?=$seances[$i]['heure']?></option>
+                                                <?php }
+                                                ?>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <label>Places :
+                                    <div class="form-group">
+                                            <input type="number" name="nb_place" value="1">
+                                    </div>
+                                    </label>
+                                    <label>
+                                    <div class="form-group">
+                                        <input type="number" name="" value="1">
+                                    </div>
+                                    </label>
+                                    <input type="submit" name="connexion" class="btn btn-primary btn-user btn-block" value="Connexion">
+                                    <hr>
+                                </form>
+                                <div class="text-center">
+                                    <a class="small" href="index.php">Retour à l'accueil.</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </div>
-</nav>
-<div>
-    <form action="../src/traitement/gestionReservation.php" method="post">
-        <label>Séance
-            <select name="ref_seance">
-                <?php
-                for ($i = 0; $i < count($seances); $i++) {;?>
-                    <option value="<?= $seances[$i]['id_seance'] ?>"><?=$seances[$i]['date_seance']?>,<?=$seances[$i]['heure']?></option>
-                <?php }
-                ?>
-            </select>
-        </label>
-        <label>Nombre de places voulus
-            <input type="number" name="nb_place" value="1">
-        </label>
-        <label>ref produit
-            <input type="number" name="ref_produit" value="1">
-        </label>
-        <input type="hidden" name="ref_user" value="<?=$_SESSION['user']->getId_user()?>">
-        <input type="submit" name="ajout">
-    </form>
+
 </div>
 <!-- Footer-->
 <footer class="footer text-center">
-    <div class="row">
-        <div>
-            <h4 class="text-uppercase mb-4">Adresse : </h4>
-            <p class="lead mb-0">
-                5 Av. du Général de Gaulle,
-                <br />
-                93440, Dugny
-            </p>
-        </div>
-    </div>
+
 </footer>
 
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="../asset/js/scripts.js"></script>
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<!-- * *                               SB Forms JS                               * *-->
-<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="../asset/js/sb-admin-2.min.js"></script>
 </body>
 </html>
