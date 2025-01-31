@@ -2,6 +2,7 @@
 require_once '../src/class/User.php';
 session_start();
 ?>
+<title>MNRT CINEMA - Contact</title>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link href="../asset/CSS/styleContact.css" rel="stylesheet">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
