@@ -19,7 +19,7 @@ session_start();
 <!DOCTYPE html>
 <html data-bs-theme="dark" lang="fr">
 <head>
-
+    <title>MNRT CINEMA - Index</title>
 </head>
 <body id="page-top">
 <!-- Navigation-->

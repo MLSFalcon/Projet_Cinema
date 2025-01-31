@@ -28,7 +28,7 @@ $nbReservation = $UserRepository->nombreResa($User);
 <html lang="fr">
 
 <head>
-
+    <title>MNRT CINEMA - Profil</title>
 </head>
 
 <body id="page-top">
