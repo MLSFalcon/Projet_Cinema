@@ -1,18 +1,21 @@
 <?php
-require_once "src/bdd/bdd.php";
-require_once "src/repository/FilmRepository.php";
-require_once "src/class/User.php";
-$films = new FilmRepository();
-$films = $films->listeFilms();
+require_once "../src/bdd/bdd.php";
+require_once "../src/repository/ReservationRepository.php";
+require_once "../src/repository/SeanceRepository.php";
+require_once "../src/class/User.php";
+$reservation = new ReservationRepository();
+$seances = new SeanceRepository();
+$seances = $seances->listeSeancesFilm($_POST['id_film']);
 
 session_start();
+var_dump($_SESSION);
 ?>
 
 
 
 
 <!DOCTYPE html>
-<html data-bs-theme="dark" lang="fr">
+<html lang="fr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -29,11 +32,11 @@ session_start();
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="../asset/CSS/styles.css" rel="stylesheet" />
 </head>
-<body id="page-top">
+<body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="#page-top">MNRT Cinéma</a>
+        <a class="navbar-brand" href="reservation.php">MNRT Cinéma</a>
         <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -67,8 +70,26 @@ session_start();
         </div>
     </div>
 </nav>
-<div class="container">
-
+<div>
+    <form action="../src/traitement/gestionReservation.php" method="post">
+        <label>Séance
+            <select name="ref_seance">
+                <?php
+                for ($i = 0; $i < count($seances); $i++) {;?>
+                    <option value="<?= $seances[$i]['id_seance'] ?>"><?=$seances[$i]['date_seance']?>,<?=$seances[$i]['heure']?></option>
+                <?php }
+                ?>
+            </select>
+        </label>
+        <label>Nombre de places voulus
+            <input type="number" name="nb_place" value="1">
+        </label>
+        <label>ref produit
+            <input type="number" name="ref_produit" value="1">
+        </label>
+        <input type="hidden" name="ref_user" value="<?=$_SESSION['user']->getId_user()?>">
+        <input type="submit" name="ajout">
+    </form>
 </div>
 <!-- Footer-->
 <footer class="footer text-center">

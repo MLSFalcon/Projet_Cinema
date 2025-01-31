@@ -10,11 +10,12 @@ public function __construct(){
 
 public function ajouter($reservation)
 {
-    $req = $this->bdd->getBdd()->prepare('INSERT INTO seance(nb_place, ref_user, ref_seance) VALUES(:nb_place, :ref_user, :ref_seance)');
+    $req = $this->bdd->getBdd()->prepare('INSERT INTO reservation(nb_place, ref_user, ref_seance, ref_produit) VALUES(:nb_place, :ref_user, :ref_seance, :ref_produit)');
     $req->execute(array(
         'nb_place' => $reservation->getNb_place(),
         'ref_user' => $reservation->getRef_user(),
-        'ref_seance' => $reservation->getRef_seance()
+        'ref_seance' => $reservation->getRef_seance(),
+        'ref_produit' => $reservation->getRef_produit()
     ));
     $req->closeCursor();
     return true;
@@ -22,7 +23,7 @@ public function ajouter($reservation)
 
 public function update($reservation)
 {
-    $req = $this->bdd->getBdd()->prepare('UPDATE seance SET nb_place = :nb_place, ref_user = :ref_user, ref_seance = :ref_seance WHERE id_reservation = :id_reservation');
+    $req = $this->bdd->getBdd()->prepare('UPDATE reservation SET nb_place = :nb_place, ref_user = :ref_user, ref_seance = :ref_seance WHERE id_reservation = :id_reservation');
     $req->execute(array(
         'nb_place' => $reservation->getNb_place(),
         'ref_user' => $reservation->getRef_user(),
