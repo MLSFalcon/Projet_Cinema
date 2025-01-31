@@ -1,7 +1,7 @@
 <?php
-require_once "src/bdd/bdd.php";
-require_once "src/repository/FilmRepository.php";
-require_once "src/class/User.php";
+require_once "../src/bdd/bdd.php";
+require_once "../src/repository/FilmRepository.php";
+require_once "../src/class/User.php";
 $films = new FilmRepository();
 $listeFilm = $films->listeFilms();
 
@@ -24,14 +24,14 @@ session_start();
     <meta name="author" content="" />
     <title>MNRT CINEMA - Index</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="asset/CSS/styles.css" rel="stylesheet" />
+    <link href="../asset/CSS/styles.css" rel="stylesheet" />
 </head>
 <body id="page-top">
 <!-- Navigation-->
@@ -177,7 +177,7 @@ foreach ($listeFilm as $film) {
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script src="js/scripts.js"></script>
+<script src="../asset/js/scripts.js"></script>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
 <!-- * *                               SB Forms JS                               * *-->
 <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

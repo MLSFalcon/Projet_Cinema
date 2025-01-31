@@ -61,4 +61,13 @@ class FilmRepository
         $requete->closeCursor();
         return $listeFilms;
     }
+
+    public function afficherFilm($film)
+    {
+        $bdd = new Bdd();
+        $requete = $bdd->getBdd()->prepare("SELECT * FROM film WHERE id_film = :id");
+        $requete->execute(array(
+            "id" => $film->getId_film()
+        ));
+    }
 }

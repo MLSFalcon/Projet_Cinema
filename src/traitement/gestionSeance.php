@@ -13,7 +13,7 @@ if (isset($_POST['ajoutSeance'])){
     $seance = new Seance($hydrate);
     $action = new SeanceRepository();
     $action->nouvelleSeance($seance);
-    header("location: ../../admin.php");
+    header("location: ../../vue/admin.php");
 }
 if (isset($_POST['modifierSeance'])){
     $hydrate = array(
@@ -27,12 +27,12 @@ if (isset($_POST['modifierSeance'])){
     $seance = new Seance($hydrate);
     $action = new SeanceRepository();
     $action->updateSeance($seance);
-    header("location: ../../admin.php");
+    header("location: ../../vue/admin.php");
 }
 if (isset($_POST['supprimerSeance'])){
     $hydrate = array('id_seance' => $_POST['id_seance']);
     $seance = new Seance($hydrate);
     $action = new SeanceRepository();
     $action->suppSeance($seance);
-    header("location: ../../admin.php");
+    header("location: ../../vue/admin.php");
 }

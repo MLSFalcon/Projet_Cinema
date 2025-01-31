@@ -25,21 +25,21 @@ if (isset($_POST['connexion'])) {
     $utilisateur = $connexion->login($user);
 
     if (!$utilisateur) {
-       header('Location: ../../login.php?erreur=Connexion echoué');
+       header('Location: ../../vue/login.php?erreur=Connexion echoué');
     }else{
         session_start();
         $_SESSION['user'] = $utilisateur;
-       header('Location: ../../index.php');
+       header('Location: ../../vue/index.php');
     }
 }
 if (isset($_GET['deconnexion'])) {
     session_start();
     session_destroy();
-    header('Location: ../../index.php');
+    header('Location: ../../vue/index.php');
 }
 if (isset($_POST['inscription'])) {
     if ($_POST['mdp'] != $_POST['confirmeMdp']) {
-        header('Location: ../../register.php?erreur=Erreur, mot de passe non confirmé !');
+        header('Location: ../../vue/register.php?erreur=Erreur, mot de passe non confirmé !');
     }
     else {
         $hydrated = array(
@@ -53,9 +53,9 @@ if (isset($_POST['inscription'])) {
 
         $inscription = new UserRepository();
         if ($inscription->register($user)){
-            header('Location: ../../register.php?confirm=Vous vous êtes bien inscrit');
+            header('Location: ../../vue/register.php?confirm=Vous vous êtes bien inscrit');
         }else{
-            header('Location: ../../register.php?erreur=Email déjà utilisée');
+            header('Location: ../../vue/register.php?erreur=Email déjà utilisée');
         }
     }
 }
@@ -72,9 +72,9 @@ if (isset($_POST['ajoutUser'])) {
 
         $inscription = new UserRepository();
         if ($inscription->register($user)){
-            header('Location: ../../admin.php?confirm=User bien ajouté');
+            header('Location: ../../vue/admin.php?confirm=User bien ajouté');
         }else{
-            header('Location: ../../admin.php?erreur=Email déjà utilisée');
+            header('Location: ../../vue/admin.php?erreur=Email déjà utilisée');
         }
 }
 
@@ -97,7 +97,7 @@ if (isset($_POST['supprimer'])){
     $user = new User($hydrated);
     $supprimer = new UserRepository();
     $supprimer->suppProfil($user);
-    header('Location: ../../admin.php?');
+    header('Location: ../../vue/admin.php?');
 }
 
 
@@ -113,6 +113,6 @@ if (isset($_POST['modifier'])) {
     $modifier = new UserRepository();
     $modifier->update($User);
 
-    header('Location: ../../profil.php?');
+    header('Location: ../../vue/profil.php?');
 }
 

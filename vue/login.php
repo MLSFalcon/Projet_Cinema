@@ -1,6 +1,6 @@
 <?php
-require_once "src/class/User.php";
-require_once "src/bdd/Bdd.php";
+require_once "../src/class/User.php";
+require_once "../src/bdd/Bdd.php";
 ?>
 
 <!DOCTYPE html>
@@ -17,13 +17,13 @@ require_once "src/bdd/Bdd.php";
     <title>MNRT CINEMA - Login</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="asset/CSS/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../asset/CSS/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -44,9 +44,15 @@ require_once "src/bdd/Bdd.php";
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>
+                                    <?php
+                                    if (isset($_GET['reservation'])) {
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Veuillez vous connecter pour faire une reservation</h1>';
+                                    }else{
+                                        echo'<h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>';
+                                    }
+                                    ?>
                                 </div>
-                                <form class="user" method="post" action="src/traitement/gestionUser.php">
+                                <form class="user" method="post" action="../src/traitement/gestionUser.php">
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
@@ -66,6 +72,12 @@ require_once "src/bdd/Bdd.php";
                                             ?>
                                         </div>
                                     </div>
+                                    <?php
+                                    if (isset($_GET['reservation'])) {?>
+                                        <input type="hidden" name="reservation" value=<?=$_GET["reservation"]?>>
+                                    <?php
+                                    }?>
+
                                     <input type="submit" name="connexion" class="btn btn-primary btn-user btn-block" value="Connexion">
                                     <hr>
                                 </form>
@@ -92,14 +104,14 @@ require_once "src/bdd/Bdd.php";
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="js/sb-admin-2.min.js"></script>
+<script src="../asset/js/sb-admin-2.min.js"></script>
 
 </body>
 
