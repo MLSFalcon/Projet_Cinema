@@ -26,8 +26,6 @@ $nbReservation = $UserRepository->nombreResa($User);
 
 <!DOCTYPE html>
 <html lang="fr">
-<!DOCTYPE html>
-<html lang="fr">
 
 <head>
 
@@ -414,7 +412,4 @@ $nbReservation = $UserRepository->nombreResa($User);
         paging: false
     });
 </script>
-</html>
-
-
 </html>
