@@ -5,6 +5,8 @@ require_once "../src/class/User.php";
 $films = new FilmRepository();
 $listeFilm = $films->listeFilms();
 
+include "headIndex.html";
+
 //A OPTIMISER (JQUERY?)
 
 session_start();
@@ -18,20 +20,9 @@ session_start();
 <!DOCTYPE html>
 <html data-bs-theme="dark" lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+
     <title>MNRT CINEMA - Films</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../asset/CSS/styles.css" rel="stylesheet" />
+
 </head>
 <body id="page-top">
 <!-- Navigation-->
@@ -123,9 +114,13 @@ session_start();
         <div>
             <h4 class="text-uppercase mb-4">Adresse : </h4>
             <p class="lead mb-0">
-                5 Av. du Général de Gaulle,
+                Boulevard Poissonière,Quartier du Mail,
                 <br />
-                93440, Dugny
+                Paris 2e Arrondissement, Paris Île-de-France,
+                <br />
+                France métropolitaine, 75002, France
+            </p>
+            <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed.html?bbox=2.3464018106460576%2C48.87005903250478%2C2.3482257127761845%2C48.871008202802116&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=19/48.870534/2.347314">Afficher une carte plus grande</a></small>
             </p>
         </div>
     </div>
