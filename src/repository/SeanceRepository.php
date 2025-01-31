@@ -43,11 +43,22 @@ class SeanceRepository
 
     public function listeSeances(){
     $bddUser = new Bdd();
-    $req = $bddUser->getBdd()->query("SELECT film.titre, seance.id_seance, seance.date_seance, seance.heure, seance.prix, seance.ref_salle as salle  FROM `film` INNER JOIN `seance` ON film.id_film = seance.ref_film");
+    $req = $bddUser->getBdd()->prepare("SELECT film.titre, seance.id_seance, seance.date_seance, seance.heure, seance.prix, seance.ref_salle as salle  FROM `film` INNER JOIN `seance` ON film.id_film = seance.ref_film");
     $req->execute();
     $listeSeances = $req->fetchAll();
 
     return $listeSeances;
+    }
+
+    public function listeSeancesFilm($id)
+    {
+        $bddUser = new Bdd();
+        $req = $bddUser->getBdd()->prepare("SELECT film.titre, seance.id_seance, seance.date_seance, seance.heure, seance.prix, seance.ref_salle as salle  FROM `film` INNER JOIN `seance` ON film.id_film = seance.ref_film WHERE seance.ref_film = :id");
+        //$req = $bddUser->getBdd()->prepare("SELECT * FROM seance WHERE ref_film = :id");
+        $req->execute(array("id" => $id));
+        $listeSeances = $req->fetchAll();
+
+        return $listeSeances;
     }
 
 }
