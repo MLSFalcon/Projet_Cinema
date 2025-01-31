@@ -10,7 +10,7 @@ include "head.html";
 <html lang="fr">
 
 <head>
-    <title>MNRT CINEMA - Login</title>
+    <title>MNRT CINEMA - Forgot Password</title>
 </head>
 
 <body class="bg-gradient-primary">
@@ -32,24 +32,13 @@ include "head.html";
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <?php
-                                    if (isset($_GET['reservation'])) {
-                                        echo'<h1 class="h4 text-gray-900 mb-4">Veuillez vous connecter pour faire une reservation</h1>';
-                                    }else{
-                                        echo'<h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>';
-                                    }
-                                    ?>
+                                        <h1 class="h4 text-gray-900 mb-4">Récupérer votre Mot de passe :</h1>
                                 </div>
-                                <form class="user" method="post" action="../src/traitement/gestionUser.php">
+                                <form class="user" method="post" action="../src/traitement/gestionMail.php">
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
                                                id="exampleInputEmail" aria-describedby="emailHelp"
                                                placeholder="Entrez une adresse email" name="email" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control form-control-user"
-                                               id="exampleInputPassword" placeholder="Mot de Passe"
-                                               name="mdp" required>
                                     </div>
                                     <div class="form-group">
                                         <div class="text-center">
@@ -60,13 +49,7 @@ include "head.html";
                                             ?>
                                         </div>
                                     </div>
-                                    <?php
-                                    if (isset($_GET['reservation'])) {?>
-                                        <input type="hidden" name="reservation" value=<?=$_GET["reservation"]?>>
-                                    <?php
-                                    }?>
-
-                                    <input type="submit" name="connexion" class="btn btn-primary btn-user btn-block" value="Connexion">
+                                    <input type="submit" name="envoyer" class="btn btn-primary btn-user btn-block" value="Envoyer">
                                     <hr>
                                 </form>
 
@@ -104,3 +87,4 @@ include "head.html";
 </body>
 
 </html>
+

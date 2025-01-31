@@ -7,6 +7,24 @@ class Reservation
     private $nb_place;
     private $ref_user;
     private $ref_seance;
+    private $ref_produit;
+
+    /**
+     * @return mixed
+     */
+    public function getRef_produit()
+    {
+        return $this->ref_produit;
+    }
+
+    /**
+     * @param mixed $ref_produit
+     */
+    public function setRef_produit($ref_produit)
+    {
+        $this->ref_produit = $ref_produit;
+    }
+
 
     private function hydrate($array) {
         foreach ($array as $key => $value) {
