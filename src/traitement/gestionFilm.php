@@ -9,6 +9,7 @@ $resume = "";
 $genre = "";
 $duree = "";
 $image = "";
+var_dump($_POST);
 
 if (isset($_POST['ajoutFilm'])) {
     $hydrated = array('titre' => $_POST['titre'] ,
@@ -45,16 +46,16 @@ if (isset($_POST['ajoutFilm'])) {
        header("location: ../../vue/admin.php");
 
     }
-    if (isset($_POST['supprimerFilm'])) {
-        $action->supprimer($film = new Film($_POST));
-        var_dump($action);
-        header("location: ../../vue/admin.php");
-    }
-    if (isset($_POST['modifierFilm'])) {
-        var_dump($_POST);
-        $film = new Film($_POST);
-        var_dump($film);
-        $action->modifier($film);
-        header("location: ../../vue/admin.php");
-    }
+}
+if (isset($_POST['supprimerFilm'])) {
+    $action->supprimer($film = new Film($_POST));
+    var_dump($action);
+    header("location: ../../vue/admin.php");
+}
+if (isset($_POST['modifierFilm'])) {
+    var_dump($_POST);
+    $film = new Film($_POST);
+    var_dump($film);
+    $action->modifier($film);
+    header("location: ../../vue/admin.php");
 }
