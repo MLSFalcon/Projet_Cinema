@@ -6,6 +6,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 $mail = new PHPMailer(true);
 
+$token = generateToken();
+
+
 //Authentification
 $mail->isSMTP();
 $mail->SMTPAuth = true;
@@ -32,4 +35,8 @@ try {
 }
 
 header('Location: ../../vue/index.php');
+
+function generateToken($length = 16) {
+    return bin2hex(random_bytes($length));
+}
 
