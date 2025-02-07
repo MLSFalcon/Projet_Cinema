@@ -2,11 +2,24 @@
 
 //use PHPMailer\PHPMailer\PHPMailer;
 require '../../vendor/autoload.php';
+require_once '../class/Token.php';
 use PHPMailer\PHPMailer\PHPMailer;
 
 $mail = new PHPMailer(true);
 
-$token = generateToken();
+//faire la méthode pour recupe l'id en fonction du mail
+$user = new User();
+$userRepository = new UserRepository();
+$id = $userRepository->recupId();
+
+$array = array(
+    'token' => generateToken(),
+    'id_user' => $id //verifier mail $post si il existe recuperer l'id et le mettre ici
+);
+
+$tok = new Token($array);
+$tokenRep = new TokenRepository();
+$tokenRep->nouveauToken($tok);
 
 
 //Authentification
