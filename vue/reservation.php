@@ -6,10 +6,14 @@ require_once "../src/bdd/bdd.php";
 require_once "../src/repository/ReservationRepository.php";
 require_once "../src/repository/SeanceRepository.php";
 require_once "../src/class/User.php";
+require_once "../src/repository/ProduitRepository.php";
 $reservation = new ReservationRepository();
 $seances = new SeanceRepository();
 $seances = $seances->listeSeancesFilm($_POST['id_film']);
-
+$listeProduit = new ProduitRepository();
+$count = new ProduitRepository();
+$listeProduit = $listeProduit->listeProduit();
+$count = $count->count();
 include 'head.html';
 
 session_start();
@@ -65,15 +69,27 @@ session_start();
                                     </div>
                                     <label>Places :
                                     <div class="form-group">
-                                            <input type="number" name="nb_place" value="1">
+                                        <input type="number" name="nb_place" value="1">
                                     </div>
                                     </label>
-                                    <label>
-                                    <div class="form-group">
-                                        <input type="number" name="" value="1">
-                                    </div>
-                                    </label>
-                                    <input type="submit" name="connexion" class="btn btn-primary btn-user btn-block" value="Connexion">
+                                    <p>Produits :</p>
+                                        <table>
+                                            <?php
+                                            for ($i = 0; $i < count($listeProduit); $i++) {;?>
+                                                <tr>
+                                                    <td>
+                                                        <label> <?=$listeProduit[$i]['nom']?>
+                                                            <input type="checkbox" id="ref_produit<?=$i?>" name="ref_produit" value="<?= $listeProduit[$i]['id_produit']?>" onclick="toggleQuantity(<?=$i?>)">
+                                                        </label>
+                                                    </td>
+                                                    <td>
+                                                        <input id="quantite<?=$i?>" type="number" name="quantite_produit" min="1" max="<?=$count[$i]['nb']?>" value="1" disabled>
+                                                    </td>
+                                                </tr>
+                                            <?php }
+                                            ?>
+                                        </table>
+                                    <input type="submit" name="reserver" class="btn btn-primary btn-user btn-block" value="Reserver">
                                     <hr>
                                 </form>
                                 <div class="text-center">
@@ -95,6 +111,16 @@ session_start();
 <footer class="footer text-center">
 
 </footer>
+
+<script>
+    function toggleQuantity(index) {
+        let checkbox = document.getElementById("ref_produit" + index);
+        let quantityInput = document.getElementById("quantite" + index);
+
+        // Activer ou désactiver le champ quantité en fonction de l'état de la checkbox
+        quantityInput.disabled = !checkbox.checked;
+    }
+</script>
 
 <!-- Bootstrap core JavaScript-->
 <script src="../vendor/jquery/jquery.min.js"></script>
