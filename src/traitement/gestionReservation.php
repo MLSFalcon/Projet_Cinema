@@ -1,27 +1,45 @@
 <?php
 require_once '../class/Reservation.php';
 require_once '../repository/ReservationRepository.php';
+require_once '../class/ReservationProduit.php';
+require_once '../repository/ReservationProduitRepository.php';
 require_once '../bdd/bdd.php';
 
-if(isset($_POST['ajout'])){
-    $donnees = (array(
+if (isset($_POST['reserver'])){
+    $nbrRepere = rand();
+    $reservation = (array(
         "nb_place" => $_POST['nb_place'],
         "ref_user" => $_POST['ref_user'],
         "ref_seance" => $_POST['ref_seance'],
-        "ref_produit" => $_POST['ref_produit'],
+        "nbr_repere" => $nbrRepere,
     ));
-    $reservation = new Reservation($donnees);
-    var_dump($reservation);
+    $reservation = new Reservation($reservation);
     $creationReservation = new ReservationRepository();
     if ($creationReservation->ajouter($reservation)){
+        $reservation = $creationReservation->recupReservation($reservation);
+        for ($i=0; $i < $_POST['i']; $i++){
+            if (isset($_POST['ref_produit'.$i])){
+                $donnees = (array(
+                    "refProduit" => $_POST['ref_produit'.$i],
+                    "quantiteProduit" => $_POST['quantite_produit'.$i],
+                    "refReservation" => $reservation[0],
+                ));
+                $reservationProduit = new ReservationProduit($donnees);
+                var_dump($reservationProduit);
+                $creationReservationProduit = new ReservationProduitRepository();
+                if (!$creationReservationProduit->ajouter($reservationProduit)) {
+                    header('Location: ../../vue/index.php?reserver=errorProduit');
+                }
+            }
+        }
+        $creationReservation->suppNbrRepere($reservation);
         header('Location: ../../vue/index.php?reserver=ok');
-    }else{
-        header('Location: ../../vue/index.php?reserver=error');
+    }else {
+        header('Location: ../../vue/index.php?reserver=errorReservation');
     }
 }
 
 
-var_dump($_POST);
 if (isset($_POST['annuler'])){
     $donnee = array(
     'id_reservation' => $_POST['reservation'],

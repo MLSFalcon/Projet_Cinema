@@ -2,7 +2,7 @@
 
 class ReservationProduitRepository
 {
-    public function ajouter(ReservationProduit $reservationProduit){
+    public function ajouter($reservationProduit){
         $bdd = new Bdd();
         $req = $bdd->getBdd()->prepare("INSERT INTO reservationproduit(ref_produit,ref_reservation,quantite_produit) VALUES(:ref_produit,:ref_reservation,:quantite_produit)");
         $req->execute(array(
@@ -11,6 +11,7 @@ class ReservationProduitRepository
             'quantite_produit' => $reservationProduit->getQuantiteProduit()
         ));
         $req->closeCursor();
+        return true;
     }
 
     public function listeReservationProduits(){

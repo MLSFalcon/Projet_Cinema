@@ -10,12 +10,13 @@ public function __construct(){
 
 public function ajouter($reservation)
 {
-    $req = $this->bdd->getBdd()->prepare('INSERT INTO reservation(nb_place, ref_user, ref_seance, ref_produit) VALUES(:nb_place, :ref_user, :ref_seance, :ref_produit)');
+
+    $req = $this->bdd->getBdd()->prepare('INSERT INTO reservation(nb_place, ref_user, ref_seance, nbr_repere) VALUES(:nb_place, :ref_user, :ref_seance, :nbr_repere)');
     $req->execute(array(
         'nb_place' => $reservation->getNb_place(),
         'ref_user' => $reservation->getRef_user(),
         'ref_seance' => $reservation->getRef_seance(),
-        'ref_produit' => $reservation->getRef_produit()
+        'nbr_repere' => $reservation->getNbr_repere()
     ));
     $req->closeCursor();
     return true;
@@ -52,4 +53,26 @@ public function listeReservations(){
     return $listeReservations;
 }
 
+public function suppNbrRepere($reservation){
+    $bdd = new Bdd();
+    $req = $bdd->getBdd()->prepare("UPDATE reservation SET nbr_repere = :nbr_repere WHERE id_reservation = :id_reservation");
+    $req->execute(array(
+        'nbr_repere' => null,
+        'id_reservation' => $reservation[0]));
+    $req->closeCursor();
+    return true;
 }
+
+public function recupReservation($reservation){
+    $bdd = new Bdd();
+    $req = $bdd->getBdd()->prepare("SELECT * FROM `reservation` WHERE nbr_repere = :nbr_repere");
+    $req->execute(array(
+        'nbr_repere' => $reservation->getNbr_repere()
+    ));
+    $reservation = $req->fetch();
+    return $reservation;
+}
+}
+
+
+

@@ -55,7 +55,7 @@ session_start();
                                     }
                                     ?>
                                 </div>
-                                <form class="user" method="post" action="../src/traitement/gestionUser.php">
+                                <form class="user" method="post" action="../src/traitement/gestionReservation.php">
                                     <div class="form-group">
                                         <label> Séances :
                                             <select name="ref_seance">
@@ -73,22 +73,25 @@ session_start();
                                     </div>
                                     </label>
                                     <p>Produits :</p>
-                                        <table>
+                                    <table>
                                             <?php
                                             for ($i = 0; $i < count($listeProduit); $i++) {;?>
                                                 <tr>
                                                     <td>
                                                         <label> <?=$listeProduit[$i]['nom']?>
-                                                            <input type="checkbox" id="ref_produit<?=$i?>" name="ref_produit" value="<?= $listeProduit[$i]['id_produit']?>" onclick="toggleQuantity(<?=$i?>)">
+                                                            <input type="checkbox" id="ref_produit<?=$i?>" name="ref_produit<?=$i?>" value="<?= $listeProduit[$i]['id_produit']?>" onclick="toggleQuantity(<?=$i?>)">
                                                         </label>
                                                     </td>
                                                     <td>
-                                                        <input id="quantite<?=$i?>" type="number" name="quantite_produit" min="1" max="<?=$count[$i]['nb']?>" value="1" disabled>
+                                                        <input id="quantite<?=$i?>" type="number" name="quantite_produit<?=$i?>" min="1" max="<?=$count[$i]['nb']?>" value="1" disabled>
                                                     </td>
                                                 </tr>
+
                                             <?php }
                                             ?>
-                                        </table>
+                                    </table>
+                                    <input type="hidden" name="i" value="<?=$i?>">
+                                    <input type="hidden" name="ref_user" value="<?=$_SESSION['user']->getId_user()?>">
                                     <input type="submit" name="reserver" class="btn btn-primary btn-user btn-block" value="Reserver">
                                     <hr>
                                 </form>
@@ -101,9 +104,7 @@ session_start();
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 
 </div>
@@ -117,7 +118,6 @@ session_start();
         let checkbox = document.getElementById("ref_produit" + index);
         let quantityInput = document.getElementById("quantite" + index);
 
-        // Activer ou désactiver le champ quantité en fonction de l'état de la checkbox
         quantityInput.disabled = !checkbox.checked;
     }
 </script>
