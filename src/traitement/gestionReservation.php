@@ -3,6 +3,8 @@ require_once '../class/Reservation.php';
 require_once '../repository/ReservationRepository.php';
 require_once '../class/ReservationProduit.php';
 require_once '../repository/ReservationProduitRepository.php';
+require_once '../class/Produit.php';
+require_once '../repository/ProduitRepository.php';
 require_once '../bdd/bdd.php';
 
 if (isset($_POST['reserver'])){
@@ -25,10 +27,17 @@ if (isset($_POST['reserver'])){
                     "refReservation" => $reservation[0],
                 ));
                 $reservationProduit = new ReservationProduit($donnees);
-                var_dump($reservationProduit);
                 $creationReservationProduit = new ReservationProduitRepository();
                 if (!$creationReservationProduit->ajouter($reservationProduit)) {
                     header('Location: ../../vue/index.php?reserver=errorProduit');
+                }else{
+                    $modifProduit = (array(
+                        "id_produit" => $_POST['ref_produit'.$i],
+                        "quantite" => $_POST['quantite_produit'.$i],
+                    ));
+                    $produit = new Produit($modifProduit);
+                    $updateProduit = new ProduitRepository();
+                    $updateProduit->update($produit);
                 }
             }
         }

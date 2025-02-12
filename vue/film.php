@@ -152,7 +152,7 @@ foreach ($listeFilm as $film) {
                             <div class="row">
                                 <div class="col">
                                     <?php
-                                    if (isset($_SESSION)){?>
+                                    if (!isset($_SESSION['user'])){?>
                                         <p>Veuillez vous connecter pour réserver</p>
                                     <?php } else {?>
                                         <form action="reservation.php" method="post">
