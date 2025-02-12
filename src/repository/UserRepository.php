@@ -102,7 +102,7 @@ class UserRepository
             'email' => $user->getEmail()
         ));
         $donnee = $req->fetch();
-        return $donnee;
+        return $donnee[0];
 
     }
 

@@ -53,7 +53,7 @@ class Token
     /**
      * @return mixed
      */
-    public function getRefUser()
+    public function getRef_user()
     {
         return $this->ref_user;
     }
@@ -61,7 +61,7 @@ class Token
     /**
      * @param mixed $ref_token
      */
-    public function setRefUser($ref_user)
+    public function setRef_user($ref_user)
     {
         $this->ref_user = $ref_user;
     }
