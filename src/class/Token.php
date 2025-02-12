@@ -55,7 +55,7 @@ class Token
      */
     public function getRefUser()
     {
-        return $this->ref_token;
+        return $this->ref_user;
     }
 
     /**

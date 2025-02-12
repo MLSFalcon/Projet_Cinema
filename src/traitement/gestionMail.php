@@ -3,24 +3,42 @@
 //use PHPMailer\PHPMailer\PHPMailer;
 require '../../vendor/autoload.php';
 require_once '../class/Token.php';
+require_once '../class/User.php';
+require_once '../class/Token.php';
+require_once '../repository/TokenRepository.php';
+require_once '../repository/UserRepository.php';
+require_once '../bdd/bdd.php';
 use PHPMailer\PHPMailer\PHPMailer;
 
 $mail = new PHPMailer(true);
 
-//faire la méthode pour recupe l'id en fonction du mail
-$user = new User();
+$array = array(
+    'email' => $_POST['email'],
+);
+
+$user = new User($array);
 $userRepository = new UserRepository();
-$id = $userRepository->recupId();
+$id = $userRepository->recupId($user);
 
 $array = array(
     'token' => generateToken(),
-    'id_user' => $id //verifier mail $post si il existe recuperer l'id et le mettre ici
+    'ref_user' => $id
 );
 
 $tok = new Token($array);
 $tokenRep = new TokenRepository();
 $tokenRep->nouveauToken($tok);
 
+$array = explode("/",$_SERVER["REQUEST_URI"]);
+$lien =$_SERVER['HTTP_ORIGIN'];
+foreach ($array as $key => $value) {
+    $lien= $lien.$value."/";
+    if ($value=="Projet_Cinema"){
+        break;
+    }
+}
+
+$lien = $lien."vue/recup_password.php?recup=".$tok->getToken();
 
 //Authentification
 $mail->isSMTP();
@@ -28,8 +46,6 @@ $mail->SMTPAuth = true;
 //Connexion au serveur
 $mail->Host = 'smtp.gmail.com';
 $mail->Port = 587;
-//$mail->Username = 'project.hsp440@gmail.com';
-//$mail->Password = 'owtansfzyivxtnmb';
 $mail->Username = 'nicolascharpentiertest@gmail.com';
 $mail->Password = 'kxgbzlhrdlfzcgnp';
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
@@ -39,7 +55,7 @@ $mail->charset = 'UTF-8';
 $mail->setFrom('project.hsp440@gmail.com');
 $mail->addAddress($_POST['email']);
 $mail->Subject = 'MNRT Cinema Réinitialisation de votre mot de passe';
-$mail->Body = 'ICI SE TROUVE UN LIEN DE <b>REINITIALISATION</b> DE VOTRE MDP';
+$mail->Body = 'ICI SE TROUVE UN LIEN DE REINITIALISATION DE VOTRE MDP : '.$lien;
 try {
     $mail->send();
     echo "Message has been sent";
@@ -47,7 +63,7 @@ try {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
 
-header('Location: ../../vue/index.php');
+//header('Location: ../../vue/index.php');
 
 function generateToken($length = 16) {
     return bin2hex(random_bytes($length));

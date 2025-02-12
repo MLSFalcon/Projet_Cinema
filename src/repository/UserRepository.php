@@ -94,8 +94,15 @@ class UserRepository
         return $nbReserv;
     }
 
-    public function recupId()
+    public function recupId($user)
     {
+        $bddUser = new Bdd();
+        $req = $bddUser->getBdd()-> prepare('SELECT id_user FROM utilisateur where email = :email');
+        $req->execute(array(
+            'email' => $user->getEmail()
+        ));
+        $donnee = $req->fetch();
+        return $donnee;
 
     }
 

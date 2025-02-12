@@ -116,3 +116,7 @@ if (isset($_POST['modifier'])) {
     header('Location: ../../vue/profil.php?');
 }
 
+if(isset($_POST['recupmdp'])){
+    var_dump($_POST);
+}
+
