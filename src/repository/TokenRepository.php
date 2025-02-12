@@ -3,11 +3,12 @@
 class TokenRepository
 {
     public function nouveauToken($token){
+        $test=$token->getRef_user();
         $bdd = new Bdd();
         $req = $bdd->getBdd()->prepare('INSERT INTO token (token, ref_user) VALUES(:token, :id_user)');
         $req->execute(array(
             'token' => $token->getToken(),
-            'id_user' => $token->getRefUser(),
+            'id_user' => $token->getRef_user(),
         ));
     }
 

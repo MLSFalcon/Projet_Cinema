@@ -63,7 +63,7 @@ try {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 }
 
-//header('Location: ../../vue/index.php');
+header('Location: ../../vue/index.php');
 
 function generateToken($length = 16) {
     return bin2hex(random_bytes($length));
