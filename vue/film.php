@@ -151,10 +151,16 @@ foreach ($listeFilm as $film) {
                             <p class="mb-4">Genre : <?=$film['genre'] ?><br>Durée : <?=$film['duree'] ?><br>Résumé : <?=$film['resume'] ?><br> </p>
                             <div class="row">
                                 <div class="col">
-                                    <form action="reservation.php" method="post">
-                                        <input type="hidden" name="id_film" value=<?=$film['id_film'] ?>>
-                                        <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
-                                    </form>
+                                    <?php
+                                    if (!isset($_SESSION['user'])){?>
+                                        <p>Veuillez vous connecter pour réserver</p>
+                                    <?php } else {?>
+                                        <form action="reservation.php" method="post">
+                                            <input type="hidden" name="id_film" value=<?=$films['id_film'] ?>>
+                                            <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
+                                        </form>
+                                    <?php }
+                                    ?>
                                 </div>
                             </div>
                         </div>

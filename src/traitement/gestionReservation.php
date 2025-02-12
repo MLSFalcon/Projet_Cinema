@@ -1,10 +1,14 @@
 <?php
 require_once '../class/Reservation.php';
+require_once '../class/Client.php';
+require_once '../repository/ClientRepository.php';
 require_once '../repository/ReservationRepository.php';
 require_once '../class/ReservationProduit.php';
 require_once '../repository/ReservationProduitRepository.php';
+require_once '../class/Produit.php';
+require_once '../repository/ProduitRepository.php';
 require_once '../bdd/bdd.php';
-
+session_start();
 if (isset($_POST['reserver'])){
     $nbrRepere = rand();
     $reservation = (array(
@@ -25,14 +29,29 @@ if (isset($_POST['reserver'])){
                     "refReservation" => $reservation[0],
                 ));
                 $reservationProduit = new ReservationProduit($donnees);
-                var_dump($reservationProduit);
                 $creationReservationProduit = new ReservationProduitRepository();
                 if (!$creationReservationProduit->ajouter($reservationProduit)) {
                     header('Location: ../../vue/index.php?reserver=errorProduit');
+                }else{
+                    $modifProduit = (array(
+                        "id_produit" => $_POST['ref_produit'.$i],
+                        "quantite" => $_POST['quantite_produit'.$i],
+                    ));
+                    $produit = new Produit($modifProduit);
+                    $updateProduit = new ProduitRepository();
+                    $updateProduit->update($produit);
                 }
             }
         }
         $creationReservation->suppNbrRepere($reservation);
+        $client = new Client([
+            "id_User" => $_POST["ref_user"],
+            "adresseFacturation" => $_POST["adresseFacturation"]
+        ]);
+
+        $_SESSION['client'] = $client;
+        $becomeClient = new ClientRepository();
+        $becomeClient->modifierAdresse($client);
         header('Location: ../../vue/index.php?reserver=ok');
     }else {
         header('Location: ../../vue/index.php?reserver=errorReservation');

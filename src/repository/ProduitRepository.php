@@ -65,4 +65,14 @@ class ProduitRepository
         $requete->closeCursor();
         return $count;
     }
+
+    public function update($produit)
+    {
+        $bdd = new Bdd();
+        $requete = $bdd->getBdd()->prepare("UPDATE produit SET quantite=quantite-:quantite WHERE id_produit = :id_produit");
+        $requete->execute(array(
+           "id_produit" => $produit->getId_produit(),
+           "quantite" => $produit->getQuantite()
+        ));
+    }
 }

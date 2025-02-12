@@ -72,6 +72,11 @@ session_start();
                                         <input type="number" name="nb_place" value="1">
                                     </div>
                                     </label>
+                                    <label>Adresse de facturation :
+                                        <div class="form-group">
+                                            <input type="text" name="adresseFacturation">
+                                        </div>
+                                    </label>
                                     <p>Produits :</p>
                                     <table>
                                             <?php

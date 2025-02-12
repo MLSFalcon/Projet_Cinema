@@ -216,10 +216,16 @@ session_start();
                             <p class="mb-4">Genre : <?=$films[1]['genre'] ?><br>Durée : <?=$films[1]['duree'] ?><br>Résumer : <?=$films[1]['resume'] ?><br> </p>
                             <div class="row">
                                 <div class="col">
-                                    <form action="reservation.php" method="post">
-                                        <input type="hidden" name="id_film" value=<?=$films[1]['id_film'] ?>>
-                                        <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
-                                    </form>
+                                    <?php
+                                    if (!isset($_SESSION['user'])){?>
+                                        <p>Veuillez vous connecter pour réserver</p>
+                                    <?php } else {?>
+                                        <form action="reservation.php" method="post">
+                                            <input type="hidden" name="id_film" value=<?=$films[1]['id_film'] ?>>
+                                            <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
+                                        </form>
+                                    <?php }
+                                    ?>
                                 </div>
                             </div>
                         </div>
