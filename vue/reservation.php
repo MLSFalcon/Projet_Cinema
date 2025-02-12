@@ -67,6 +67,9 @@ session_start();
                                             </select>
                                         </label>
                                     </div>
+                                    <p>Prix : <?= $seances[0]['prix'] ?></p>
+
+
                                     <label>Places :
                                     <div class="form-group">
                                         <input type="number" name="nb_place" value="1">
@@ -95,6 +98,7 @@ session_start();
                                             <?php }
                                             ?>
                                     </table>
+                                    <br>
                                     <input type="hidden" name="i" value="<?=$i?>">
                                     <input type="hidden" name="ref_user" value="<?=$_SESSION['user']->getId_user()?>">
                                     <input type="submit" name="reserver" class="btn btn-primary btn-user btn-block" value="Reserver">
