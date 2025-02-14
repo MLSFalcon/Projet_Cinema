@@ -270,6 +270,44 @@ session_start();
     </div>
 </div>
 
+<!--Modal après reservation-->
+<?php
+if (isset($_GET['reserver'])){?>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mon Modal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Contenu du modal...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            function getParam(name) {
+                let urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+
+            if (getParam("reserver") === "show") {
+                $("#myModal").modal("show");
+            }
+        });
+    </script>
+
+<?php
+}
+?>
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->

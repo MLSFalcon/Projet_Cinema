@@ -10,6 +10,7 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');
 }
+var_dump($_SESSION['user']);
 
 /** @var User $User */
 $User = $_SESSION['user'];
@@ -18,7 +19,7 @@ $UserRepository = new UserRepository();
 
 //liste reservation
 $listeReservation = new ReservationRepository();
-$listeReservation= $listeReservation->listeReservations();
+$listeReservation= $listeReservation->listeReservationsUser($_SESSION['user']->getId_user());
 
 $nbReservation = $UserRepository->nombreResa($User);
 
