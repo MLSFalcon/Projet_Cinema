@@ -83,7 +83,7 @@ include "head.html";
                             <hr>
                         </form>
                         <div class="text-center">
-                            <a class="small" href="forgot-password.html">Mot de passe oublié?</a>
+                            <a class="small" href="forgot-password.php">Mot de passe oublié?</a>
                         </div>
                         <div class="text-center">
                             <a class="small" href="login.php">Vous posséder déja un compte ? Se connecter!</a>
