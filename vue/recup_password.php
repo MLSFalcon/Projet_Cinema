@@ -1,19 +1,20 @@
 <?php
 require_once "../src/class/User.php";
 require_once "../src/bdd/Bdd.php";
+require_once "../src/class/Token.php";
+require_once "../src/repository/TokenRepository.php";
 
 include "head.html";
-
+if (!isset($_GET['recup'])) {
+    header('Location: index.php');
+}
 $array = array(
   'token' => $_GET['recup'],
 );
 
 $token = new Token($array);
 $tokenRep = new TokenRepository();
-$ref = $tokenRep->verifToken($token);
-if (!$ref){
-    header('Location: index.php');
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +66,7 @@ if (!$ref){
                                         </div>
 
                                     </div>
-                                    <input type="hidden" name="ref_user" value=<?=$ref?>>
+                                    <input type="hidden" name="token" value=<?=$token->getToken()?>>
                                     <input type="submit" name="recupmdp" class="btn btn-primary btn-user btn-block" value="Envoyer">
                                     <hr>
                                 </form>

@@ -2,9 +2,10 @@
 require_once '../bdd/bdd.php';
 require_once '../class/User.php';
 require_once '../repository/UserRepository.php';
+require_once '../class/Token.php';
+require_once '../repository/TokenRepository.php';
 
 session_start();
-
 /** @var User $User */
 $User = $_SESSION['user'];
 
@@ -25,11 +26,11 @@ if (isset($_POST['connexion'])) {
     $utilisateur = $connexion->login($user);
 
     if (!$utilisateur) {
-       header('Location: ../../vue/login.php?erreur=Connexion echoué');
+        header('Location: ../../vue/login.php?erreur=Connexion echoué');
     }else{
         session_start();
         $_SESSION['user'] = $utilisateur;
-       header('Location: ../../vue/index.php');
+        header('Location: ../../vue/index.php');
     }
 }
 if (isset($_GET['deconnexion'])) {
@@ -61,21 +62,21 @@ if (isset($_POST['inscription'])) {
 }
 
 if (isset($_POST['ajoutUser'])) {
-        $hydrated = array(
-            'nom' => $_POST['nom'],
-            'prenom' => $_POST['prenom'],
-            'email' => $_POST['email'],
-            'mdp' => password_hash($_POST['mdp'] , PASSWORD_DEFAULT),
-            'role' => $_POST['role']
-        );
-        $user = new User($hydrated);
+    $hydrated = array(
+        'nom' => $_POST['nom'],
+        'prenom' => $_POST['prenom'],
+        'email' => $_POST['email'],
+        'mdp' => password_hash($_POST['mdp'] , PASSWORD_DEFAULT),
+        'role' => $_POST['role']
+    );
+    $user = new User($hydrated);
 
-        $inscription = new UserRepository();
-        if ($inscription->register($user)){
-            header('Location: ../../vue/admin.php?confirm=User bien ajouté');
-        }else{
-            header('Location: ../../vue/admin.php?erreur=Email déjà utilisée');
-        }
+    $inscription = new UserRepository();
+    if ($inscription->register($user)){
+        header('Location: ../../vue/admin.php?confirm=User bien ajouté');
+    }else{
+        header('Location: ../../vue/admin.php?erreur=Email déjà utilisée');
+    }
 }
 
 if (isset($_POST['modifierAdmin'])) {
@@ -117,6 +118,24 @@ if (isset($_POST['modifier'])) {
 }
 
 if(isset($_POST['recupmdp'])){
-    var_dump($_POST);
-}
+    if ($_POST['mdp'] != $_POST['mdpverif']) {
+        header('Location: ../../vue/recup_password.php?erreur=a&recup='.$_POST['token']);
+    }else{
+        $tok = new Token(array(
+            'token' => $_POST['token']));
+        $tokenRep= new TokenRepository();
 
+        $user = new User(array(
+            'id_user' => $tokenRep->recupRefUser($tok),
+            'mdp' => password_hash($_POST['mdp'] , PASSWORD_DEFAULT),
+        ));
+
+        $userRepository = new UserRepository();
+
+        $userRepository->updateMdp($user);
+
+        $tokenRep->supprimerToken($tok);
+        header('Location: ../../vue/index.php');
+    }
+    var_dump($user);
+}

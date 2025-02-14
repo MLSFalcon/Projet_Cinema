@@ -58,6 +58,19 @@ class UserRepository
         ));
         $reqModif->closeCursor();
     }
+    public function updateMdp($user)
+    {
+        $sql = "UPDATE utilisateur 
+                SET mdp = :mdp
+                WHERE id_user = :id";
+        $bddUser = new Bdd();
+        $reqModif = $bddUser->getBdd()->prepare($sql);
+        $reqModif->execute(array(
+            'id' => $user->getId_user(),
+            'mdp' => $user->getMdp(),
+        ));
+        $reqModif->closeCursor();
+    }
 
     public function suppProfil($user)
     {
