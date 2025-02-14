@@ -86,11 +86,7 @@ if (isset($_SESSION['user'])) {
                 <i class="fas fa-fw fa-backward "></i>
                 <span>Accueil</span></a>
             <a class="nav-link" href="login.php">
-                <i class="fas fa-fw fa-circle "></i>
-                <span>Connexion</span></a>
-            <a class="nav-link" href="register.php">
-                <i class="fas fa-fw fa-square "></i>
-                <span>Inscription</span></a>
+
         </li>
 
         <!-- Divider -->
@@ -127,12 +123,12 @@ if (isset($_SESSION['user'])) {
         <li class="nav-item">
             <a class="nav-link" href="#produit">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Gestion Reservations</span></a>
+                <span>Gestion Produits</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#contact">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Gestion Reservations</span></a>
+                <span>Gestion Contact</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#seances">
@@ -322,7 +318,7 @@ if (isset($_SESSION['user'])) {
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input type="text" class="form-control" name="duree">
+                                                        <input type="time" class="form-control" name="duree">
                                                     </label>
                                                 </div>
                                             </div>
@@ -401,7 +397,7 @@ if (isset($_SESSION['user'])) {
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Résumé
-                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['resume']?>" name="resume">
+                                                        <textarea name="resume" class="form-control" rows="25"><?=$listeFilm[$i]['resume']?></textarea>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
@@ -411,7 +407,7 @@ if (isset($_SESSION['user'])) {
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
-                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['duree']?>" name="duree">
+                                                        <input type="time" class="form-control" value="<?=$listeFilm[$i]['duree']?>" name="duree">
                                                     </label>
                                                 </div>
                                             </div>
