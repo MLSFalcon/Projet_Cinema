@@ -156,7 +156,7 @@ foreach ($listeFilm as $film) {
                                         <p>Veuillez vous connecter pour réserver</p>
                                     <?php } else {?>
                                         <form action="reservation.php" method="post">
-                                            <input type="hidden" name="id_film" value=<?=$films['id_film'] ?>>
+                                            <input type="hidden" name="id_film" value=<?=$film['id_film'] ?>>
                                             <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
                                         </form>
                                     <?php }
