@@ -72,7 +72,7 @@ if (isset($_POST['inscription'])) {
 
         $inscription = new UserRepository();
         if ($inscription->register($user)){
-            header('Location: ../../vue/register.php?confirm=Vous vous êtes bien inscrit');
+            header('Location: ../../vue/login.php?confirm=Vous vous êtes bien inscrit');
         }else{
             header('Location: ../../vue/register.php?erreur=Email déjà utilisée');
         }
