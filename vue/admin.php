@@ -245,7 +245,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                             Quantité produits sucrés</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['0']['nb'] ?></div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['2']['nb'] ?></div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-apple-alt fa-2x text-gray-300"></i>
@@ -277,7 +277,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                             Boissons</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['2']['nb'] ?></div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['0']['nb'] ?></div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-cocktail fa-2x text-gray-300"></i>
@@ -713,17 +713,22 @@ if (isset($_SESSION['user'])) {
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>quantite
+                                                    <label>Quantite
                                                         <input type="text" class="form-control" name="quantite">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>type
+                                                    <label>Type
                                                         <select name="type">
                                                             <option>Produit sucrés</option>
                                                             <option>Produit salés</option>
                                                             <option>Boissons</option>
                                                         </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Prix
+                                                        <input type="number" class="form-control" name="prixProduit">
                                                     </label>
                                                 </div>
                                             </div>
@@ -744,6 +749,7 @@ if (isset($_SESSION['user'])) {
                                 <td>Nom</td>
                                 <td>Quantité</td>
                                 <td>Type</td>
+                                <td>Prix</td>
                                 <td>Action</td>
                             </tr>
                             </thead>
@@ -761,6 +767,9 @@ if (isset($_SESSION['user'])) {
                                 </td>
                                 <td>
                                     <?= $listeProduit[$i]['type']?>
+                                </td>
+                                <td>
+                                    <?= $listeProduit[$i]['prixProduit']?>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifProduit<?=$i?>">modifier</button>
@@ -800,6 +809,11 @@ if (isset($_SESSION['user'])) {
                                                             <option>Produit salés</option>
                                                             <option>Boissons</option>
                                                         </select>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Prix
+                                                        <input type="number" class="form-control" value="<?=$listeProduit[$i]['prixProduit']?>" name="prixProduit">
                                                     </label>
                                                 </div>
                                             </div>

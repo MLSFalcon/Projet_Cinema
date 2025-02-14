@@ -6,7 +6,7 @@ private $id_produit;
 private $nom;
 private $quantite;
 private $type;
-
+private $prixProduit;
     /**
      * @param $id_produit
      * @param $quantite
@@ -90,5 +90,19 @@ private $type;
         $this->type = $type;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPrixProduit()
+    {
+        return $this->prixProduit;
+    }
 
+    /**
+     * @param mixed $prixProduit
+     */
+    public function setPrixProduit($prixProduit)
+    {
+        $this->prixProduit = $prixProduit;
+    }
 }
