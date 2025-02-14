@@ -10,7 +10,6 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');
 }
-var_dump($_SESSION['user']);
 
 /** @var User $User */
 $User = $_SESSION['user'];
@@ -390,7 +389,6 @@ $nbReservation = $UserRepository->nombreResa($User);
     });
     new DataTable('#user', {
         responsive: true
-        paging: false
     });
 </script>
 </html>
