@@ -27,4 +27,12 @@ class TokenRepository
         }
     }
 
+    public function supprimerToken($token){
+        $bdd = new Bdd();
+        $req = $bdd->getBdd()->prepare('DELETE FROM token WHERE token = :token');
+        $req->execute(array(
+            'token' => $token->getToken()
+        ));
+    }
+
 }
