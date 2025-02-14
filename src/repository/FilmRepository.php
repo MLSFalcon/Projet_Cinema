@@ -61,6 +61,15 @@ class FilmRepository
         $requete->closeCursor();
         return $listeFilms;
     }
+    public function listeFilmsSeance(){
+        $bdd = new Bdd();
+        $requete = $bdd->getBdd()->prepare("SELECT DISTINCT film.id_film, film.titre, film.resume, film.genre, film.duree, film.image FROM `film`
+INNER JOIN seance ON film.id_film = seance.ref_film");
+        $requete->execute();
+        $listeFilms = $requete->fetchAll();
+        $requete->closeCursor();
+        return $listeFilms;
+    }
 
     public function afficherFilm($film)
     {
