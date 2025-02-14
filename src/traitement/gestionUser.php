@@ -137,7 +137,7 @@ if (isset($_POST['modifier'])) {
 
 if(isset($_POST['recupmdp'])){
     if ($_POST['mdp'] != $_POST['mdpverif']) {
-        header('Location: ../../vue/recup_password.php?erreur=a&recup='.$_POST['token']);
+        header('Location: ../../vue/recup_password.php?erreur=Veuillez entrez les mêmes mots de passe&recup='.$_POST['token']);
     }elseif (!preg_match('/[A-Z]/', $_POST['mdp'])) {
         header('Location: ../../vue/recup_password.php?erreur=Le mot de passe doit contenir au moins une majuscule&recup='.$_POST['token']);
 

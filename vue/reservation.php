@@ -68,16 +68,16 @@ session_start();
                                             </select>
                                         </label>
                                     </div>
-                                        <p>Prix : <span id="prix">Sélectionnez une séance</span></p>
+                                    <p>Prix : <span id="prix">Sélectionnez une séance</span></p>
 
 
-                                        <label>Places :
-                                            <div class="form-group">
-                                                <input type="number" name="nb_place" value="1" id="nb_place" min="1">
-                                            </div>
-                                        </label>
+                                    <label>Places :
+                                        <div class="form-group">
+                                            <input type="number" name="nb_place" value="1" id="nb_place" min="1">
+                                        </div>
+                                    </label>
 
-                                        </label>
+                                    </label>
                                     <label>Adresse de facturation :
                                         <div class="form-group">
                                             <input type="text" name="adresseFacturation">
@@ -95,7 +95,7 @@ session_start();
                                                     </label>
                                                 </td>
                                                 <td>
-                                                    <input id="quantite<?= $i ?>" type="number" name="quantite_produit<?= $i ?>" min="1" max="<?= $count[$i]['nb'] ?>" value="1" disabled>
+                                                    <input id="quantite<?= $i ?>" type="number" name="quantite_produit<?= $i ?>" min="0" max="<?= $count[$i]['nb'] ?>" value="0" disabled>
                                                 </td>
                                             </tr>
                                         <?php }
@@ -123,9 +123,7 @@ session_start();
 </div>
 <!-- Footer-->
 <footer class="footer text-center">
-
 </footer>
-
 <script>
     function toggleQuantity(index) {
         let checkbox = document.getElementById("ref_produit" + index);
@@ -139,7 +137,6 @@ session_start();
         }
     }
 </script>
-
 <script>
     function updatePrice() {
 
@@ -188,8 +185,6 @@ session_start();
     window.onload = function() {
         updatePrice();
     };
-
-
 </script>
 <!-- Bootstrap core JavaScript-->
 <script src="../vendor/jquery/jquery.min.js"></script>
