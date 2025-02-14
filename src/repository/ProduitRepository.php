@@ -9,11 +9,12 @@ class ProduitRepository
     public function modifier($produit)
     {
         $bdd = new Bdd();
-        $reqModif = $bdd->getBdd()->prepare("UPDATE produit SET nom = :nom, quantite = :quantite, type = :type WHERE id_produit = :id");
+        $reqModif = $bdd->getBdd()->prepare("UPDATE produit SET nom = :nom, quantite = :quantite, type = :type, prixProduit = :prix WHERE id_produit = :id");
         $reqModif->execute(array(
             "nom" => $produit->getNom(),
             "quantite" => $produit->getQuantite(),
             "type" => $produit->getType(),
+            "prix" => $produit->getPrixProduit(),
             "id" => $produit->getId_produit(),
 
         ));
@@ -27,11 +28,12 @@ class ProduitRepository
     public function ajouter(Produit $produit)
     {
         $bdd = new Bdd();
-        $reqModif = $bdd->getBdd()->prepare("INSERT INTO produit (nom, quantite,type) VALUES (:nom, :quantite, :type)");
+        $reqModif = $bdd->getBdd()->prepare("INSERT INTO produit (nom, quantite,type,prixProduit) VALUES (:nom, :quantite, :type, :prix)");
         $reqModif->execute(array(
             "nom" => $produit->getNom(),
             "quantite" => $produit->getQuantite(),
             "type" => $produit->getType(),
+            "prix" => $produit->getPrixProduit(),
         ));
         $reqModif->closeCursor();
     }
