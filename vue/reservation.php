@@ -176,7 +176,7 @@ session_start();
 </script>
 <script>
     function updatePrice() {
-        
+
         var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
         var prixUnitaireSeance = parseFloat(selectedOption.getAttribute('data-prix'));
         var nbPlaces = parseInt(document.getElementById('nb_place').value);

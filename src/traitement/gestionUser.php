@@ -42,6 +42,24 @@ if (isset($_POST['inscription'])) {
     if ($_POST['mdp'] != $_POST['confirmeMdp']) {
         header('Location: ../../vue/register.php?erreur=Erreur, mot de passe non confirmé !');
     }
+    elseif (!preg_match('/[A-Z]/', $_POST['mdp'])) {
+        header('Location: ../../vue/register.php?erreur=Le mot de passe doit contenir au moins une majuscule');
+
+    }
+    elseif (!preg_match('/[a-z]/', $_POST['mdp'])) {
+        header('Location: ../../vue/register.php?erreur=Le mot de passe doit contenir au moins une minuscule');
+
+    }
+    elseif (!preg_match('/[0-9]/', $_POST['mdp'])) {
+        header('Location: ../../vue/register.php?erreur=Le mot de passe doit contenir au moins un chiffre');
+
+    }
+    elseif (!preg_match('/[\W_]/', $_POST['mdp'])) {
+        header('Location: ../../vue/register.php?erreur=Le mot de passe doit contenir au moins un caractère spécial');
+
+    }elseif (strlen($_POST['mdp']) < 12){
+        header('Location: ../../vue/register.php?erreur=Le mot de passe doit contenir au 12 caractères');
+    }
     else {
         $hydrated = array(
             'nom' => $_POST['nom'],
@@ -120,7 +138,25 @@ if (isset($_POST['modifier'])) {
 if(isset($_POST['recupmdp'])){
     if ($_POST['mdp'] != $_POST['mdpverif']) {
         header('Location: ../../vue/recup_password.php?erreur=a&recup='.$_POST['token']);
-    }else{
+    }elseif (!preg_match('/[A-Z]/', $_POST['mdp'])) {
+        header('Location: ../../vue/recup_password.php?erreur=Le mot de passe doit contenir au moins une majuscule&recup='.$_POST['token']);
+
+    }
+    elseif (!preg_match('/[a-z]/', $_POST['mdp'])) {
+        header('Location: ../../vue/recup_password.php?erreur=Le mot de passe doit contenir au moins une minuscule&recup='.$_POST['token']);
+
+    }
+    elseif (!preg_match('/[0-9]/', $_POST['mdp'])) {
+        header('Location: ../../vue/recup_password.php?erreur=Le mot de passe doit contenir au moins un chiffre&recup='.$_POST['token']);
+
+    }
+    elseif (!preg_match('/[\W_]/', $_POST['mdp'])) {
+        header('Location: ../../vue/recup_password.php?erreur=Le mot de passe doit contenir au moins un caractère spécial&recup='.$_POST['token']);
+
+    }elseif (strlen($_POST['mdp']) < 12){
+        header('Location: ../../vue/recup_password.php?erreur=Le mot de passe doit contenir au 12 caractères&recup='.$_POST['token']);
+    }
+    else{
         $tok = new Token(array(
             'token' => $_POST['token']));
         $tokenRep= new TokenRepository();
@@ -137,5 +173,5 @@ if(isset($_POST['recupmdp'])){
         $tokenRep->supprimerToken($tok);
         header('Location: ../../vue/index.php');
     }
-    var_dump($user);
+
 }
