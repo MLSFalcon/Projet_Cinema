@@ -181,12 +181,16 @@ session_start();
                             <!-- Portfolio Modal - Text-->
                             <p class="mb-4">Genre : <?=$films[0]['genre'] ?><br>Durée : <?=$films[0]['duree'] ?><br>Résumer : <?=$films[0]['resume'] ?><br> </p>
                             <div class="row">
-                                <div class="col">
+                                <?php
+                                if (!isset($_SESSION['user'])){?>
+                                    <p>Veuillez vous connecter pour réserver</p>
+                                <?php } else {?>
                                     <form action="reservation.php" method="post">
                                         <input type="hidden" name="id_film" value=<?=$films[0]['id_film'] ?>>
                                         <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
                                     </form>
-                                </div>
+                                <?php }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -255,12 +259,16 @@ session_start();
                             <!-- Portfolio Modal - Text-->
                             <p class="mb-4">Genre : <?=$films[2]['genre'] ?><br>Durée : <?=$films[2]['duree'] ?><br>Résumer : <?=$films[2]['resume'] ?><br> </p>
                             <div class="row">
-                                <div class="col">
+                                <?php
+                                if (!isset($_SESSION['user'])){?>
+                                    <p>Veuillez vous connecter pour réserver</p>
+                                <?php } else {?>
                                     <form action="reservation.php" method="post">
                                         <input type="hidden" name="id_film" value=<?=$films[2]['id_film'] ?>>
                                         <input type="submit" class="btn btn-primary" data-bs-dismiss="modal" value="Reservé une séance" name="reservation">
                                     </form>
-                                </div>
+                                <?php }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -269,24 +277,25 @@ session_start();
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!--Modal après reservation-->
 <?php
 if (isset($_GET['reserver'])){?>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="reserverModal" tabindex="-1" aria-labelledby="reserverModal" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Mon Modal</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Réservation Complète</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Contenu du modal...
+                    <p>Votre réservation a bien été prise en compte</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    <form action = 'index.php'>
+                        <input type="submit" class="btn btn-secondary" data-bs-dismiss="modal" value="Fermer">
+                    </form>
                 </div>
             </div>
         </div>
@@ -298,13 +307,49 @@ if (isset($_GET['reserver'])){?>
                 return urlParams.get(name);
             }
 
-            if (getParam("reserver") === "show") {
-                $("#myModal").modal("show");
+            if (getParam("reserver") === "ok") {
+                $("#reserverModal").modal("show");
             }
         });
     </script>
+    <?php
+}
+?>
 
+<!--Modal après connexion-->
 <?php
+if (isset($_GET['connexion'])){?>
+    <div class="modal fade" id="connexionModal" tabindex="-1" aria-labelledby="connexionModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Connexion réussie</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Vous vous êtes connecté(e).</p>
+                </div>
+                <div class="modal-footer">
+                    <form action = 'index.php'>
+                        <input type="submit" class="btn btn-secondary" data-bs-dismiss="modal" value="Fermer">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            function getParam(name) {
+                let urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+
+            if (getParam("connexion") === "ok") {
+                $("#connexionModal").modal("show");
+            }
+        });
+    </script>
+    <?php
 }
 ?>
 

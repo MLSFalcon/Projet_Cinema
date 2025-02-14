@@ -30,7 +30,7 @@ if (isset($_POST['connexion'])) {
     }else{
         session_start();
         $_SESSION['user'] = $utilisateur;
-        header('Location: ../../vue/index.php');
+        header('Location: ../../vue/index.php?connexion=ok');
     }
 }
 if (isset($_GET['deconnexion'])) {
