@@ -130,50 +130,16 @@ session_start();
     function toggleQuantity(index) {
         let checkbox = document.getElementById("ref_produit" + index);
         let quantityInput = document.getElementById("quantite" + index);
-
-        quantityInput.disabled = !checkbox.checked;
+        if (checkbox.checked){
+            quantityInput.disabled = false;
+            quantityInput.value = 1;
+        }else{
+            quantityInput.disabled = true;
+            quantityInput.value = 0;
+        }
     }
 </script>
-<script>
 
-    function updatePrice() {
-        var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
-        var prixUnitaire = parseFloat(selectedOption.getAttribute('data-prix'));
-        var nbPlaces = parseInt(document.getElementById('nb_place').value);
-
-
-        var prixTotal = prixUnitaire * nbPlaces;
-
-
-        document.getElementById('prix').textContent = prixTotal.toFixed(2) + ' €'; // Formater avec 2 décimales
-    }
-
-
-    document.getElementById('select_seance').addEventListener('change', updatePrice);
-
-
-    document.getElementById('nb_place').addEventListener('input', updatePrice);
-
-
-    window.onload = function() {
-        updatePrice();
-    };
-
-</script>
-<script>
-    function updatePrice() {
-        var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
-        var prix = selectedOption.getAttribute('data-prix');
-        document.getElementById('prix').textContent = prix ? prix : 'Sélectionnez une séance';
-    }
-
-    document.getElementById('select_seance').addEventListener('change', updatePrice);
-
-    window.onload = function() {
-        updatePrice();
-    };
-
-</script>
 <script>
     function updatePrice() {
 
