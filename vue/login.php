@@ -58,6 +58,17 @@ include "head.html";
                                                 echo '<p style="color:red">'.$_GET['erreur'].'</p>';
                                             }
                                             ?>
+                                            <?php
+
+                            if (isset($_GET['confirm'])) {
+                                ?>
+                                                <?php
+                                                echo '<p style="color:green">'.$_GET['confirm'].'</p>';
+                                                ?>
+
+                                            <?php
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                     <?php

@@ -389,7 +389,6 @@ $nbReservation = $UserRepository->nombreResa($User);
     });
     new DataTable('#user', {
         responsive: true
-        paging: false
     });
 </script>
 </html>

@@ -7,6 +7,8 @@ require_once "../src/repository/ReservationRepository.php";
 require_once "../src/repository/SeanceRepository.php";
 require_once "../src/class/User.php";
 require_once "../src/repository/ProduitRepository.php";
+require_once "../src/class/Film.php";
+require_once "../src/repository/FilmRepository.php";
 $reservation = new ReservationRepository();
 $seances = new SeanceRepository();
 $seances = $seances->listeSeancesFilm($_POST['id_film']);
@@ -48,21 +50,36 @@ session_start();
                             <div class="p-5">
                                 <div class="text-center">
                                     <?php
+                                    $film = new Film(array(
+                                        'id_film' => $_POST['id_film'],
+                                    ));
+                                    $filmRepository = new FilmRepository();
+                                    $req = $filmRepository->afficherFilm($film);
+                                    $film->hydrate($req);
+
                                     if (isset($_GET['reservation'])) {
                                         echo'<h1 class="h4 text-gray-900 mb-4">Veuillez vous connecter pour faire une reservation</h1>';
                                     }else{
-                                        echo'<h1 class="h4 text-gray-900 mb-4">Bon retour parmis nous!</h1>';
+                                        echo'<h1 class="h4 text-gray-900 mb-4">'.$film->getTitre().'</h1>';
                                     }
                                     ?>
                                 </div>
                                 <form class="user" method="post" action="../src/traitement/gestionReservation.php">
                                     <div class="form-group">
-                                        <label> Séances :
+                                        <label> Séances du :
                                             <select name="ref_seance" id="select_seance">
                                                 <?php
-                                                for ($i = 0; $i < count($seances); $i++) { ?>
+                                                for ($i = 0; $i < count($seances); $i++) {
+
+                                                    $dateOriginale = $seances[$i]['date_seance'];
+
+                                                    $dateObj = new DateTime($dateOriginale);
+
+                                                    $dateFormatee = $dateObj->format('d/m/Y');
+
+                                                    ?>
                                                     <option value="<?= $seances[$i]['id_seance'] ?>"
-                                                            data-prix="<?= $seances[$i]['prix'] ?>" <?= $i === 0 ? 'selected' : '' ?>><?= $seances[$i]['date_seance'] ?>, <?= $seances[$i]['heure'] ?></option>
+                                                            data-prix="<?= $seances[$i]['prix'] ?>" <?= $i === 0 ? 'selected' : '' ?>><?= $dateFormatee?> à <?= $seances[$i]['heure']?></option>
                                                 <?php }
                                                 ?>
                                             </select>
@@ -80,13 +97,14 @@ session_start();
                                     </label>
                                     <label>Adresse de facturation :
                                         <div class="form-group">
-                                            <input type="text" name="adresseFacturation">
+                                            <input type="text" name="adresseFacturation" required>
                                         </div>
                                     </label>
                                     <p>Produits :</p>
                                     <table>
                                         <?php
                                         for ($i = 0; $i < count($listeProduit); $i++) {
+
                                             ?>
                                             <tr>
                                                 <td>

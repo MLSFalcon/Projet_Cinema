@@ -8,7 +8,7 @@ class Film
     private $duree;
     private $image;
 
-    private function hydrate($array) {
+    public function hydrate($array) {
         foreach ($array as $key => $value) {
             $method = 'set'.ucfirst($key);
 
