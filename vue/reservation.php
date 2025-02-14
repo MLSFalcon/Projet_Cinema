@@ -58,23 +58,26 @@ session_start();
                                 <form class="user" method="post" action="../src/traitement/gestionReservation.php">
                                     <div class="form-group">
                                         <label> Séances :
-                                            <select name="ref_seance">
+                                            <select name="ref_seance" id="select_seance">
                                                 <?php
-                                                for ($i = 0; $i < count($seances); $i++) {;?>
-                                                    <option value="<?= $seances[$i]['id_seance'] ?>"><?=$seances[$i]['date_seance']?>,<?=$seances[$i]['heure']?></option>
+                                                for ($i = 0; $i < count($seances); $i++) { ?>
+                                                    <option value="<?= $seances[$i]['id_seance'] ?>"
+                                                            data-prix="<?= $seances[$i]['prix'] ?>" <?= $i === 0 ? 'selected' : '' ?>><?= $seances[$i]['date_seance'] ?>, <?= $seances[$i]['heure'] ?></option>
                                                 <?php }
                                                 ?>
                                             </select>
                                         </label>
                                     </div>
-                                    <p>Prix : <?= $seances[0]['prix'] ?></p>
+                                        <p>Prix : <span id="prix">Sélectionnez une séance</span></p>
 
 
-                                    <label>Places :
-                                    <div class="form-group">
-                                        <input type="number" name="nb_place" value="1">
-                                    </div>
-                                    </label>
+                                        <label>Places :
+                                            <div class="form-group">
+                                                <input type="number" name="nb_place" value="1" id="nb_place" min="1">
+                                            </div>
+                                        </label>
+
+                                        </label>
                                     <label>Adresse de facturation :
                                         <div class="form-group">
                                             <input type="text" name="adresseFacturation">
@@ -82,22 +85,23 @@ session_start();
                                     </label>
                                     <p>Produits :</p>
                                     <table>
-                                            <?php
-                                            for ($i = 0; $i < count($listeProduit); $i++) {;?>
-                                                <tr>
-                                                    <td>
-                                                        <label> <?=$listeProduit[$i]['nom']?>
-                                                            <input type="checkbox" id="ref_produit<?=$i?>" name="ref_produit<?=$i?>" value="<?= $listeProduit[$i]['id_produit']?>" onclick="toggleQuantity(<?=$i?>)">
-                                                        </label>
-                                                    </td>
-                                                    <td>
-                                                        <input id="quantite<?=$i?>" type="number" name="quantite_produit<?=$i?>" min="1" max="<?=$count[$i]['nb']?>" value="1" disabled>
-                                                    </td>
-                                                </tr>
-
-                                            <?php }
+                                        <?php
+                                        for ($i = 0; $i < count($listeProduit); $i++) {
                                             ?>
+                                            <tr>
+                                                <td>
+                                                    <label> <?= $listeProduit[$i]['nom'] ?>
+                                                        <input type="checkbox" id="ref_produit<?= $i ?>" name="ref_produit<?= $i ?>" value="<?= $listeProduit[$i]['id_produit'] ?>" data-prix="<?= $listeProduit[$i]['prixProduit'] ?>" onclick="toggleQuantity(<?= $i ?>)">
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <input id="quantite<?= $i ?>" type="number" name="quantite_produit<?= $i ?>" min="1" max="<?= $count[$i]['nb'] ?>" value="1" disabled>
+                                                </td>
+                                            </tr>
+                                        <?php }
+                                        ?>
                                     </table>
+
                                     <br>
                                     <input type="hidden" name="i" value="<?=$i?>">
                                     <input type="hidden" name="ref_user" value="<?=$_SESSION['user']->getId_user()?>">
@@ -130,7 +134,97 @@ session_start();
         quantityInput.disabled = !checkbox.checked;
     }
 </script>
+<script>
 
+    function updatePrice() {
+        var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
+        var prixUnitaire = parseFloat(selectedOption.getAttribute('data-prix'));
+        var nbPlaces = parseInt(document.getElementById('nb_place').value);
+
+
+        var prixTotal = prixUnitaire * nbPlaces;
+
+
+        document.getElementById('prix').textContent = prixTotal.toFixed(2) + ' €'; // Formater avec 2 décimales
+    }
+
+
+    document.getElementById('select_seance').addEventListener('change', updatePrice);
+
+
+    document.getElementById('nb_place').addEventListener('input', updatePrice);
+
+
+    window.onload = function() {
+        updatePrice();
+    };
+
+</script>
+<script>
+    function updatePrice() {
+        var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
+        var prix = selectedOption.getAttribute('data-prix');
+        document.getElementById('prix').textContent = prix ? prix : 'Sélectionnez une séance';
+    }
+
+    document.getElementById('select_seance').addEventListener('change', updatePrice);
+
+    window.onload = function() {
+        updatePrice();
+    };
+
+</script>
+<script>
+    function updatePrice() {
+        
+        var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
+        var prixUnitaireSeance = parseFloat(selectedOption.getAttribute('data-prix'));
+        var nbPlaces = parseInt(document.getElementById('nb_place').value);
+
+
+        var prixTotalSeance = prixUnitaireSeance * nbPlaces;
+
+
+        var prixTotalProduits = 0;
+        var produits = document.querySelectorAll('input[type="checkbox"]:checked');
+
+        produits.forEach(function(produit) {
+
+            var quantiteProduit = document.getElementById('quantite' + produit.id.replace('ref_produit', '')).value;
+            var prixProduit = parseFloat(produit.getAttribute('data-prix'));
+
+
+            prixTotalProduits += prixProduit * quantiteProduit;
+        });
+
+
+        var prixTotalFinal = prixTotalSeance + prixTotalProduits;
+
+
+        document.getElementById('prix').textContent = prixTotalFinal.toFixed(2) + ' €'; // Formater avec 2 décimales
+    }
+
+
+    document.getElementById('select_seance').addEventListener('change', updatePrice);
+
+
+    document.getElementById('nb_place').addEventListener('input', updatePrice);
+
+
+    document.querySelectorAll('input[type="number"]').forEach(function(input) {
+        input.addEventListener('input', updatePrice);
+    });
+
+    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+        checkbox.addEventListener('change', updatePrice);
+    });
+
+    window.onload = function() {
+        updatePrice();
+    };
+
+
+</script>
 <!-- Bootstrap core JavaScript-->
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
