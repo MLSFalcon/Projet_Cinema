@@ -78,5 +78,8 @@ INNER JOIN seance ON film.id_film = seance.ref_film");
         $requete->execute(array(
             "id" => $film->getId_film()
         ));
+        $film = $requete->fetch();
+
+        return $film;
     }
 }
