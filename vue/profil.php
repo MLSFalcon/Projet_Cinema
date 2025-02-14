@@ -10,7 +10,6 @@ session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: index.php');
 }
-var_dump($_SESSION['user']);
 
 /** @var User $User */
 $User = $_SESSION['user'];
