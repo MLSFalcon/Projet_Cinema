@@ -382,7 +382,7 @@ if (isset($_SESSION['user'])) {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Modification du film</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -443,11 +443,6 @@ if (isset($_SESSION['user'])) {
                             <div class="col-10">
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION RESERVATIONS</h6>
                             </div>
-                            <div class="col-1">
-                                <form action="" method="post">
-                                    <input class="btn btn-primary" type="submit" value="Ajouter une Séance">
-                                </form>
-                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -495,7 +490,7 @@ if (isset($_SESSION['user'])) {
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Modification de la réservation</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -541,7 +536,7 @@ if (isset($_SESSION['user'])) {
                             <div class="col-10">
                                 <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
                             </div>
-                            <div class="col-1">
+                            <div class="col-2">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutUser">Ajouter un utilisateur</button>
                                 <?php
                                 if (isset($_GET['erreur'])) {
@@ -558,7 +553,7 @@ if (isset($_SESSION['user'])) {
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajout d'un utilisateur</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>

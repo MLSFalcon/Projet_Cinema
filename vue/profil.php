@@ -18,7 +18,7 @@ $UserRepository = new UserRepository();
 
 //liste reservation
 $listeReservation = new ReservationRepository();
-$listeReservation= $listeReservation->listeReservations();
+$listeReservation= $listeReservation->listeReservationsUser($_SESSION['user']->getId_user());
 
 $nbReservation = $UserRepository->nombreResa($User);
 
@@ -389,7 +389,6 @@ $nbReservation = $UserRepository->nombreResa($User);
     });
     new DataTable('#user', {
         responsive: true
-        paging: false
     });
 </script>
 </html>

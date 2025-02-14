@@ -49,8 +49,8 @@ include "head.html";
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user"
-                                           id="exampleInputPassword" placeholder="Mot de passe"
+                                    <input type="password" class="form-control form-control-user" id="exampleInputPassword"
+                                           placeholder="Mot de passe"
                                            name="mdp" required>
                                 </div>
                                 <div class="col-sm-6">
@@ -59,6 +59,18 @@ include "head.html";
                                            name="confirmeMdp" required>
                                 </div>
                             </div>
+
+                            <!-- Critères de mot de passe -->
+                            <div id="passwordRequirements" style="display:none;">
+                                <ul>
+                                    <li id="length" style="color: red;">- Au moins 12 caractères</li>
+                                    <li id="number" style="color: red;">- 1 chiffre</li>
+                                    <li id="uppercase" style="color: red;">- 1 majuscule</li>
+                                    <li id="lowercase" style="color: red;">- 1 minuscule</li>
+                                    <li id="special" style="color: red;">- 1 caractère spécial</li>
+                                </ul>
+                            </div>
+
                             <?php
                             if (isset($_GET['erreur'])) {
                                 ?>
@@ -86,7 +98,7 @@ include "head.html";
                             <a class="small" href="forgot-password.php">Mot de passe oublié?</a>
                         </div>
                         <div class="text-center">
-                            <a class="small" href="login.php">Vous posséder déja un compte ? Se connecter!</a>
+                            <a class="small" href="login.php">Vous possédez déjà un compte ? Se connecter!</a>
                         </div>
                         <div class="text-center">
                             <a class="small" href="index.php">Retour à l'accueil.</a>
@@ -109,6 +121,62 @@ include "head.html";
 <!-- Custom scripts for all pages-->
 <script src="../asset/js/sb-admin-2.min.js"></script>
 
+<script>
+    const passwordField = document.getElementById('exampleInputPassword');
+    const passwordRequirements = document.getElementById('passwordRequirements');
+    const lengthRequirement = document.getElementById('length');
+    const numberRequirement = document.getElementById('number');
+    const uppercaseRequirement = document.getElementById('uppercase');
+    const lowercaseRequirement = document.getElementById('lowercase');
+    const specialRequirement = document.getElementById('special');
+
+    passwordField.addEventListener('input', function () {
+        const password = passwordField.value;
+
+
+        passwordRequirements.style.display = 'block';
+
+
+        if (password.length >= 12) {
+            lengthRequirement.style.color = 'green';
+        } else {
+            lengthRequirement.style.color = 'red';
+        }
+
+        if (/\d/.test(password)) {
+            numberRequirement.style.color = 'green';
+        } else {
+            numberRequirement.style.color = 'red';
+        }
+
+        if (/[A-Z]/.test(password)) {
+            uppercaseRequirement.style.color = 'green';
+        } else {
+            uppercaseRequirement.style.color = 'red';
+        }
+
+        if (/[a-z]/.test(password)) {
+            lowercaseRequirement.style.color = 'green';
+        } else {
+            lowercaseRequirement.style.color = 'red';
+        }
+
+        if (/[^A-Za-z0-9]/.test(password)) {
+            specialRequirement.style.color = 'green';
+        } else {
+            specialRequirement.style.color = 'red';
+        }
+
+        if (password.length >= 12 && /\d/.test(password) && /[A-Z]/.test(password) &&
+            /[a-z]/.test(password) && /[^A-Za-z0-9]/.test(password)) {
+            // Si tous les critères sont remplis, cacher les critères
+            passwordRequirements.style.display = 'none';
+        }
+    });
+</script>
+
 </body>
 
 </html>
+
+
