@@ -52,10 +52,7 @@ include "head.html";
                                     <input type="submit" name="envoyer" class="btn btn-primary btn-user btn-block" value="Envoyer">
                                     <hr>
                                 </form>
-
-                                <div class="text-center">
-                                    <a class="small" href="forgot-password.php">Mot de passe oublié?</a>
-                                </div>
+                                
                                 <div class="text-center">
                                     <a class="small" href="register.php">Créer un compte!</a>
                                 </div>
