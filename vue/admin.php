@@ -312,9 +312,18 @@ if (isset($_SESSION['user'])) {
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Genre
-                                                        <input type="text" class="form-control" name="genre">
-                                                    </label>
+                                                    <label for="select-genre">Genre</label>
+                                                    <select name="genre"  id="select-genre" style="width:250px"  >
+                                                        <option value="" hidden>Selectionnez un genre</option>
+                                                        <option value = "Comédie">Comédie</option>
+                                                        <option value = "Drame">Drame</option>
+                                                        <option value = "Action">Action</option>
+                                                        <option value = "Aventure">Aventure</option>
+                                                        <option value = "Horreur">Horreur</option>
+                                                        <option value = "Science-fiction">Science-fiction</option>
+                                                        <option value = "Animation">Animation</option>
+                                                        <option value = "Historique">Historique</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Durée
@@ -1132,6 +1141,11 @@ if (isset($_SESSION['user'])) {
     });
     new DataTable('#produit', {
         responsive: true
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#select-genre").select2();
     });
 </script>
 </html>
