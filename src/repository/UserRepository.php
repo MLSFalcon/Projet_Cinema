@@ -12,13 +12,14 @@ class UserRepository
         if ($liste){
             return false;
         } else{
-            $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp, role) VALUES(:nom, :prenom, :email, :mdp, :role)');
+            $req = $bddUser->getBdd()->prepare('INSERT INTO utilisateur(nom, prenom, email, mdp, role,adresseFacturation) VALUES(:nom, :prenom, :email, :mdp, :role, :adresse)');
             $req->execute(array(
                 'nom' => $user->getNom(),
                 'prenom' => $user->getPrenom(),
                 'email' => $user->getEmail(),
                 'mdp' => $user->getMdp(),
                 'role' => $user->getRole(),
+                'adresse'=>$user->getAdresse(),
             ));
             $req->closeCursor();
             return true;

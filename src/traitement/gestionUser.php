@@ -65,6 +65,7 @@ if (isset($_POST['inscription'])) {
             'nom' => $_POST['nom'],
             'prenom' => $_POST['prenom'],
             'email' => $_POST['email'],
+            'adresse'=>$_POST['adresse'],
             'mdp' => password_hash($_POST['mdp'] , PASSWORD_DEFAULT),
             'role' => "utilisateur"
         );
@@ -84,6 +85,7 @@ if (isset($_POST['ajoutUser'])) {
         'nom' => $_POST['nom'],
         'prenom' => $_POST['prenom'],
         'email' => $_POST['email'],
+        'adresse'=>$_POST['adresse'],
         'mdp' => password_hash($_POST['mdp'] , PASSWORD_DEFAULT),
         'role' => $_POST['role']
     );
@@ -102,6 +104,7 @@ if (isset($_POST['modifierAdmin'])) {
         'nom' => $_POST['nom'],
         'prenom' => $_POST['prenom'],
         'email' => $_POST['email'],
+        'adresse'=>$_POST['adresse'],
         'role' => $_POST['role'],
         'id_user' => $_POST['id_user']
     );
@@ -125,6 +128,7 @@ if (isset($_POST['modifier'])) {
         'nom' => $_POST['nom'],
         'prenom' => $_POST['prenom'],
         'email' => $_POST['email'],
+        'adresse'=>$_POST['adresse'],
         'role' => $User->getRole(),
         'id_user' => $User->getId_User()
     );

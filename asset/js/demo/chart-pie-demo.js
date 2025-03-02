@@ -1,10 +1,11 @@
-// Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
+// Vérifie si un graphique existe déjà et le détruit
+if (window.myPieChart instanceof Chart) {
+  window.myPieChart.destroy();
+}
 
-// Pie Chart Example
+// Crée un nouveau graphique
 var ctx = document.getElementById("myPieChart");
-var myPieChart = new Chart(ctx, {
+window.myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
     labels: ["Direct", "Referral", "Social"],

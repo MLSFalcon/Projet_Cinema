@@ -56,6 +56,7 @@ if (isset($_SESSION['user'])) {
 
 <head>
     <title>MNRT CINEMA - Admin</title>
+
 </head>
 
 <body id="page-top">
@@ -580,6 +581,13 @@ if (isset($_SESSION['user'])) {
                                                 <input type="email" class="form-control" name="email" required>
                                             </label>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="select-adresse">Adresse de facturation
+                                            <select class="form-control" name="adresse" id="select-adresse" style="width:350px"></select>
+                                            </label>
+                                        </div>
+
                                         <div class="form-group">
                                             <label>Mot de passe
                                                 <input type="password" class="form-control" name="mdp" required>
@@ -1098,54 +1106,100 @@ if (isset($_SESSION['user'])) {
                 </div>
             </div>
 
-            <!-- Bootstrap core JavaScript-->
-            <script src="../vendor/jquery/jquery.min.js"></script>
+            <!--  Canvas pour les graphiques -->
+            <canvas id="myAreaChart"></canvas>
+            <canvas id="myPieChart"></canvas>
+
+            <!--  Charger jQuery  -->
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+            <!--  Charger Bootstrap -->
             <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-
-
-            <!-- Core plugin JavaScript-->
+            <!--  Charger les plugins -->
             <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
-            <!-- Custom scripts for all pages-->
+            <!--  Charger les scripts globaux -->
             <script src="../asset/js/sb-admin-2.min.js"></script>
 
-            <!-- Page level plugins -->
-            <script src="../vendor/chart.js/Chart.min.js"></script>
+            <!--  Charge Chart.js  -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-            <!-- Page level custom scripts -->
+            <script>
+
+                console.log("Version de Chart.js :", Chart?.version || "Non chargé");
+            </script>
+
+            <!--  Charge les scripts qui utilisent Chart.js -->
             <script src="../asset/js/demo/chart-area-demo.js"></script>
             <script src="../asset/js/demo/chart-pie-demo.js"></script>
 
+            <!-- Charger Select2 -->
+            <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+
+                    if ($.fn.select2) {
+                        console.log(" Select2 est bien chargé ");
+                        console.log("Élément #select-adresse détecté ?", $('#select-adresse').length);
+
+                        // Initialisation de Select2 uniquement à l'ouverture du modal
+                        $('#ajoutUser').on('shown.bs.modal', function () {
+                            console.log("Modal affiché,lancement de Select2");
+
+                            $('#select-adresse').select2({
+                                debug: true,
+                                minimumInputLength: 1,
+                                dropdownParent: $('#ajoutUser'), // pour éviter le bug dans le modal !
+                                ajax: {
+                                    url: "../src/traitement/recherche_adresse.php",
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    delay: 100,
+                                    data: function (params) {
+                                        return {adresse: params.term};
+                                    },
+                                    processResults: function (data) {
+                                        console.log(" Données reçues de l'API :", data);
+                                        return {
+                                            results: data.results.map(function (item) {
+                                                return {id: item.adresse, text: item.adresse};
+                                            })
+                                        };
+                                    },
+                                    cache: true
+                                }
+                            });
+
+                            // Supprime aria-hidden pour éviter le bug d'accessibilité
+                            $('#select-adresse').removeAttr('aria-hidden').attr('tabindex', '0');
+                        });
+
+                    } else {
+                        console.error(" Erreur : Select2 n'est pas chargé.");
+                    }
+                });
+
+            </script>
+
+            <!--  Charger DataTables -->
+            <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+            <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+            <script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    new DataTable('#example', { responsive: true });
+                    new DataTable('#contact', { responsive: true });
+                    new DataTable('#reservations', { responsive: true });
+                    new DataTable('#seances', { responsive: true });
+                    new DataTable('#films', { responsive: true });
+                    new DataTable('#produit', { responsive: true });
+                });
+            </script>
+
 </body>
 
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
-<script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
-<script>
-    new DataTable('#example', {
-        responsive: true
-    });
-    new DataTable('#contact', {
-        responsive: true
-    });
-    new DataTable('#reservations', {
-        responsive: true
-    });
-    new DataTable('#seances', {
-        responsive: true
-    });
-    new DataTable('#films', {
-        responsive: true
-    });
-    new DataTable('#produit', {
-        responsive: true
-    });
-</script>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $("#select-genre").select2();
-    });
-</script>
 </html>

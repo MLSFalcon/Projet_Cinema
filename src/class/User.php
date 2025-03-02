@@ -6,6 +6,7 @@ class User
     private $nom;
     private $prenom;
     private $email;
+    private $adresse;
     private $mdp;
     private $role;
     public function __construct(array $array){
@@ -58,6 +59,12 @@ class User
     public function setEmail($email)
     {
         $this->email = $email;
+    }
+    public function getAdresse(){
+        return $this->adresse;
+    }
+    public function setAdresse($adresse){
+        $this->adresse = $adresse;
     }
 
     public function getMdp()
