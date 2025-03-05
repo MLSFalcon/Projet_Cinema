@@ -397,7 +397,7 @@ if (isset($_SESSION['user'])) {
                                 <a class="btn btn-primary" href="../src/traitement/gestionUser.php?deconnexion=oui">Se déconnecter</a>
                             </div>
 
-                            
+
 
             <!-- Scroll to Top Button-->
             <a class="scroll-to-top rounded" href="#page-top">
@@ -419,7 +419,6 @@ if (isset($_SESSION['user'])) {
                         <div class="modal-footer">
                             <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
                             <a class="btn btn-primary" href="../src/traitement/gestionUser.php?deconnexion=oui">Se déconnecter</a>
->>>>>>> e826176e0afe7a3a0031da9c39cbf41ae22fb499
                         </div>
                     </div>
                 </div>

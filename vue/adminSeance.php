@@ -81,10 +81,13 @@ if (isset($_SESSION['user'])) {
             Gestions :
         </div>
         <li class="nav-item">
-            <a class="nav-link" href="adminSeances.php">
+            <a class="nav-link" href="admin.php">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Gestion Seances</span></a>
+                <span>Globale</span></a>
         </li>
+
+
+        <!-- Nav Item - Charts -->
         <li class="nav-item">
             <a class="nav-link" href="adminFilm.php">
                 <i class="fas fa-fw fa-table"></i>
@@ -112,6 +115,11 @@ if (isset($_SESSION['user'])) {
             <a class="nav-link" href="adminContact.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Contact</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="adminSeances.php">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Gestion Seances</span></a>
         </li>
 
         <!-- Divider -->
