@@ -102,12 +102,10 @@ if (isset($_SESSION['user'])) {
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="#films">
+            <a class="nav-link" href="adminFilm.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Films</span></a>
         </li>
-
-        <!-- Nav Item - Tables -->
 
 
         <li class="nav-item">
@@ -1059,8 +1057,6 @@ if (isset($_SESSION['user'])) {
                                         } ?>
                                     </div>
                                 </div>
-
-
 
                             </div>
                             <!-- /.container-fluid -->
