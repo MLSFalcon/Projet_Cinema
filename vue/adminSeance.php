@@ -1,17 +1,22 @@
 <?php
 require_once "../src/bdd/Bdd.php";
+require_once "../src/repository/SeanceRepository.php";
+require_once "../src/repository/FilmRepository.php";
 require_once "../src/repository/UserRepository.php";
-require_once "../src/repository/ProduitRepository.php";
+require_once "../src/repository/SalleRepository.php";
 require_once "../src/class/User.php";
-
 include "head.html";
 
-
-//liste produit
-$listeProduit = new ProduitRepository();
-$count = new ProduitRepository();
-$listeProduit = $listeProduit->listeProduit();
-$count = $count->count();
+//liste Séances
+$listeSeance = new SeanceRepository();
+$listeSeance = $listeSeance->listeSeances();
+$countSeance = count($listeSeance);
+//liste film
+$listeFilm = new FilmRepository();
+$listeFilm= $listeFilm->listeFilms();
+//liste Salle
+$listeSalle = new SalleRepository();
+$listeSalle = $listeSalle->listeSalle();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
 if (isset($_SESSION['user'])) {
@@ -61,8 +66,11 @@ if (isset($_SESSION['user'])) {
             <a class="nav-link" href="index.php">
                 <i class="fas fa-fw fa-backward "></i>
                 <span>Accueil</span></a>
-            <a class="nav-link" href="login.php">
-
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="admin.php">
+                <i class="fas fa-fw fa-backward "></i>
+                <span>Global - Admin</span></a>
         </li>
 
         <!-- Divider -->
@@ -72,10 +80,11 @@ if (isset($_SESSION['user'])) {
         <div class="sidebar-heading">
             Gestions :
         </div>
-
-
-
-        <!-- Nav Item - Charts -->
+        <li class="nav-item">
+            <a class="nav-link" href="adminSeances.php">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Gestion Seances</span></a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="adminFilm.php">
                 <i class="fas fa-fw fa-table"></i>
@@ -84,30 +93,25 @@ if (isset($_SESSION['user'])) {
 
 
         <li class="nav-item">
-            <a class="nav-link" href="#reservations">
+            <a class="nav-link" href="adminReservation.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Reservations</span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#example">
+            <a class="nav-link" href="adminUtilisateur.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#produit">
+            <a class="nav-link" href="adminProduit.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Produits</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#contact">
+            <a class="nav-link" href="adminContact.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Contact</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#seances">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Gestion Seances</span></a>
         </li>
 
         <!-- Divider -->
@@ -192,108 +196,89 @@ if (isset($_SESSION['user'])) {
                 <div class="row">
 
                     <!-- Pending Requests Card Example -->
-
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-warning shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Quantité produits sucrés</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['2']['nb'] ?></div>
+                                            Nombre de séances</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $countSeance ?></div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-apple-alt fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Quantité produits salés</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['1']['nb'] ?></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-bacon fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Boissons</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['0']['nb'] ?></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-cocktail fa-2x text-gray-300"></i>
+                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <!-- Content Row -->
 
-
-                <!-- gestion produit -->
+                <!-- Gestion Séances -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <div class="row" >
                             <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION PRODUIT</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION SEANCES</h6>
                             </div>
                             <div class="col-2">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutProduit">Ajouter un Produit</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutSeance">Ajouter une séance</button>
                             </div>
-                            <div class="modal fade" id="ajoutProduit" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutProduit" aria-hidden="true">
+                            <div class="modal fade" id="ajoutSeance" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutSeance" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'un produit</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'une séance</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post" action="../src/traitement/gestionProduit.php">
+                                        <form action="../src/traitement/gestionSeance.php" method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label>Nom
-                                                        <input type="text" class="form-control" name="nom">
+                                                    <label>Film
+                                                        <select name="ref_film"  required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeFilm); $j++ ) {
+                                                                ?>
+                                                                <option value="<?= $listeFilm[$j]['id_film'] ?>"><?= $listeFilm[$j]['titre'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Quantite
-                                                        <input type="text" class="form-control" name="quantite">
+                                                    <label>Date
+                                                        <input type="date" class="form-control" name="date_seance" required>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Type
-                                                        <select name="type">
-                                                            <option>Produit sucrés</option>
-                                                            <option>Produit salés</option>
-                                                            <option>Boissons</option>
+                                                    <label>Heure
+                                                        <input type="text" class="form-control" name="heure" required>
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Salle
+                                                        <select name="ref_salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
+                                                                ?>
+                                                                <option><?= $listeSeance[$j]['salle'] ?> </option>
+                                                                <?php
+                                                            } ?>
                                                         </select>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Prix
-                                                        <input type="number" class="form-control" name="prixProduit">
+                                                        <input type class="form-control" name="prix" required>
                                                     </label>
                                                 </div>
                                             </div>
+
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutProduit">
+                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutSeance">
                                             </div>
                                         </form>
                                     </div>
@@ -302,95 +287,119 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                     <div class="card-body">
-                        <table style="width: 100%;" id="produit">
+                        <table style="width: 100%;" id="seances">
                             <thead>
                             <tr>
-                                <td>Nom</td>
-                                <td>Quantité</td>
-                                <td>Type</td>
+                                <td>Film</td>
+                                <td>Date</td>
+                                <td>Heure</td>
+                                <td>Salle</td>
                                 <td>Prix</td>
-                                <td>Action</td>
+                                <td>action</td>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeProduit); $i++) {
-
+                            for ($i=0; $i < count($listeSeance); $i++) {
                             ?>
                             <tr>
                                 <td>
-                                    <?= $listeProduit[$i]['nom']?>
+                                    <?= $listeSeance[$i]['titre']?>
                                 </td>
                                 <td>
-                                    <?= $listeProduit[$i]['quantite']?>
+                                    <?= $listeSeance[$i]['date_seance']?>
                                 </td>
                                 <td>
-                                    <?= $listeProduit[$i]['type']?>
+                                    <?= $listeSeance[$i]['heure']?>
                                 </td>
                                 <td>
-                                    <?= $listeProduit[$i]['prixProduit']?>
+                                    <?= $listeSeance[$i]['salle']?>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifProduit<?=$i?>">modifier</button>
+                                    <?= $listeSeance[$i]['prix']?>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
                                     <br><br>
-                                    <form method="post" action="../src/traitement/gestionProduit.php">
-                                        <input type="hidden" name="id_produit" value="<?=$listeProduit[$i]['id_produit']?>">
-                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerProduit">
+                                    <form action="../src/traitement/gestionSeance.php" method="post">
+                                        <input type="hidden" name="id_seance" value="<?=$listeSeance[$i]['id_seance']?>">
+                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerSeance">
                                     </form>
                                 </td>
                             </tr>
-
-                            <div class="modal fade" id="modifProduit<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifProduit" aria-hidden="true">
+                            <div class="modal fade" id="modifSeance<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifSeance" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modification du Produit</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Modification de la séance</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="post" action="../src/traitement/gestionProduit.php">
+                                        <form action="../src/traitement/gestionSeance.php" method="post">
                                             <div class="modal-body">
                                                 <div class="form-group">
-                                                    <label>Nom
-                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['nom']?>" name="nom">
+                                                    <label>Titre
+                                                        <select name="ref_film">
+                                                            <?php for ($j = 0 ; $j < count($listeFilm); $j++ ) {
+                                                                ?>
+                                                                <option value="<?= $listeFilm[$j]['id_film'] ?>"><?= $listeFilm[$j]['titre'] ?> </option>
+                                                                <?php
+                                                            } ?>
+                                                        </select>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Quantite
-                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['quantite']?>" name="quantite">
+                                                    <label>Date
+                                                        <input type="date" class="form-control" value="<?=$listeSeance[$i]['date_seance']?>" name="date_seance">
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Type
-                                                        <select name="type">
-                                                            <option>Produit sucrés</option>
-                                                            <option>Produit salés</option>
-                                                            <option>Boissons</option>
+                                                    <label>Heure
+                                                        <input type="text" class="form-control" value="<?=$listeSeance[$i]['heure']?>" name="heure">
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Salle
+                                                        <select name="ref_salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
+                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
+                                                                ?>
+                                                                <option><?= $listeSeance[$j]['salle'] ?> </option>
+                                                                <?php
+                                                            } ?>
                                                         </select>
                                                     </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Prix
-                                                        <input type="number" class="form-control" value="<?=$listeProduit[$i]['prixProduit']?>" name="prixProduit">
+                                                        <input type="text" class="form-control" value="<?=$listeSeance[$i]['prix']?>" name="prix">
                                                     </label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeProduit[$i]['id_produit']?>" name="id_produit">
-                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierProduit">
+                                                <input class="btn btn-primary" type="hidden" value="<?= $listeSeance[$i]['id_seance']?>" name="id_seance">
+                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierSeance">
                                             </div>
+                                            </tr>
                                         </form>
+
                                         <?php
-                                        }
-                                        ?>
+                                        } ?>
                                     </div>
                                 </div>
+
                             </div>
-                            </tbody>
-                        </table>
+                            <!-- /.container-fluid -->
+
                     </div>
+                    <!-- End of Main Content -->
+
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                    </footer>
+                    <!-- End of Footer -->
+
                 </div>
                 <!-- End of Content Wrapper -->
 
@@ -423,9 +432,6 @@ if (isset($_SESSION['user'])) {
                     </div>
                 </div>
             </div>
-
-            <!--  Canvas pour les graphiques -->
-
             <!--  Charger jQuery  -->
             <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -450,56 +456,6 @@ if (isset($_SESSION['user'])) {
             <script src="../asset/js/demo/chart-area-demo.js"></script>
             <script src="../asset/js/demo/chart-pie-demo.js"></script>
 
-            <!-- Charger Select2 -->
-            <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
-
-            <script>
-                $(document).ready(function() {
-
-                    if ($.fn.select2) {
-                        console.log(" Select2 est bien chargé ");
-                        console.log("Élément #select-adresse détecté ?", $('#select-adresse').length);
-
-                        // Initialisation de Select2 uniquement à l'ouverture du modal
-                        $('#ajoutUser').on('shown.bs.modal', function () {
-                            console.log("Modal affiché,lancement de Select2");
-
-                            $('#select-adresse').select2({
-                                debug: true,
-                                minimumInputLength: 1,
-                                dropdownParent: $('#ajoutUser'), // pour éviter le bug dans le modal !
-                                ajax: {
-                                    url: "../src/traitement/recherche_adresse.php",
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    delay: 100,
-                                    data: function (params) {
-                                        return {adresse: params.term};
-                                    },
-                                    processResults: function (data) {
-                                        console.log(" Données reçues de l'API :", data);
-                                        return {
-                                            results: data.results.map(function (item) {
-                                                return {id: item.adresse, text: item.adresse};
-                                            })
-                                        };
-                                    },
-                                    cache: true
-                                }
-                            });
-
-                            // Supprime aria-hidden pour éviter le bug d'accessibilité
-                            $('#select-adresse').removeAttr('aria-hidden').attr('tabindex', '0');
-                        });
-
-                    } else {
-                        console.error(" Erreur : Select2 n'est pas chargé.");
-                    }
-                });
-
-            </script>
-
             <!--  Charger DataTables -->
             <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
             <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
@@ -507,16 +463,10 @@ if (isset($_SESSION['user'])) {
 
             <script>
                 $(document).ready(function() {
-                    new DataTable('#example', { responsive: true });
-                    new DataTable('#contact', { responsive: true });
-                    new DataTable('#reservations', { responsive: true });
                     new DataTable('#seances', { responsive: true });
-                    new DataTable('#films', { responsive: true });
-                    new DataTable('#produit', { responsive: true });
                 });
             </script>
 
 </body>
 
 </html>
-
