@@ -113,7 +113,7 @@ if (isset($_SESSION['user'])) {
                 <span>Gestion Contact</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminSeances.php">
+            <a class="nav-link" href="adminSeance.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Seances</span></a>
         </li>
