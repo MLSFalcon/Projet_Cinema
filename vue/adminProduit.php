@@ -73,20 +73,14 @@ if (isset($_SESSION['user'])) {
             Gestions :
         </div>
 
-        <li class="nav-item">
-            <a class="nav-link" href="admin.php">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Globale</span></a>
-        </li>
+
 
         <!-- Nav Item - Charts -->
         <li class="nav-item">
-            <a class="nav-link" href="#films">
+            <a class="nav-link" href="adminFilm.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Films</span></a>
         </li>
-
-        <!-- Nav Item - Tables -->
 
 
         <li class="nav-item">
