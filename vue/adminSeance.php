@@ -80,11 +80,7 @@ if (isset($_SESSION['user'])) {
         <div class="sidebar-heading">
             Gestions :
         </div>
-        <li class="nav-item">
-            <a class="nav-link" href="admin.php">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Globale</span></a>
-        </li>
+
 
 
         <!-- Nav Item - Charts -->
@@ -204,7 +200,7 @@ if (isset($_SESSION['user'])) {
                 <div class="row">
 
                     <!-- Pending Requests Card Example -->
-                    
+
                 </div>
 
                 <!-- Content Row -->
