@@ -97,7 +97,11 @@ if (isset($_SESSION['user'])) {
         <div class="sidebar-heading">
             Gestions :
         </div>
-
+        <li class="nav-item">
+            <a class="nav-link" href="admin.php">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Globale</span></a>
+        </li>
 
 
         <!-- Nav Item - Charts -->
@@ -109,28 +113,28 @@ if (isset($_SESSION['user'])) {
 
 
         <li class="nav-item">
-            <a class="nav-link" href="#reservations">
+            <a class="nav-link" href="adminReservation.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Reservations</span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#example">
+            <a class="nav-link" href="adminUtilisateur.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#produit">
+            <a class="nav-link" href="adminProduit.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Produits</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#contact">
+            <a class="nav-link" href="adminContact.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Contact</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#seances">
+            <a class="nav-link" href="adminSeances.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Seances</span></a>
         </li>
@@ -1101,11 +1105,6 @@ if (isset($_SESSION['user'])) {
                     </div>
                 </div>
             </div>
-
-            <!--  Canvas pour les graphiques -->
-            <canvas id="myAreaChart"></canvas>
-            <canvas id="myPieChart"></canvas>
-
             <!--  Charger jQuery  -->
             <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
