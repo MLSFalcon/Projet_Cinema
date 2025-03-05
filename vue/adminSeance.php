@@ -98,7 +98,7 @@ if (isset($_SESSION['user'])) {
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="adminUtilisateur.php">
+            <a class="nav-link" href="adminUser.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
         </li>
