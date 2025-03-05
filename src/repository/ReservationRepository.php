@@ -80,6 +80,14 @@ public function recupReservation($reservation){
         $requete->closeCursor();
         return $listeReservations;
     }
+    public function nombreResa()
+    {
+        $bddUser = new Bdd();
+        $req = $bddUser->getBdd()-> prepare('SELECT COUNT(id_reservation) FROM reservation');
+        $req->execute();
+        $donnee = $req->fetchAll();
+        return $donnee[0];
+    }
 }
 
 
