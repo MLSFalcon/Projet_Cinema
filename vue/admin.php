@@ -586,7 +586,7 @@ if (isset($_SESSION['user'])) {
 
                                         <div class="form-group">
                                             <label for="select-adresse">Adresse de facturation
-                                            <select class="form-control" name="adresse" id="select-adresse" style="width:350px"></select>
+                                                <select class="form-control" name="adresse" id="select-adresse" style="width:350px"></select>
                                             </label>
                                         </div>
 
