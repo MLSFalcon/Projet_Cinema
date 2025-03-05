@@ -13,19 +13,19 @@ include "head.html";
 
 //liste film
 $listeFilm = new FilmRepository();
-$listeFilm= $listeFilm->listeFilms();
+$listeFilm= $listeFilm->nombreFilm();
 //liste reservation
 $listeReservation = new ReservationRepository();
-$listeReservation= $listeReservation->listeReservations();
+$listeReservation= $listeReservation->nombreResa();
 //liste Users
 $listeUser = new UserRepository();
-$listeUser = $listeUser->listeUtilisateurs();
+$listeUser = $listeUser->nombreUser();
 //liste Séances
 $listeSeance = new SeanceRepository();
-$listeSeance = $listeSeance->listeSeances();
+$listeSeance = $listeSeance->nombreSeance();
 //liste Salle
 $listeSalle = new SalleRepository();
-$listeSalle = $listeSalle->listeSalle();
+$listeSalle = $listeSalle->nombreSalle();
 //liste contact
 $listeContact = new ContactRepository();
 $listeContact = $listeContact->listeContacts();
@@ -86,7 +86,7 @@ if (isset($_SESSION['user'])) {
             <a class="nav-link" href="index.php">
                 <i class="fas fa-fw fa-backward "></i>
                 <span>Accueil</span></a>
-            <a class="nav-link" href="login.php">
+
 
         </li>
 
@@ -134,7 +134,7 @@ if (isset($_SESSION['user'])) {
                 <span>Gestion Contact</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminSeances.php">
+            <a class="nav-link" href="adminSeance.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Seances</span></a>
         </li>
@@ -285,801 +285,119 @@ if (isset($_SESSION['user'])) {
                             </div>
                         </div>
                     </div>
+
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Nombre de réservation</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeReservation[0] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Nombre de film</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeFilm[0] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-film fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Nombre de séance</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeSeance[0] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-school fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Nombre d'utilisateur</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeUser[0] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Nombre de Salle</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeSalle[0] ?></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-house-user fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <!-- Content Row -->
 
-                <!-- Gestion Film -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row" >
-                            <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION FILMS</h6>
+
+                <!-- Scroll to Top Button-->
+                <a class="scroll-to-top rounded" href="#page-top">
+                    <i class="fas fa-angle-up"></i>
+                </a>
+
+                <!-- Logout Modal-->
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Prèt à partir ?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
                             </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutFilm">Ajouter un Film</button>
+                            <div class="modal-body">Selectionnez se déconnecter pour quitter votre session</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                                <a class="btn btn-primary" href="../src/traitement/gestionUser.php?deconnexion=oui">Se déconnecter</a>
                             </div>
-                            <div class="modal fade" id="ajoutFilm" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutFilm" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'un Film</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="post" action="../src/traitement/gestionFilm.php">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Titre
-                                                        <input type="text" class="form-control" name="titre">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="select-genre">Genre</label>
-                                                    <select name="genre"  id="select-genre" style="width:250px"  >
-                                                        <option value="" hidden>Selectionnez un genre</option>
-                                                        <option value = "Comédie">Comédie</option>
-                                                        <option value = "Drame">Drame</option>
-                                                        <option value = "Action">Action</option>
-                                                        <option value = "Aventure">Aventure</option>
-                                                        <option value = "Horreur">Horreur</option>
-                                                        <option value = "Science-fiction">Science-fiction</option>
-                                                        <option value = "Animation">Animation</option>
-                                                        <option value = "Historique">Historique</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Durée
-                                                        <input type="time" class="form-control" name="duree">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutFilm">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table style="width: 100%;" id="films">
-                            <thead>
-                            <tr>
-                                <td>image</td>
-                                <td>titre</td>
-                                <td>resume</td>
-                                <td>genre</td>
-                                <td>duree</td>
-                                <td>action</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            for ($i=0; $i < count($listeFilm); $i++) {
-
-                            ?>
-                            <tr>
-                                <td>
-                                    <img width="125" height="150" src="<?= $listeFilm[$i]['image']?>" alt="">
-                                </td>
-                                <td>
-                                    <?= $listeFilm[$i]['titre']?>
-                                </td>
-                                <td>
-                                    <?= $listeFilm[$i]['resume']?>
-                                </td>
-                                <td>
-                                    <?= $listeFilm[$i]['genre']?>
-                                </td>
-                                <td>
-                                    <?= $listeFilm[$i]['duree']?>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifFilm<?=$i?>">modifier</button>
-                                    <br><br>
-                                    <form method="post" action="../src/traitement/gestionFilm.php">
-                                        <input type="hidden" name="id_film" value="<?=$listeFilm[$i]['id_film']?>">
-                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerFilm">
-                                    </form>
-                                </td>
-                            </tr>
-
-                            <div class="modal fade" id="modifFilm<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifFilm" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modification du film</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="post" action="../src/traitement/gestionFilm.php">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Image
-                                                        <input style="width: 100%" type="text" class="form-control" value="<?=$listeFilm[$i]['image']?>" name="image">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Titre
-                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['titre']?>" name="titre">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Résumé
-                                                        <textarea name="resume" class="form-control" rows="25"><?=$listeFilm[$i]['resume']?></textarea>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Genre
-                                                        <input type="text" class="form-control" value="<?=$listeFilm[$i]['genre']?>" name="genre">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Durée
-                                                        <input type="time" class="form-control" value="<?=$listeFilm[$i]['duree']?>" name="duree">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeFilm[$i]['id_film']?>" name="id_film">
-                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierFilm">
-                                            </div>
-                                        </form>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
 
 
-
-
-                <!-- Gestion Réservations -->
-
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row" >
-                            <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION RESERVATIONS</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table style="width: 100%;" id="reservations">
-                            <thead>
-                            <tr>
-                                <td>Utilisateurs</td>
-                                <td>Places</td>
-                                <td>Date</td>
-                                <td>Heure</td>
-                                <td>Film</td>
-                                <td>action</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            for ($i=0; $i < count($listeReservation); $i++) {
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?= $listeReservation[$i]['email']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeReservation[$i]['nb_place']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeReservation[$i]['date_seance']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeReservation[$i]['heure']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeReservation[$i]['titre']?>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifReservation<?=$i?>">modifier</button>
-                                        <br><br>
-                                        <form action="../src/traitement/gestionReservation.php" method="post">
-                                            <input type="hidden" name="id_reservation" value="<?=$listeReservation[$i]['id_reservation']?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer">
-                                        </form>
-                                    </td>
-                                </tr>
-                                <div class="modal fade" id="modifReservation<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifReservation" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modification de la réservation</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form action="../src/traitement/gestionUser.php" method="post">
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label>Nombre de places
-                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeReservation[$i]['nb_place']?>" name="nb_place">
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Id User
-                                                            <input type="text" class="form-control" value="<?=$listeReservation[$i]['ref_user']?>" name="prenom">
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Film
-                                                            <input type="email" class="form-control" value="<?=$listeReservation[$i]['titre']?>" name="email">
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeReservation[$i]['id_reservation']?>" name="id_user">
-                                                    <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php
-                            } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Gestion Utilisateur-->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row" >
-                            <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutUser">Ajouter un utilisateur</button>
-                                <?php
-                                if (isset($_GET['erreur'])) {
-                                    echo '<p style="color:red">'.$_GET['erreur'].'</p>';
-                                }
-                                if (isset($_GET['confirm'])) {
-                                    echo '<p style="color:green">'.$_GET['confirm'].'</p>';
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal fade" id="ajoutUser" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutUser" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Ajout d'un utilisateur</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="../src/traitement/gestionUser.php" method="post">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label>Nom
-                                                <input style="width: 100%" type="text" class="form-control" name="nom" required>
-                                            </label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Prenom
-                                                <input type="text" class="form-control" name="prenom" required>
-                                            </label>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Address Email
-                                                <input type="email" class="form-control" name="email" required>
-                                            </label>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="select-adresse">Adresse de facturation
-                                                <select class="form-control" name="adresse" id="select-adresse" style="width:350px"></select>
-                                            </label>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Mot de passe
-                                                <input type="password" class="form-control" name="mdp" required>
-                                            </label>
-                                        </div>
-                                        <label>Rôle
-                                            <select class="form-control" name="role" >
-                                                <option>utilisateur</option>
-                                                <option>admin</option>
-                                            </select>
-                                        </label>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <input class="btn btn-primary" type="submit" name="ajoutUser" value="Ajouter"">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table style="width: 100%;" id="example">
-                            <thead>
-                            <tr>
-                                <td>prénom</td>
-                                <td>nom</td>
-                                <td>email</td>
-                                <td>rôle</td>
-                                <td>action</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            for ($i=0; $i < count($listeUser); $i++) {
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?= $listeUser[$i]['nom']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeUser[$i]['prenom']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeUser[$i]['email']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeUser[$i]['role']?>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
-                                        <br><br>
-                                        <form action="../src/traitement/gestionUser.php" method="post">
-                                            <input type="hidden" name="id_user" value="<?=$listeUser[$i]['id_user']?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimer">
-                                        </form>
-                                    </td>
-                                </tr>
-                                <div class="modal fade" id="modifUser<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifUser" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form action="../src/traitement/gestionUser.php" method="post">
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label>Nom
-                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUser[$i]['nom']?>" name="nom">
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Prenom
-                                                            <input type="text" class="form-control" value="<?=$listeUser[$i]['prenom']?>" name="prenom">
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Address Email
-                                                            <input type="email" class="form-control" value="<?=$listeUser[$i]['email']?>" name="email">
-                                                        </label>
-                                                    </div>
-                                                    <label>Rôle
-                                                        <select class="form-control" name="role">
-                                                            <option value="utilisateur">utilisateur</option>
-                                                            <option value="admin">admin</option>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUser[$i]['id_user']?>" name="id_user">
-                                                    <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <?php
-                            } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- gestion produit -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row" >
-                            <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION PRODUIT</h6>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutProduit">Ajouter un Produit</button>
-                            </div>
-                            <div class="modal fade" id="ajoutProduit" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutProduit" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'un produit</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="post" action="../src/traitement/gestionProduit.php">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Nom
-                                                        <input type="text" class="form-control" name="nom">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Quantite
-                                                        <input type="text" class="form-control" name="quantite">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Type
-                                                        <select name="type">
-                                                            <option>Produit sucrés</option>
-                                                            <option>Produit salés</option>
-                                                            <option>Boissons</option>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Prix
-                                                        <input type="number" class="form-control" name="prixProduit">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutProduit">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table style="width: 100%;" id="produit">
-                            <thead>
-                            <tr>
-                                <td>Nom</td>
-                                <td>Quantité</td>
-                                <td>Type</td>
-                                <td>Prix</td>
-                                <td>Action</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            for ($i=0; $i < count($listeProduit); $i++) {
-
-                            ?>
-                            <tr>
-                                <td>
-                                    <?= $listeProduit[$i]['nom']?>
-                                </td>
-                                <td>
-                                    <?= $listeProduit[$i]['quantite']?>
-                                </td>
-                                <td>
-                                    <?= $listeProduit[$i]['type']?>
-                                </td>
-                                <td>
-                                    <?= $listeProduit[$i]['prixProduit']?>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifProduit<?=$i?>">modifier</button>
-                                    <br><br>
-                                    <form method="post" action="../src/traitement/gestionProduit.php">
-                                        <input type="hidden" name="id_produit" value="<?=$listeProduit[$i]['id_produit']?>">
-                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerProduit">
-                                    </form>
-                                </td>
-                            </tr>
-
-                            <div class="modal fade" id="modifProduit<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifProduit" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modification du Produit</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="post" action="../src/traitement/gestionProduit.php">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Nom
-                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['nom']?>" name="nom">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Quantite
-                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['quantite']?>" name="quantite">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Type
-                                                        <select name="type">
-                                                            <option>Produit sucrés</option>
-                                                            <option>Produit salés</option>
-                                                            <option>Boissons</option>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Prix
-                                                        <input type="number" class="form-control" value="<?=$listeProduit[$i]['prixProduit']?>" name="prixProduit">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeProduit[$i]['id_produit']?>" name="id_produit">
-                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierProduit">
-                                            </div>
-                                        </form>
-                                        <?php
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Gestion Contact -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row" >
-                            <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION CONTACT</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table style="width: 100%;" id="contact">
-                            <thead>
-                            <tr>
-                                <td>sujet</td>
-                                <td>explication</td>
-                                <td>utilisateur</td>
-                                <td>action</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            for ($i=0; $i < count($listeContact); $i++) {
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?= $listeContact[$i]['sujet']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeContact[$i]['explication']?>
-                                    </td>
-                                    <td>
-                                        <?= $listeContact[$i]['email']?>
-                                    </td>
-                                    <td>
-                                        <form action="../src/traitement/gestionContact.php" method="post">
-                                            <input type="hidden" name="id_contact" value="<?=$listeContact[$i]['id_contact']?>">
-                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimer">
-                                        </form>
-                                    </td>
-                                </tr>
-                                <?php
-                            } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- Gestion Séances -->
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row" >
-                            <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION SEANCES</h6>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutSeance">Ajouter une séance</button>
-                            </div>
-                            <div class="modal fade" id="ajoutSeance" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutSeance" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'une séance</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form action="../src/traitement/gestionSeance.php" method="post">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Film
-                                                        <select name="ref_film"  required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeFilm); $j++ ) {
-                                                                ?>
-                                                                <option value="<?= $listeFilm[$j]['id_film'] ?>"><?= $listeFilm[$j]['titre'] ?> </option>
-                                                                <?php
-                                                            } ?>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Date
-                                                        <input type="date" class="form-control" name="date_seance" required>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Heure
-                                                        <input type="text" class="form-control" name="heure" required>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Salle
-                                                        <select name="ref_salle" required> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
-                                                                ?>
-                                                                <option><?= $listeSeance[$j]['salle'] ?> </option>
-                                                                <?php
-                                                            } ?>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Prix
-                                                        <input type class="form-control" name="prix" required>
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutSeance">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table style="width: 100%;" id="seances">
-                            <thead>
-                            <tr>
-                                <td>Film</td>
-                                <td>Date</td>
-                                <td>Heure</td>
-                                <td>Salle</td>
-                                <td>Prix</td>
-                                <td>action</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            for ($i=0; $i < count($listeSeance); $i++) {
-                            ?>
-                            <tr>
-                                <td>
-                                    <?= $listeSeance[$i]['titre']?>
-                                </td>
-                                <td>
-                                    <?= $listeSeance[$i]['date_seance']?>
-                                </td>
-                                <td>
-                                    <?= $listeSeance[$i]['heure']?>
-                                </td>
-                                <td>
-                                    <?= $listeSeance[$i]['salle']?>
-                                </td>
-                                <td>
-                                    <?= $listeSeance[$i]['prix']?>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifSeance<?=$i?>">modifier</button>
-                                    <br><br>
-                                    <form action="../src/traitement/gestionSeance.php" method="post">
-                                        <input type="hidden" name="id_seance" value="<?=$listeSeance[$i]['id_seance']?>">
-                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerSeance">
-                                    </form>
-                                </td>
-                            </tr>
-                            <div class="modal fade" id="modifSeance<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifSeance" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modification de la séance</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form action="../src/traitement/gestionSeance.php" method="post">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Titre
-                                                        <select name="ref_film">
-                                                            <?php for ($j = 0 ; $j < count($listeFilm); $j++ ) {
-                                                                ?>
-                                                                <option value="<?= $listeFilm[$j]['id_film'] ?>"><?= $listeFilm[$j]['titre'] ?> </option>
-                                                                <?php
-                                                            } ?>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Date
-                                                        <input type="date" class="form-control" value="<?=$listeSeance[$i]['date_seance']?>" name="date_seance">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Heure
-                                                        <input type="text" class="form-control" value="<?=$listeSeance[$i]['heure']?>" name="heure">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Salle
-                                                        <select name="ref_salle"> <!-- METTRE VALEUR PAR DEFAUT CELLE QUI A ECRIS -->
-                                                            <?php for ($j = 0 ; $j < count($listeSalle); $j++ ) {
-                                                                ?>
-                                                                <option><?= $listeSeance[$j]['salle'] ?> </option>
-                                                                <?php
-                                                            } ?>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Prix
-                                                        <input type="text" class="form-control" value="<?=$listeSeance[$i]['prix']?>" name="prix">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeSeance[$i]['id_seance']?>" name="id_seance">
-                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierSeance">
-                                            </div>
-                                            </tr>
-                                        </form>
-
-                                        <?php
-                                        } ?>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- /.container-fluid -->
-
-                    </div>
-                    <!-- End of Main Content -->
-
-                    <!-- Footer -->
-                    <footer class="sticky-footer bg-white">
-                    </footer>
-                    <!-- End of Footer -->
-
-                </div>
-                <!-- End of Content Wrapper -->
-
-
-            </div>
-
-            <!-- End of Page Wrapper -->
 
             <!-- Scroll to Top Button-->
             <a class="scroll-to-top rounded" href="#page-top">
@@ -1104,96 +422,95 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                 </div>
-            </div>
-            <!--  Charger jQuery  -->
-            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                <!--  Charger jQuery  -->
+                <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-            <!--  Charger Bootstrap -->
-            <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <!--  Charger Bootstrap -->
+                <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-            <!--  Charger les plugins -->
-            <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+                <!--  Charger les plugins -->
+                <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
-            <!--  Charger les scripts globaux -->
-            <script src="../asset/js/sb-admin-2.min.js"></script>
+                <!--  Charger les scripts globaux -->
+                <script src="../asset/js/sb-admin-2.min.js"></script>
 
-            <!--  Charge Chart.js  -->
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <!--  Charge Chart.js  -->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-            <script>
+                <script>
 
-                console.log("Version de Chart.js :", Chart?.version || "Non chargé");
-            </script>
+                    console.log("Version de Chart.js :", Chart?.version || "Non chargé");
+                </script>
 
-            <!--  Charge les scripts qui utilisent Chart.js -->
-            <script src="../asset/js/demo/chart-area-demo.js"></script>
-            <script src="../asset/js/demo/chart-pie-demo.js"></script>
+                <!--  Charge les scripts qui utilisent Chart.js -->
+                <script src="../asset/js/demo/chart-area-demo.js"></script>
+                <script src="../asset/js/demo/chart-pie-demo.js"></script>
 
-            <!-- Charger Select2 -->
-            <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+                <!-- Charger Select2 -->
+                <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+                <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
-            <script>
-                $(document).ready(function() {
+                <script>
+                    $(document).ready(function() {
 
-                    if ($.fn.select2) {
-                        console.log(" Select2 est bien chargé ");
-                        console.log("Élément #select-adresse détecté ?", $('#select-adresse').length);
+                        if ($.fn.select2) {
+                            console.log(" Select2 est bien chargé ");
+                            console.log("Élément #select-adresse détecté ?", $('#select-adresse').length);
 
-                        // Initialisation de Select2 uniquement à l'ouverture du modal
-                        $('#ajoutUser').on('shown.bs.modal', function () {
-                            console.log("Modal affiché,lancement de Select2");
+                            // Initialisation de Select2 uniquement à l'ouverture du modal
+                            $('#ajoutUser').on('shown.bs.modal', function () {
+                                console.log("Modal affiché,lancement de Select2");
 
-                            $('#select-adresse').select2({
-                                debug: true,
-                                minimumInputLength: 1,
-                                dropdownParent: $('#ajoutUser'), // pour éviter le bug dans le modal !
-                                ajax: {
-                                    url: "../src/traitement/recherche_adresse.php",
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    delay: 100,
-                                    data: function (params) {
-                                        return {adresse: params.term};
-                                    },
-                                    processResults: function (data) {
-                                        console.log(" Données reçues de l'API :", data);
-                                        return {
-                                            results: data.results.map(function (item) {
-                                                return {id: item.adresse, text: item.adresse};
-                                            })
-                                        };
-                                    },
-                                    cache: true
-                                }
+                                $('#select-adresse').select2({
+                                    debug: true,
+                                    minimumInputLength: 1,
+                                    dropdownParent: $('#ajoutUser'), // pour éviter le bug dans le modal !
+                                    ajax: {
+                                        url: "../src/traitement/recherche_adresse.php",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        delay: 100,
+                                        data: function (params) {
+                                            return {adresse: params.term};
+                                        },
+                                        processResults: function (data) {
+                                            console.log(" Données reçues de l'API :", data);
+                                            return {
+                                                results: data.results.map(function (item) {
+                                                    return {id: item.adresse, text: item.adresse};
+                                                })
+                                            };
+                                        },
+                                        cache: true
+                                    }
+                                });
+
+                                // Supprime aria-hidden pour éviter le bug d'accessibilité
+                                $('#select-adresse').removeAttr('aria-hidden').attr('tabindex', '0');
                             });
 
-                            // Supprime aria-hidden pour éviter le bug d'accessibilité
-                            $('#select-adresse').removeAttr('aria-hidden').attr('tabindex', '0');
-                        });
+                        } else {
+                            console.error(" Erreur : Select2 n'est pas chargé.");
+                        }
+                    });
 
-                    } else {
-                        console.error(" Erreur : Select2 n'est pas chargé.");
-                    }
-                });
+                </script>
 
-            </script>
+                <!--  Charger DataTables -->
+                <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+                <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+                <script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
 
-            <!--  Charger DataTables -->
-            <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-            <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
-            <script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
-
-            <script>
-                $(document).ready(function() {
-                    new DataTable('#example', { responsive: true });
-                    new DataTable('#contact', { responsive: true });
-                    new DataTable('#reservations', { responsive: true });
-                    new DataTable('#seances', { responsive: true });
-                    new DataTable('#films', { responsive: true });
-                    new DataTable('#produit', { responsive: true });
-                });
-            </script>
+                <script>
+                    $(document).ready(function() {
+                        new DataTable('#example', { responsive: true });
+                        new DataTable('#contact', { responsive: true });
+                        new DataTable('#reservations', { responsive: true });
+                        new DataTable('#seances', { responsive: true });
+                        new DataTable('#films', { responsive: true });
+                        new DataTable('#produit', { responsive: true });
+                    });
+                </script>
 
 </body>
 

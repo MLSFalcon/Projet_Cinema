@@ -60,5 +60,12 @@ class SeanceRepository
 
         return $listeSeances;
     }
-
+    public function nombreSeance()
+    {
+        $bddUser = new Bdd();
+        $req = $bddUser->getBdd()-> prepare('SELECT COUNT(id_seance) FROM seance');
+        $req->execute();
+        $donnee = $req->fetchAll();
+        return $donnee[0];
+    }
 }
