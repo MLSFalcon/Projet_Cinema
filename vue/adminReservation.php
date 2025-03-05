@@ -265,7 +265,7 @@ if (isset($_SESSION['user'])) {
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Film
-                                                                <input type="email" class="form-control" value="<?=$listeReservation[$i]['titre']?>" name="email">
+                                                                <input type="text" class="form-control" value="<?=$listeReservation[$i]['titre']?>" name="email">
                                                             </label>
                                                         </div>
                                                     </div>
