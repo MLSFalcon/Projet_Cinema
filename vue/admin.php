@@ -496,22 +496,6 @@ if (isset($_SESSION['user'])) {
 
                 </script>
 
-                <!--  Charger DataTables -->
-                <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-                <script src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
-                <script src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
-
-                <script>
-                    $(document).ready(function() {
-                        new DataTable('#example', { responsive: true });
-                        new DataTable('#contact', { responsive: true });
-                        new DataTable('#reservations', { responsive: true });
-                        new DataTable('#seances', { responsive: true });
-                        new DataTable('#films', { responsive: true });
-                        new DataTable('#produit', { responsive: true });
-                    });
-                </script>
-
 </body>
 
 </html>
