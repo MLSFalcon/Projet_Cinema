@@ -1,12 +1,32 @@
 <?php
 require_once "../src/bdd/Bdd.php";
+require_once "../src/repository/FilmRepository.php";
+require_once "../src/repository/ReservationRepository.php";
 require_once "../src/repository/UserRepository.php";
+require_once "../src/repository/SeanceRepository.php";
+require_once "../src/repository/SalleRepository.php";
+require_once "../src/repository/ContactRepository.php";
 require_once "../src/repository/ProduitRepository.php";
 require_once "../src/class/User.php";
 
 include "head.html";
 
 
+//liste Users
+$listeUser = new UserRepository();
+$listeUser = $listeUser->listeUtilisateurs();
+//liste Séances
+$listeSeance = new SeanceRepository();
+$listeSeance = $listeSeance->listeSeances();
+//liste Salle
+$listeSalle = new SalleRepository();
+$listeSalle = $listeSalle->listeSalle();
+//liste contact
+$listeContact = new ContactRepository();
+$listeContact = $listeContact->listeContacts();
+$nbContact = new ContactRepository();
+//nombre de requete
+$nbContact = $nbContact->countContact();
 //liste produit
 $listeProduit = new ProduitRepository();
 $count = new ProduitRepository();
@@ -62,13 +82,13 @@ if (isset($_SESSION['user'])) {
                 <i class="fas fa-fw fa-backward "></i>
                 <span>Accueil</span></a>
 
-
         </li>
         <li class="nav-item active">
             <a class="nav-link" href="admin.php">
                 <i class="fas fa-fw fa-backward "></i>
                 <span>Global - Admin</span></a>
         </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -76,10 +96,6 @@ if (isset($_SESSION['user'])) {
         <div class="sidebar-heading">
             Gestions :
         </div>
-
-
-
-        <!-- Nav Item - Charts -->
 
 
 
@@ -200,205 +216,189 @@ if (isset($_SESSION['user'])) {
                 <div class="row">
 
                     <!-- Pending Requests Card Example -->
-
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Quantité produits sucrés</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['2']['nb'] ?></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-apple-alt fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Quantité produits salés</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['1']['nb'] ?></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-bacon fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Boissons</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['0']['nb'] ?></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-cocktail fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <!-- Content Row -->
 
 
-                <!-- gestion produit -->
+
+
+                <!-- Gestion Utilisateur-->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <div class="row" >
                             <div class="col-10">
-                                <h6 class="m-0 font-weight-bold text-primary">GESTION PRODUIT</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">GESTION UTILISATEUR</h6>
                             </div>
                             <div class="col-2">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutProduit">Ajouter un Produit</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ajoutUser">Ajouter un utilisateur</button>
+                                <?php
+                                if (isset($_GET['erreur'])) {
+                                    echo '<p style="color:red">'.$_GET['erreur'].'</p>';
+                                }
+                                if (isset($_GET['confirm'])) {
+                                    echo '<p style="color:green">'.$_GET['confirm'].'</p>';
+                                }
+                                ?>
                             </div>
-                            <div class="modal fade" id="ajoutProduit" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutProduit" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ajout d'un produit</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="post" action="../src/traitement/gestionProduit.php">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Nom
-                                                        <input type="text" class="form-control" name="nom">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Quantite
-                                                        <input type="text" class="form-control" name="quantite">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Type
-                                                        <select name="type">
-                                                            <option>Produit sucrés</option>
-                                                            <option>Produit salés</option>
-                                                            <option>Boissons</option>
-                                                        </select>
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Prix
-                                                        <input type="number" class="form-control" name="prixProduit">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="submit" value="Envoyer" name="ajoutProduit">
-                                            </div>
-                                        </form>
-                                    </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="ajoutUser" data-backdrop="static" tabindex="-1" aria-labelledby="ajoutUser" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Ajout d'un utilisateur</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
+                                <form action="../src/traitement/gestionUser.php" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Nom
+                                                <input style="width: 100%" type="text" class="form-control" name="nom" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Prenom
+                                                <input type="text" class="form-control" name="prenom" required>
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Address Email
+                                                <input type="email" class="form-control" name="email" required>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="select-adresse">Adresse de facturation
+                                                <select class="form-control" name="adresse" id="select-adresse" style="width:350px"></select>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Mot de passe
+                                                <input type="password" class="form-control" name="mdp" required>
+                                            </label>
+                                        </div>
+                                        <label>Rôle
+                                            <select class="form-control" name="role" >
+                                                <option>utilisateur</option>
+                                                <option>admin</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <input class="btn btn-primary" type="submit" name="ajoutUser" value="Ajouter"">
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <table style="width: 100%;" id="produit">
+                        <table style="width: 100%;" id="example">
                             <thead>
                             <tr>
-                                <td>Nom</td>
-                                <td>Quantité</td>
-                                <td>Type</td>
-                                <td>Prix</td>
-                                <td>Action</td>
+                                <td>prénom</td>
+                                <td>nom</td>
+                                <td>email</td>
+                                <td>rôle</td>
+                                <td>action</td>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            for ($i=0; $i < count($listeProduit); $i++) {
-
-                            ?>
-                            <tr>
-                                <td>
-                                    <?= $listeProduit[$i]['nom']?>
-                                </td>
-                                <td>
-                                    <?= $listeProduit[$i]['quantite']?>
-                                </td>
-                                <td>
-                                    <?= $listeProduit[$i]['type']?>
-                                </td>
-                                <td>
-                                    <?= $listeProduit[$i]['prixProduit']?>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifProduit<?=$i?>">modifier</button>
-                                    <br><br>
-                                    <form method="post" action="../src/traitement/gestionProduit.php">
-                                        <input type="hidden" name="id_produit" value="<?=$listeProduit[$i]['id_produit']?>">
-                                        <input class="btn btn-primary" type="submit" value="supprimer" name="supprimerProduit">
-                                    </form>
-                                </td>
-                            </tr>
-
-                            <div class="modal fade" id="modifProduit<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifProduit" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Modification du Produit</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="post" action="../src/traitement/gestionProduit.php">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label>Nom
-                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['nom']?>" name="nom">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Quantite
-                                                        <input type="text" class="form-control" value="<?=$listeProduit[$i]['quantite']?>" name="quantite">
-                                                    </label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Type
-                                                        <select name="type">
-                                                            <option>Produit sucrés</option>
-                                                            <option>Produit salés</option>
-                                                            <option>Boissons</option>
+                            for ($i=0; $i < count($listeUser); $i++) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?= $listeUser[$i]['nom']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeUser[$i]['prenom']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeUser[$i]['email']?>
+                                    </td>
+                                    <td>
+                                        <?= $listeUser[$i]['role']?>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifUser<?=$i?>">modifier</button>
+                                        <br><br>
+                                        <form action="../src/traitement/gestionUser.php" method="post">
+                                            <input type="hidden" name="id_user" value="<?=$listeUser[$i]['id_user']?>">
+                                            <input class="btn btn-primary" type="submit" value="supprimer" name="supprimer">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="modifUser<?=$i?>" data-backdrop="static" tabindex="-1" aria-labelledby="modifUser" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modification du Profil</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form action="../src/traitement/gestionUser.php" method="post">
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label>Nom
+                                                            <input style="width: 100%" type="text" class="form-control" value="<?=$listeUser[$i]['nom']?>" name="nom">
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Prenom
+                                                            <input type="text" class="form-control" value="<?=$listeUser[$i]['prenom']?>" name="prenom">
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Address Email
+                                                            <input type="email" class="form-control" value="<?=$listeUser[$i]['email']?>" name="email">
+                                                        </label>
+                                                    </div>
+                                                    <label>Rôle
+                                                        <select class="form-control" name="role">
+                                                            <option value="utilisateur">utilisateur</option>
+                                                            <option value="admin">admin</option>
                                                         </select>
                                                     </label>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label>Prix
-                                                        <input type="number" class="form-control" value="<?=$listeProduit[$i]['prixProduit']?>" name="prixProduit">
-                                                    </label>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <input class="btn btn-primary" type="hidden" value="<?= $listeUser[$i]['id_user']?>" name="id_user">
+                                                    <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierAdmin">
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <input class="btn btn-primary" type="hidden" value="<?= $listeProduit[$i]['id_produit']?>" name="id_produit">
-                                                <input class="btn btn-primary" type="submit" value="Sauvegarder les changements" name="modifierProduit">
-                                            </div>
-                                        </form>
-                                        <?php
-                                        }
-                                        ?>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+
+                                <?php
+                            } ?>
                             </tbody>
                         </table>
                     </div>
+                </div>
+
+
+
+
+                                </div>
+
+                            </div>
+                            <!-- /.container-fluid -->
+
+                    </div>
+                    <!-- End of Main Content -->
+
+                    <!-- Footer -->
+                    <footer class="sticky-footer bg-white">
+                    </footer>
+                    <!-- End of Footer -->
+
                 </div>
                 <!-- End of Content Wrapper -->
 
@@ -431,9 +431,6 @@ if (isset($_SESSION['user'])) {
                     </div>
                 </div>
             </div>
-
-            <!--  Canvas pour les graphiques -->
-
             <!--  Charger jQuery  -->
             <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -527,4 +524,3 @@ if (isset($_SESSION['user'])) {
 </body>
 
 </html>
-

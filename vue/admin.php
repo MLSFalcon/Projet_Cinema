@@ -33,9 +33,7 @@ $nbContact = new ContactRepository();
 //nombre de requete
 $nbContact = $nbContact->countContact();
 //liste produit
-$listeProduit = new ProduitRepository();
 $count = new ProduitRepository();
-$listeProduit = $listeProduit->listeProduit();
 $count = $count->count();
 //Blocage de l'accès à cette page aux utilisateurs non voulu
 session_start();
@@ -89,7 +87,11 @@ if (isset($_SESSION['user'])) {
 
 
         </li>
-
+        <li class="nav-item active">
+            <a class="nav-link" href="admin.php">
+                <i class="fas fa-fw fa-backward "></i>
+                <span>Global - Admin</span></a>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -97,11 +99,7 @@ if (isset($_SESSION['user'])) {
         <div class="sidebar-heading">
             Gestions :
         </div>
-        <li class="nav-item">
-            <a class="nav-link" href="admin.php">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Globale</span></a>
-        </li>
+
 
 
         <!-- Nav Item - Charts -->
@@ -119,7 +117,7 @@ if (isset($_SESSION['user'])) {
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="adminUtilisateur.php">
+            <a class="nav-link" href="adminUser.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
         </li>
@@ -222,11 +220,11 @@ if (isset($_SESSION['user'])) {
 
                     <!-- Pending Requests Card Example -->
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Nombre de demande</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $nbContact['nombre'] ?></div>
                                     </div>
@@ -238,11 +236,11 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Quantité produits sucrés</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['2']['nb'] ?></div>
                                     </div>
@@ -254,11 +252,11 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Quantité produits salés</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['1']['nb'] ?></div>
                                     </div>
@@ -270,11 +268,11 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Boissons</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $count['0']['nb'] ?></div>
                                     </div>
@@ -288,11 +286,11 @@ if (isset($_SESSION['user'])) {
 
 
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Nombre de réservation</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeReservation[0] ?></div>
                                     </div>
@@ -305,11 +303,11 @@ if (isset($_SESSION['user'])) {
                     </div>
 
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Nombre de film</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeFilm[0] ?></div>
                                     </div>
@@ -322,11 +320,11 @@ if (isset($_SESSION['user'])) {
                     </div>
 
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Nombre de séance</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeSeance[0] ?></div>
                                     </div>
@@ -339,11 +337,11 @@ if (isset($_SESSION['user'])) {
                     </div>
 
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Nombre d'utilisateur</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeUser[0] ?></div>
                                     </div>
@@ -355,11 +353,11 @@ if (isset($_SESSION['user'])) {
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Nombre de Salle</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $listeSalle[0] ?></div>
                                     </div>

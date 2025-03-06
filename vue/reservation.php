@@ -12,6 +12,7 @@ require_once "../src/repository/FilmRepository.php";
 $reservation = new ReservationRepository();
 $seances = new SeanceRepository();
 $seances = $seances->listeSeancesFilm($_POST['id_film']);
+var_dump($seances);die();
 $listeProduit = new ProduitRepository();
 $count = new ProduitRepository();
 $listeProduit = $listeProduit->listeProduit();
@@ -67,7 +68,7 @@ session_start();
                                 <form class="user" method="post" action="../src/traitement/gestionReservation.php" id="reservation">
                                     <div class="form-group">
                                         <label> Séances du :
-                                            <select name="ref_seance" id="select_seance">
+                                            <select name="ref_seance" id="select_seance" onchange="updatePlaceMax(this)">
                                                 <?php
                                                 for ($i = 0; $i < count($seances); $i++) {
 
@@ -79,7 +80,7 @@ session_start();
 
                                                     ?>
                                                     <option value="<?= $seances[$i]['id_seance'] ?>"
-                                                            data-prix="<?= $seances[$i]['prix'] ?>" <?= $i === 0 ? 'selected' : '' ?>><?= $dateFormatee?> à <?= $seances[$i]['heure']?></option>
+                                                            data-prix="<?= $seances[$i]['prix'] ?>" data-place_dispo="<?= $seances[$i]['prix'] ?>" <?= $i === 0 ? 'selected' : '' ?>><?= $dateFormatee?> à <?= $seances[$i]['heure']?></option>
                                                 <?php }
                                                 ?>
                                             </select>
@@ -90,7 +91,7 @@ session_start();
 
                                     <label>Places :
                                         <div class="form-group">
-                                            <input type="number" name="nb_place" value="1" id="nb_place" min="1">
+                                            <input type="number" name="nb_place" value="1" id="nb_place" min="1" max="1">
                                         </div>
                                     </label>
 
@@ -184,6 +185,12 @@ session_start();
     }
 </script>
 <script>
+    function updatePlaceMax(monSelect) {
+        console.log("updatePlaceMax");
+        $("#nb_place").attr("max",25);
+
+    }
+
     function updatePrice() {
 
         var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
