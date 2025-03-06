@@ -12,7 +12,6 @@ require_once "../src/repository/FilmRepository.php";
 $reservation = new ReservationRepository();
 $seances = new SeanceRepository();
 $seances = $seances->listeSeancesFilm($_POST['id_film']);
-var_dump($seances);die();
 $listeProduit = new ProduitRepository();
 $count = new ProduitRepository();
 $listeProduit = $listeProduit->listeProduit();
@@ -70,8 +69,11 @@ session_start();
                                         <label> Séances du :
                                             <select name="ref_seance" id="select_seance" onchange="updatePlaceMax(this)">
                                                 <?php
+                                                $nbPlaceMaxInitiale = 0;
                                                 for ($i = 0; $i < count($seances); $i++) {
-
+                                                    if($i == 0 ){
+                                                        $nbPlaceMaxInitiale = (is_null($seances[$i]['nb_place_disp']))? $seances[$i]["nb_place_salle"] : $seances[$i]['nb_place_disp'];
+                                                    }
                                                     $dateOriginale = $seances[$i]['date_seance'];
 
                                                     $dateObj = new DateTime($dateOriginale);
@@ -79,8 +81,8 @@ session_start();
                                                     $dateFormatee = $dateObj->format('d/m/Y');
 
                                                     ?>
-                                                    <option value="<?= $seances[$i]['id_seance'] ?>"
-                                                            data-prix="<?= $seances[$i]['prix'] ?>" data-place_dispo="<?= $seances[$i]['prix'] ?>" <?= $i === 0 ? 'selected' : '' ?>><?= $dateFormatee?> à <?= $seances[$i]['heure']?></option>
+                                                    <option  value="<?= $seances[$i]['id_seance'] ?>"
+                                                            data-prix="<?= $seances[$i]['prix'] ?>" data-place_dispo="<?= (is_null($seances[$i]['nb_place_disp']))? $seances[$i]["nb_place_salle"] : $seances[$i]['nb_place_disp'] ?>" <?= $i === 0 ? 'selected' : '' ?>><?= $dateFormatee?> à <?= $seances[$i]['heure']?></option>
                                                 <?php }
                                                 ?>
                                             </select>
@@ -91,7 +93,7 @@ session_start();
 
                                     <label>Places :
                                         <div class="form-group">
-                                            <input type="number" name="nb_place" value="1" id="nb_place" min="1" max="1">
+                                            <input type="number" name="nb_place" value="1" id="nb_place" min="1" max="<?=$nbPlaceMaxInitiale?>">
                                         </div>
                                     </label>
 
@@ -116,8 +118,7 @@ session_start();
                                                     <input id="quantite<?= $i ?>" type="number" name="quantite_produit<?= $i ?>" min="0" max="<?= $count[$i]['nb'] ?>" value="0" disabled>
                                                 </td>
                                             </tr>
-                                        <?php }
-                                        ?>
+                                        <?php } ?>
                                     </table>
 
                                     <br>
@@ -187,10 +188,11 @@ session_start();
 <script>
     function updatePlaceMax(monSelect) {
         console.log("updatePlaceMax");
-        $("#nb_place").attr("max",25);
-
+        console.log($(monSelect));
+        console.log($(monSelect).find(":selected"));
+        console.log($(monSelect).find(":selected").data("place_dispo"));
+        $("#nb_place").attr("max", $(monSelect).find(":selected").data("place_dispo"));
     }
-
     function updatePrice() {
 
         var selectedOption = document.getElementById('select_seance').options[document.getElementById('select_seance').selectedIndex];
