@@ -82,4 +82,12 @@ INNER JOIN seance ON film.id_film = seance.ref_film");
 
         return $film;
     }
+    public function nombreFilm()
+    {
+        $bddUser = new Bdd();
+        $req = $bddUser->getBdd()-> prepare('SELECT COUNT(id_film) FROM film');
+        $req->execute();
+        $donnee = $req->fetchAll();
+        return $donnee[0];
+    }
 }

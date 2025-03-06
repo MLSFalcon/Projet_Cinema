@@ -63,15 +63,12 @@ class SeanceRepository
 
         return $listeSeances;
     }
-
-    public function placeRestante($id)
+    public function nombreSeance()
     {
         $bddUser = new Bdd();
-        $req =$bddUser->getBdd()->prepare("SELECT salle.nb_place-SUM(reservation.nb_place) FROM reservation INNER JOIN salle ON WHERE ref_seance = :id");
-        $req->execute(array("id" => $id));
-        $nbrPlaceRestante = $req->fetch();
-
-        return $nbrPlaceRestante;
+        $req = $bddUser->getBdd()-> prepare('SELECT COUNT(id_seance) FROM seance');
+        $req->execute();
+        $donnee = $req->fetchAll();
+        return $donnee[0];
     }
-
 }

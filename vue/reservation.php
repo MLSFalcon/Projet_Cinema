@@ -65,7 +65,7 @@ session_start();
                                     }
                                     ?>
                                 </div>
-                                <form class="user" method="post" action="../src/traitement/gestionReservation.php">
+                                <form class="user" method="post" action="../src/traitement/gestionReservation.php" id="reservation">
                                     <div class="form-group">
                                         <label> Séances du :
                                             <select name="ref_seance" id="select_seance" onchange="updatePlaceMax(this)">
@@ -95,12 +95,11 @@ session_start();
                                         </div>
                                     </label>
 
-                                    </label>
-                                    <label>Adresse de facturation :
                                         <div class="form-group">
-                                            <input type="text" name="adresseFacturation" required>
+                                            <label for="select-adresse">Adresse de facturation :
+                                                <select class="form-control" name="adresse" id="select-adresse" style="width:350px"></select>
+                                            </label>
                                         </div>
-                                    </label>
                                     <p>Produits :</p>
                                     <table>
                                         <?php
@@ -143,6 +142,35 @@ session_start();
 <!-- Footer-->
 <footer class="footer text-center">
 </footer>
+
+<!--  Charger jQuery  -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!--  Charger Bootstrap -->
+<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!--  Charger les plugins -->
+<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!--  Charger les scripts globaux -->
+<script src="../asset/js/sb-admin-2.min.js"></script>
+
+<!--  Charge Chart.js  -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    console.log("Version de Chart.js :", Chart?.version || "Non chargé");
+</script>
+
+<!--  Charge les scripts qui utilisent Chart.js -->
+<script src="../asset/js/demo/chart-area-demo.js"></script>
+<script src="../asset/js/demo/chart-pie-demo.js"></script>
+
+<!-- Charger Select2 -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 <script>
     function toggleQuantity(index) {
         let checkbox = document.getElementById("ref_produit" + index);
@@ -211,14 +239,48 @@ session_start();
         updatePrice();
     };
 </script>
-<!-- Bootstrap core JavaScript-->
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+<script>
+    $(document).ready(function() {
 
-<!-- Custom scripts for all pages-->
-<script src="../asset/js/sb-admin-2.min.js"></script>
+        if ($.fn.select2) {
+            console.log(" Select2 est bien chargé ");
+            console.log("Élément #select-adresse détecté ?", $('#select-adresse').length);
+
+
+                $('#select-adresse').select2({
+                    debug: true,
+                    minimumInputLength: 1,
+                    dropdownParent: $('#reservation'), // pour éviter le bug dans le modal !
+                    ajax: {
+                        url: "../src/traitement/recherche_adresse.php",
+                        type: 'POST',
+                        dataType: 'json',
+                        delay: 100,
+                        data: function (params) {
+                            return {adresse: params.term};
+                        },
+                        processResults: function (data) {
+                            console.log(" Données reçues de l'API :", data);
+                            return {
+                                results: data.results.map(function (item) {
+                                    return {id: item.adresse, text: item.adresse};
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                });
+
+                // Supprime aria-hidden pour éviter le bug d'accessibilité
+                $('#select-adresse').removeAttr('aria-hidden').attr('tabindex', '0');
+
+        } else {
+            console.error(" Erreur : Select2 n'est pas chargé.");
+        }
+    });
+
+</script>
+
 </body>
 </html>

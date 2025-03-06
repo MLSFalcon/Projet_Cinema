@@ -58,10 +58,14 @@ if (isset($_SESSION['user'])) {
             <a class="nav-link" href="index.php">
                 <i class="fas fa-fw fa-backward "></i>
                 <span>Accueil</span></a>
-            <a class="nav-link" href="login.php">
+
 
         </li>
-
+        <li class="nav-item active">
+            <a class="nav-link" href="admin.php">
+                <i class="fas fa-fw fa-backward "></i>
+                <span>Global - Admin</span></a>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -69,6 +73,10 @@ if (isset($_SESSION['user'])) {
         <div class="sidebar-heading">
             Gestions :
         </div>
+
+
+
+        <!-- Nav Item - Charts -->
 
 
 
@@ -81,28 +89,28 @@ if (isset($_SESSION['user'])) {
 
 
         <li class="nav-item">
-            <a class="nav-link" href="#reservations">
+            <a class="nav-link" href="adminReservation.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Reservations</span></a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#example">
+            <a class="nav-link" href="adminUser.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#produit">
+            <a class="nav-link" href="adminProduit.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Produits</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#contact">
+            <a class="nav-link" href="adminContact.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Contact</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#seances">
+            <a class="nav-link" href="adminSeance.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Seances</span></a>
         </li>

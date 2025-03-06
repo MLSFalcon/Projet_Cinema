@@ -58,10 +58,14 @@ if (isset($_SESSION['user'])) {
             <a class="nav-link" href="index.php">
                 <i class="fas fa-fw fa-backward "></i>
                 <span>Accueil</span></a>
-            <a class="nav-link" href="login.php">
+
 
         </li>
-
+        <li class="nav-item active">
+            <a class="nav-link" href="admin.php">
+                <i class="fas fa-fw fa-backward "></i>
+                <span>Global - Admin</span></a>
+        </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -69,11 +73,6 @@ if (isset($_SESSION['user'])) {
         <div class="sidebar-heading">
             Gestions :
         </div>
-        <li class="nav-item">
-            <a class="nav-link" href="admin.php">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Globale</span></a>
-        </li>
 
 
         <!-- Nav Item - Charts -->
@@ -91,7 +90,7 @@ if (isset($_SESSION['user'])) {
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="adminUtilisateur.php">
+            <a class="nav-link" href="adminUser.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Utilisateurs</span></a>
         </li>
@@ -106,7 +105,7 @@ if (isset($_SESSION['user'])) {
                 <span>Gestion Contact</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="adminSeances.php">
+            <a class="nav-link" href="adminSeance.php">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Gestion Seances</span></a>
         </li>

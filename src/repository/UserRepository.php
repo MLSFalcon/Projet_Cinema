@@ -119,6 +119,13 @@ class UserRepository
         return $donnee[0];
 
     }
-
+    public function nombreUser()
+    {
+        $bddUser = new Bdd();
+        $req = $bddUser->getBdd()-> prepare('SELECT COUNT(id_user) FROM utilisateur');
+        $req->execute();
+        $donnee = $req->fetchAll();
+        return $donnee[0];
+    }
 
 }
