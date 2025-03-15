@@ -7,7 +7,7 @@ require_once '../class/User.php';
 require_once '../class/Token.php';
 require_once '../repository/TokenRepository.php';
 require_once '../repository/UserRepository.php';
-require_once '../bdd/bdd.php';
+require_once '../bdd/Bdd.php';
 use PHPMailer\PHPMailer\PHPMailer;
 
 $mail = new PHPMailer(true);

@@ -1,5 +1,5 @@
 <?php
-require_once '../bdd/bdd.php';
+require_once '../bdd/Bdd.php';
 require_once '../class/User.php';
 require_once '../repository/UserRepository.php';
 require_once '../class/Token.php';

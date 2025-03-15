@@ -7,7 +7,7 @@ require_once '../class/ReservationProduit.php';
 require_once '../repository/ReservationProduitRepository.php';
 require_once '../class/Produit.php';
 require_once '../repository/ProduitRepository.php';
-require_once '../bdd/bdd.php';
+require_once '../bdd/Bdd.php';
 session_start();
 if (isset($_POST['reserver'])){
     $nbrRepere = rand();

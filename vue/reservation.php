@@ -2,7 +2,7 @@
 
 //PAS FINIT
 
-require_once "../src/bdd/bdd.php";
+require_once "../src/bdd/Bdd.php";
 require_once "../src/repository/ReservationRepository.php";
 require_once "../src/repository/SeanceRepository.php";
 require_once "../src/class/User.php";
